@@ -1,3 +1,3 @@
 
-void register_dungeon_generator_types();
-void unregister_dungeon_generator_types();
+void register_world_generator_types();
+void unregister_world_generator_types();
