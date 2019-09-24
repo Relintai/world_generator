@@ -4,6 +4,7 @@
 #include "data/dungeon_data.h"
 #include "data/biome_data.h"
 #include "data/planet_data.h"
+#include "data/prop_data.h"
 
 #include "main/dungeon_room.h"
 #include "main/dungeon.h"
@@ -17,6 +18,7 @@ void register_world_generator_types() {
 	ClassDB::register_class<DungeonData>();
 	ClassDB::register_class<BiomeData>();
 	ClassDB::register_class<PlanetData>();
+	ClassDB::register_class<PropData>();
 
 	ClassDB::register_class<DungeonRoom>();
 	ClassDB::register_class<Dungeon>();

@@ -1,25 +1,35 @@
-#ifndef PLANET_DATA_H
-#define PLANET_DATA_H
+#ifndef biome_data_H
+#define biome_data_H
 
 #include "core/resource.h"
 
+#include "../../fastnoise/fastnoise_noise_params.h"
+
 #include "../main/planet.h"
+#include "../data/biome_data.h"
 
 class PlanetData : public Resource {
 	GDCLASS(PlanetData, Resource);
 	
 public:
-	/*
-	Ref<PlanetData> get_planet_data(const int index) const;
-	void set_planet_data(const int index, const Ref<PlanetData> planet_data);
-	void add_planet_data(const Ref<PlanetData> planet_data);
-	void remove_planet_data(const int index);
+	int get_id() const;
+	void set_id(const int value);
 
-	int get_planet_data_count() const;
+	Ref<FastnoiseNoiseParams> get_humidity_noise_params();
+	void set_humidity_noise_params(Ref<FastnoiseNoiseParams> value);
 
-	Vector<Variant> get_planet_datas();
-	void set_planet_datas(const Vector<Variant> &planet_datas);
-	*/
+	Ref<FastnoiseNoiseParams> get_temperature_noise_params();
+	void set_temperature_noise_params(Ref<FastnoiseNoiseParams> value);
+
+	Ref<BiomeData> get_biome_data(const int index) const;
+	void set_biome_data(const int index, const Ref<BiomeData> biome_data);
+	void add_biome_data(const Ref<BiomeData> biome_data);
+	void remove_biome_data(const int index);
+
+	int get_biome_data_count() const;
+
+	Vector<Variant> get_biome_datas();
+	void set_biome_datas(const Vector<Variant> &biome_datas);
 
 	Ref<Planet> setup_planet(int seed);
 
@@ -31,10 +41,10 @@ protected:
 
 private:
 
-	//int _id;
-	//Vector<BiomeData> _biome_datas;
-	//Ref<NoiseParams> _humidity_noise_params;
-	//Ref<NoiseParams> _temperature_noise_params;
+	int _id;
+	Ref<FastnoiseNoiseParams> _humidity_noise_params;
+	Ref<FastnoiseNoiseParams> _temperature_noise_params;
+	Vector<Ref<BiomeData> > _biome_datas;
 };
 
 #endif
