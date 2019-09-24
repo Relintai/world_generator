@@ -1,25 +1,24 @@
-#ifndef VOXELMAN_PROP_DATA_H
-#define VOXELMAN_PROP_DATA_H
+#ifndef DUNGEON_DATA_H
+#define DUNGEON_DATA_H
 
 #include "core/resource.h"
-#include "core/math/transform.h"
 
-class VoxelmanPropEntry : public Resource {
-	GDCLASS(VoxelmanPropEntry, Resource);
+#include "../main/dungeon.h"
+
+class DungeonData : public Resource {
+	GDCLASS(DungeonData, Resource);
 	
 public:
-
 	Ref<Dungeon> setup_dungeon(int seed);
 
-	VoxelmanPropEntry();
-	~VoxelmanPropEntry();
+	DungeonData();
+	~DungeonData();
 
 protected:
 	static void _bind_methods();
 
 private:
-
-	Vector<Ref<DungeonRoomData> > _rooms;
+	//Vector<Ref<DungeonRoomData> > _rooms;
 };
 
 #endif

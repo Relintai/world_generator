@@ -1,21 +1,22 @@
-#include "voxelman_prop_entry.h"
+#include "dungeon_data.h"
 
-Transform VoxelmanPropEntry::get_transform() const {
-	return _transform;
-}
-void VoxelmanPropEntry::set_transform(const Transform value) {
-	_transform = value;
-}
+Ref<Dungeon> DungeonData::setup_dungeon(int seed) {
+	if (has_method("_setup_dungeon")) {
+		return call("_setup_dungeon", seed);
+	}
 
-VoxelmanPropEntry::VoxelmanPropEntry() {
-
-}
-VoxelmanPropEntry::~VoxelmanPropEntry() {
-
+	return Ref<Dungeon>(NULL);
 }
 
-void VoxelmanPropEntry::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_transform"), &VoxelmanPropEntry::get_transform);
-	ClassDB::bind_method(D_METHOD("set_transform", "value"), &VoxelmanPropEntry::set_transform);
-	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM, "transform"), "set_transform", "get_transform");
+DungeonData::DungeonData() {
+
+}
+DungeonData::~DungeonData() {
+
+}
+
+void DungeonData::_bind_methods() {
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "room", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon"), "_setup_dungeon", PropertyInfo(Variant::INT, "seed")));
+
+	ClassDB::bind_method(D_METHOD("setup_dungeon", "seed"), &DungeonData::setup_dungeon);
 }

@@ -39,7 +39,7 @@ void WorldGenerator::set_planet_datas(const Vector<Variant> &planet_datas) {
 	}
 }
 
-Ref<Planet> WorldGenerator::setup_planet() {
+Ref<Planet> WorldGenerator::setup_planet(int seed) {
 	if (has_method("_setup_planet")) {
 		return call("_setup_planet");
 	}
@@ -55,16 +55,18 @@ WorldGenerator::~WorldGenerator() {
 }
 
 void WorldGenerator::_bind_methods() {
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "planet", PROPERTY_HINT_RESOURCE_TYPE, "Planet") , "_setup_planet"));
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "planet", PROPERTY_HINT_RESOURCE_TYPE, "Planet"), "_setup_planet", PropertyInfo(Variant::INT, "seed")));
 
-	ClassDB::bind_method(D_METHOD("get_planet_data", "index"), &VoxelmanProp::get_planet_data);
-	ClassDB::bind_method(D_METHOD("set_planet_data", "index", "data"), &VoxelmanProp::set_planet_data);
-	ClassDB::bind_method(D_METHOD("add_planet_data", "planet_data"), &VoxelmanProp::add_planet_data);
-	ClassDB::bind_method(D_METHOD("remove_planet_data", "index"), &VoxelmanProp::remove_planet_data);
+	ClassDB::bind_method(D_METHOD("setup_planet", "seed"), &WorldGenerator::setup_planet);
 
-	ClassDB::bind_method(D_METHOD("get_planet_data_count"), &VoxelmanProp::get_planet_data_count);
+	ClassDB::bind_method(D_METHOD("get_planet_data", "index"), &WorldGenerator::get_planet_data);
+	ClassDB::bind_method(D_METHOD("set_planet_data", "index", "data"), &WorldGenerator::set_planet_data);
+	ClassDB::bind_method(D_METHOD("add_planet_data", "planet_data"), &WorldGenerator::add_planet_data);
+	ClassDB::bind_method(D_METHOD("remove_planet_data", "index"), &WorldGenerator::remove_planet_data);
 
-	ClassDB::bind_method(D_METHOD("get_planet_datas"), &VoxelmanProp::get_planet_datas);
-	ClassDB::bind_method(D_METHOD("set_planet_datas", "planet_datas"), &VoxelmanProp::set_planet_datas);
+	ClassDB::bind_method(D_METHOD("get_planet_data_count"), &WorldGenerator::get_planet_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_planet_datas"), &WorldGenerator::get_planet_datas);
+	ClassDB::bind_method(D_METHOD("set_planet_datas", "planet_datas"), &WorldGenerator::set_planet_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "planet_datas", PROPERTY_HINT_NONE, "17/17:PlanetData", PROPERTY_USAGE_DEFAULT, "PlanetData"), "set_planet_datas", "get_planet_datas");
 }

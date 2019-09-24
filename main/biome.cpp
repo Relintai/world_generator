@@ -1,21 +1,27 @@
-#include "voxelman_prop_entry.h"
+#include "biome.h"
 
-Transform VoxelmanPropEntry::get_transform() const {
-	return _transform;
+void Biome::generate_chunk(Ref<VoxelChunk> chunk) {
+	if (has_method("_generate")) {
+		call("_generate", chunk);
+	}
 }
-void VoxelmanPropEntry::set_transform(const Transform value) {
-	_transform = value;
-}
-
-VoxelmanPropEntry::VoxelmanPropEntry() {
-
-}
-VoxelmanPropEntry::~VoxelmanPropEntry() {
-
+void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z) {
+	if (has_method("_generate")) {
+		call("_generate", chunk, x, z);
+	}
 }
 
-void VoxelmanPropEntry::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_transform"), &VoxelmanPropEntry::get_transform);
-	ClassDB::bind_method(D_METHOD("set_transform", "value"), &VoxelmanPropEntry::set_transform);
-	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM, "transform"), "set_transform", "get_transform");
+Biome::Biome() {
+
+}
+Biome::~Biome() {
+
+}
+
+void Biome::_bind_methods() {
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
+	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z")));
+
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Biome::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z"), &Biome::generate_stack);
 }

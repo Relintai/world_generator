@@ -4,8 +4,9 @@
 #include "core/resource.h"
 #include "core/vector.h"
 
-#include "planet_data.h"
-#include "../main/planet.h"
+#include "data/planet_data.h"
+
+#include "main/planet.h"
 
 
 class WorldGenerator : public Resource {
@@ -22,7 +23,7 @@ public:
 	Vector<Variant> get_planet_datas();
 	void set_planet_datas(const Vector<Variant> &planet_datas);
 
-	Ref<Planet> setup_planet();
+	Ref<Planet> setup_planet(int seed);
 
 	WorldGenerator();
 	~WorldGenerator();
@@ -32,7 +33,7 @@ protected:
 
 private:
 
-	Vector<PlanetData> _planet_datas;
+	Vector<Ref<PlanetData> > _planet_datas;
 };
 
 #endif

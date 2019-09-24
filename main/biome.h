@@ -1,27 +1,26 @@
-#ifndef VOXELMAN_PROP_DATA_H
-#define VOXELMAN_PROP_DATA_H
+#ifndef BIOME_H
+#define BIOME_H
 
 #include "core/resource.h"
-#include "core/math/transform.h"
 
-class VoxelmanPropEntry : public Resource {
-	GDCLASS(VoxelmanPropEntry, Resource);
+#include "../../voxelman/world/voxel_chunk.h"
+
+class Biome : public Resource {
+	GDCLASS(Biome, Resource);
 	
 public:
-
 	void generate_chunk(Ref<VoxelChunk> chunk);
-	void generate_stack(int x, int z, Ref<VoxelChunk> chunk);
+	void generate_stack(Ref<VoxelChunk> chunk, int x, int z);
 
-	VoxelmanPropEntry();
-	~VoxelmanPropEntry();
+	Biome();
+	~Biome();
 
 protected:
 	static void _bind_methods();
 
 private:
-
-	Vector<Ref<VoxelmanProp> > _props;
-	Vector<Ref<Dungeon> > _dungeons;
+	//Vector<Ref<VoxelmanProp> > _props;
+	//Vector<Ref<Dungeon> > _dungeons;
 };
 
 #endif

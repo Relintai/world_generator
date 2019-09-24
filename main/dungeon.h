@@ -1,25 +1,26 @@
-#ifndef VOXELMAN_PROP_DATA_H
-#define VOXELMAN_PROP_DATA_H
+#ifndef DUNGEON_H
+#define DUNGEON_H
 
 #include "core/resource.h"
-#include "core/math/transform.h"
 
-class VoxelmanPropEntry : public Resource {
-	GDCLASS(VoxelmanPropEntry, Resource);
+#include "../../voxelman/world/voxel_structure.h"
+
+class Dungeon : public Reference {
+	GDCLASS(Dungeon, Reference);
 	
 public:
 
-	Ref<VoxelmanStructure> generate_dungeon();
+	void generate(Ref<VoxelStructure> structure);
 
-	VoxelmanPropEntry();
-	~VoxelmanPropEntry();
+	Dungeon();
+	~Dungeon();
 
 protected:
 	static void _bind_methods();
 
 private:
 
-	Vector<Ref<DungeonRoopm> > _rooms;
+	//Vector<Ref<DungeonRoopm> > _rooms;
 };
 
 #endif

@@ -1,21 +1,22 @@
-#include "voxelman_prop_entry.h"
+#include "biome_data.h"
 
-Transform VoxelmanPropEntry::get_transform() const {
-	return _transform;
-}
-void VoxelmanPropEntry::set_transform(const Transform value) {
-	_transform = value;
-}
+Ref<Biome> BiomeData::setup_biome(int seed) {
+	if (has_method("_setup_biome")) {
+		return call("_setup_biome", seed);
+	}
 
-VoxelmanPropEntry::VoxelmanPropEntry() {
-
-}
-VoxelmanPropEntry::~VoxelmanPropEntry() {
-
+	return Ref<Biome>(NULL);
 }
 
-void VoxelmanPropEntry::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_transform"), &VoxelmanPropEntry::get_transform);
-	ClassDB::bind_method(D_METHOD("set_transform", "value"), &VoxelmanPropEntry::set_transform);
-	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM, "transform"), "set_transform", "get_transform");
+BiomeData::BiomeData() {
+
+}
+BiomeData::~BiomeData() {
+
+}
+
+void BiomeData::_bind_methods() {
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "room", PROPERTY_HINT_RESOURCE_TYPE, "Biome"), "_setup_biome", PropertyInfo(Variant::INT, "seed")));
+
+	ClassDB::bind_method(D_METHOD("setup_biome", "seed"), &BiomeData::setup_biome);
 }
