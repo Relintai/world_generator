@@ -4,6 +4,7 @@
 #include "core/reference.h"
 #include "core/vector.h"
 
+#include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/voxel_structure.h"
 #include "../data/prop_data.h"
 
@@ -18,6 +19,7 @@ public:
 
 	int get_prop_data_count() const;
 
+	void generate_chunk(Ref<VoxelChunk> chunk);
 	void generate_room(Ref<VoxelStructure> structure);
 
 	DungeonRoom();

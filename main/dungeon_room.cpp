@@ -23,6 +23,12 @@ int DungeonRoom::get_prop_data_count() const {
 	return _prop_datas.size();
 }
 
+void DungeonRoom::generate_chunk(Ref<VoxelChunk> chunk) {
+	if (has_method("_generate_chunk")) {
+		call("_generate_chunk", chunk);
+	}
+}
+
 void DungeonRoom::generate_room(Ref<VoxelStructure> structure) {
 	if (has_method("_generate_room")) {
 		call("_generate_room", structure);
@@ -38,7 +44,9 @@ DungeonRoom::~DungeonRoom() {
 
 void DungeonRoom::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_generate_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
 
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &DungeonRoom::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_room", "structure"), &DungeonRoom::generate_room);
 
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &DungeonRoom::get_prop_data);

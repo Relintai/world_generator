@@ -4,6 +4,8 @@
 #include "core/resource.h"
 
 #include "dungeon_room.h"
+
+#include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/voxel_structure.h"
 
 class Dungeon : public Reference {
@@ -17,7 +19,8 @@ public:
 
 	int get_dungeon_room_count() const;
 
-	void generate(Ref<VoxelStructure> structure);
+	void generate_chunk(Ref<VoxelChunk> chunk);
+	void generate_structure(Ref<VoxelStructure> structure);
 
 	Dungeon();
 	~Dungeon();

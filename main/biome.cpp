@@ -50,13 +50,13 @@ int Biome::get_dungeon_count() const {
 
 
 void Biome::generate_chunk(Ref<VoxelChunk> chunk) {
-	if (has_method("_generate")) {
-		call("_generate", chunk);
+	if (has_method("_generate_chunk")) {
+		call("_generate_chunk", chunk);
 	}
 }
 void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z) {
-	if (has_method("_generate")) {
-		call("_generate", chunk, x, z);
+	if (has_method("_generate_stack")) {
+		call("_generate_stack", chunk, x, z);
 	}
 }
 
