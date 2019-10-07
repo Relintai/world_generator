@@ -8,6 +8,7 @@
 #include "../main/biome.h"
 #include "dungeon_data.h"
 #include "prop_data.h"
+#include "../../voxelman/world/environment_data.h"
 
 class BiomeData : public Resource {
 	GDCLASS(BiomeData, Resource);
@@ -41,6 +42,17 @@ public:
 	Vector<Variant> get_prop_datas();
 	void set_prop_datas(const Vector<Variant> &prop_datas);
 
+	//Environments
+	Ref<EnvironmentData> get_environment_data(const int index) const;
+	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
+	void add_environment_data(const Ref<EnvironmentData> environment_data);
+	void remove_environment_data(const int index);
+
+	int get_environment_data_count() const;
+
+	Vector<Variant> get_environment_datas();
+	void set_environment_datas(const Vector<Variant> &environment_datas);
+
 	Ref<Biome> setup_biome(int seed);
 
 	BiomeData();
@@ -55,6 +67,7 @@ private:
 	Vector2 _temperature_range;
 	Vector<Ref<DungeonData> > _dungeon_datas;
 	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<EnvironmentData> > _environment_datas;
 };
 
 #endif

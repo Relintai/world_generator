@@ -1,5 +1,12 @@
 #include "planet.h"
 
+Ref<EnvironmentData> Planet::get_environment() {
+	return _environment;
+}
+void Planet::set_environment(Ref<EnvironmentData> value) {
+	_environment = value;
+}
+
 Ref<Biome> Planet::get_biome(const int index) const {
 	ERR_FAIL_INDEX_V(index, _biomes.size(), Ref<Biome>());
 
@@ -33,13 +40,18 @@ Planet::Planet() {
 
 }
 Planet::~Planet() {
-
+	_environment.unref();
+	_biomes.clear();
 }
 
 void Planet::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
+
+	ClassDB::bind_method(D_METHOD("get_environment"), &Planet::get_environment);
+	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Planet::set_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
 	ClassDB::bind_method(D_METHOD("get_biome", "index"), &Planet::get_biome);
 	ClassDB::bind_method(D_METHOD("set_biome", "index", "data"), &Planet::set_biome);

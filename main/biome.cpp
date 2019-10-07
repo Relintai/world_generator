@@ -1,5 +1,12 @@
 #include "biome.h"
 
+Ref<EnvironmentData> Biome::get_environment() {
+	return _environment;
+}
+void Biome::set_environment(Ref<EnvironmentData> value) {
+	_environment = value;
+}
+
 ////    Prop Data    ////
 Ref<PropData> Biome::get_prop_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<PropData>());
@@ -64,7 +71,9 @@ Biome::Biome() {
 
 }
 Biome::~Biome() {
-
+	_environment.unref();
+	_prop_datas.clear();
+	_dungeons.clear();
 }
 
 void Biome::_bind_methods() {
@@ -74,6 +83,9 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Biome::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z"), &Biome::generate_stack);
 
+	ClassDB::bind_method(D_METHOD("get_environment"), &Biome::get_environment);
+	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &Biome::get_prop_data);
 	ClassDB::bind_method(D_METHOD("set_prop_data", "index", "data"), &Biome::set_prop_data);

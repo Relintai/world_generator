@@ -1,15 +1,20 @@
 #ifndef PLANET_H
 #define PLANET_H
 
-#include "core/resource.h"
+#include "core/reference.h"
 
 #include "../../voxelman/world/voxel_chunk.h"
 #include "biome.h"
+#include "../../voxelman/world/environment_data.h"
 
-class Planet : public Resource {
-	GDCLASS(Planet, Resource);
+class Planet : public Reference {
+	GDCLASS(Planet, Reference);
 	
 public:
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
 	Ref<Biome> get_biome(const int index) const;
 	void set_biome(const int index, const Ref<Biome> biome);
 	void add_biome(const Ref<Biome> biome);
@@ -26,6 +31,7 @@ protected:
 	static void _bind_methods();
 
 private:
+	Ref<EnvironmentData> _environment;
 	Vector<Ref<Biome> > _biomes;
 };
 

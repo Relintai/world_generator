@@ -21,6 +21,7 @@ void PlanetData::set_temperature_noise_params(Ref<FastnoiseNoiseParams> value) {
 	_temperature_noise_params = value;
 }
 
+//Biomes
 Ref<BiomeData> PlanetData::get_biome_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _biome_datas.size(), Ref<BiomeData>());
 
@@ -39,7 +40,6 @@ void PlanetData::remove_biome_data(const int index) {
 
 	_biome_datas.remove(index);
 }
-
 int PlanetData::get_biome_data_count() const {
 	return _biome_datas.size();
 }
@@ -57,6 +57,45 @@ void PlanetData::set_biome_datas(const Vector<Variant> &biome_datas) {
 		Ref<BiomeData> biome_data = Ref<BiomeData>(biome_datas[i]);
 
 		_biome_datas.push_back(biome_data);
+	}
+}
+
+//Environments
+Ref<EnvironmentData> PlanetData::get_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
+
+	return _environment_datas.get(index);
+}
+void PlanetData::set_environment_data(const int index, const Ref<EnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _environment_datas.size());
+
+	_environment_datas.set(index, environment_data);
+}
+void PlanetData::add_environment_data(const Ref<EnvironmentData> environment_data) {
+	_environment_datas.push_back(environment_data);
+}
+void PlanetData::remove_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _environment_datas.size());
+
+	_environment_datas.remove(index);
+}
+int PlanetData::get_environment_data_count() const {
+	return _environment_datas.size();
+}
+
+Vector<Variant> PlanetData::get_environment_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _environment_datas.size(); i++) {
+		r.push_back(_environment_datas[i].get_ref_ptr());
+	}
+	return r;
+}
+void PlanetData::set_environment_datas(const Vector<Variant> &environment_datas) {
+	_environment_datas.clear();
+	for (int i = 0; i < environment_datas.size(); i++) {
+		Ref<EnvironmentData> environment_data = Ref<EnvironmentData>(environment_datas[i]);
+
+		_environment_datas.push_back(environment_data);
 	}
 }
 
@@ -104,4 +143,16 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_biome_datas"), &PlanetData::get_biome_datas);
 	ClassDB::bind_method(D_METHOD("set_biome_datas", "biome_datas"), &PlanetData::set_biome_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "biome_datas", PROPERTY_HINT_NONE, "17/17:BiomeData", PROPERTY_USAGE_DEFAULT, "BiomeData"), "set_biome_datas", "get_biome_datas");
+
+	//Environments
+	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &PlanetData::get_environment_data);
+	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &PlanetData::set_environment_data);
+	ClassDB::bind_method(D_METHOD("add_environment_data", "environment_data"), &PlanetData::add_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_environment_data", "index"), &PlanetData::remove_environment_data);
+
+	ClassDB::bind_method(D_METHOD("get_environment_data_count"), &PlanetData::get_environment_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_environment_datas"), &PlanetData::get_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_environment_datas", "environment_datas"), &PlanetData::set_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "environment_datas", PROPERTY_HINT_NONE, "17/17:EnvironmentData", PROPERTY_USAGE_DEFAULT, "EnvironmentData"), "set_environment_datas", "get_environment_datas");
 }

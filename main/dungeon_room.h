@@ -7,11 +7,16 @@
 #include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/voxel_structure.h"
 #include "../data/prop_data.h"
+#include "../../voxelman/world/environment_data.h"
 
 class DungeonRoom : public Reference {
 	GDCLASS(DungeonRoom, Reference);
 	
 public:
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
 	Ref<PropData> get_prop_data(const int index) const;
 	void set_prop_data(const int index, const Ref<PropData> prop_data);
 	void add_prop_data(const Ref<PropData> prop_data);
@@ -29,7 +34,7 @@ protected:
 	static void _bind_methods();
 
 private:
-
+	Ref<EnvironmentData> _environment;
 	Vector<Ref<PropData> > _prop_datas;
 };
 

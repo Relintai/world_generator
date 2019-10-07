@@ -1,5 +1,12 @@
 #include "dungeon.h"
 
+Ref<EnvironmentData> Dungeon::get_environment() {
+	return _environment;
+}
+void Dungeon::set_environment(Ref<EnvironmentData> value) {
+	_environment = value;
+}
+
 Ref<DungeonRoom> Dungeon::get_dungeon_room(const int index) const {
 	ERR_FAIL_INDEX_V(index, _dungeon_rooms.size(), Ref<DungeonRoom>());
 
@@ -39,7 +46,8 @@ Dungeon::Dungeon() {
 
 }
 Dungeon::~Dungeon() {
-
+	_environment.unref();
+	_dungeon_rooms.clear();
 }
 
 void Dungeon::_bind_methods() {
@@ -48,6 +56,10 @@ void Dungeon::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Dungeon::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_structure", "structure"), &Dungeon::generate_structure);
+
+	ClassDB::bind_method(D_METHOD("get_environment"), &Dungeon::get_environment);
+	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Dungeon::set_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_room", "index"), &Dungeon::get_dungeon_room);
 	ClassDB::bind_method(D_METHOD("set_dungeon_room", "index", "data"), &Dungeon::set_dungeon_room);

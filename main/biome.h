@@ -1,17 +1,21 @@
 #ifndef BIOME_H
 #define BIOME_H
 
-#include "core/resource.h"
+#include "core/reference.h"
 
 #include "../../voxelman/world/voxel_chunk.h"
 #include "../data/prop_data.h"
 #include "dungeon.h"
+#include "../../voxelman/world/environment_data.h"
 
-
-class Biome : public Resource {
-	GDCLASS(Biome, Resource);
+class Biome : public Reference {
+	GDCLASS(Biome, Reference);
 	
 public:
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
 	//PropData
 	Ref<PropData> get_prop_data(const int index) const;
 	void set_prop_data(const int index, const Ref<PropData> prop_data);
@@ -38,6 +42,7 @@ protected:
 	static void _bind_methods();
 
 private:
+	Ref<EnvironmentData> _environment;
 	Vector<Ref<PropData> > _prop_datas;
 	Vector<Ref<Dungeon> > _dungeons;
 };
