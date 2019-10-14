@@ -42,6 +42,12 @@ void Dungeon::generate_structure(Ref<VoxelStructure> structure) {
 	}
 }
 
+Ref<Image> Dungeon::generate_map() {
+	ERR_FAIL_COND_V(!has_method("_generate_map"), Ref<Image>());
+
+	return call("_generate_map");
+}
+
 Dungeon::Dungeon() {
 
 }
@@ -67,4 +73,8 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_dungeon_room", "index"), &Dungeon::remove_dungeon_room);
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_room_count"), &Dungeon::get_dungeon_room_count);
+
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
+
+	ClassDB::bind_method(D_METHOD("generate_map"), &Dungeon::generate_map);
 }

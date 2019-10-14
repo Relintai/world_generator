@@ -2,6 +2,7 @@
 #define PLANET_H
 
 #include "core/reference.h"
+#include "core/image.h"
 
 #include "../../voxelman/world/voxel_chunk.h"
 #include "biome.h"
@@ -23,6 +24,7 @@ public:
 	int get_biome_count() const;
 
 	void generate_chunk(Ref<VoxelChunk> chunk);
+	Ref<Image> generate_map();
 
 	Planet();
 	~Planet();

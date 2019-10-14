@@ -27,6 +27,8 @@ public:
 	void generate_chunk(Ref<VoxelChunk> chunk);
 	void generate_structure(Ref<VoxelStructure> structure);
 
+	Ref<Image> generate_map();
+
 	Dungeon();
 	~Dungeon();
 

@@ -36,6 +36,12 @@ void Planet::generate_chunk(Ref<VoxelChunk> chunk) {
 	}
 }
 
+Ref<Image> Planet::generate_map() {
+	ERR_FAIL_COND_V(!has_method("_generate_map"), Ref<Image>());
+
+	return call("_generate_map");
+}
+
 Planet::Planet() {
 
 }
@@ -59,4 +65,8 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_biome", "index"), &Planet::remove_biome);
 
 	ClassDB::bind_method(D_METHOD("get_biome_count"), &Planet::get_biome_count);
+
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
+
+	ClassDB::bind_method(D_METHOD("generate_map"), &Planet::generate_map);
 }
