@@ -7,7 +7,7 @@ void Dungeon::set_seed(int value) {
 	_seed = value;
 }
 
-
+//Position
 int Dungeon::get_posx() {
 	return _posx;
 }
@@ -29,6 +29,7 @@ void Dungeon::set_posz(int value) {
 	_posz = value;
 }
 
+//Size
 int Dungeon::get_sizex() {
 	return _sizex;
 }
@@ -179,6 +180,14 @@ Ref<Image> Dungeon::generate_map() {
 
 Dungeon::Dungeon() {
 	_seed = 0;
+
+	_posx = 0;
+	_posy = 0;
+	_posz = 0;
+
+	_sizex = 0;
+	_sizey = 0;
+	_sizez = 0;
 }
 Dungeon::~Dungeon() {
 	_environment.unref();
@@ -201,7 +210,6 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_seed", "value"), &Dungeon::set_seed);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
 
-
 	//Position
 	ClassDB::bind_method(D_METHOD("get_posx"), &Dungeon::get_posx);
 	ClassDB::bind_method(D_METHOD("set_posx", "value"), &Dungeon::set_posx);
@@ -214,7 +222,6 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_posz"), &Dungeon::get_posz);
 	ClassDB::bind_method(D_METHOD("set_posz", "value"), &Dungeon::set_posz);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "posz"), "set_posz", "get_posz");
-
 
 	//Size
 	ClassDB::bind_method(D_METHOD("get_sizex"), &Dungeon::get_sizex);

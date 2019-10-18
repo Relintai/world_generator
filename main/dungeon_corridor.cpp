@@ -31,10 +31,10 @@ int DungeonCorridor::get_dungeon_room_count() const {
 	return _dungeon_rooms.size();
 }
 
-DungeonRoom::DungeonRoom() {
+DungeonCorridor::DungeonCorridor() {
 	_max_connections = 2;
 }
-DungeonRoom::~DungeonRoom() {
+DungeonCorridor::~DungeonCorridor() {
 	_dungeon_rooms.clear();
 }
 

@@ -27,7 +27,7 @@ protected:
 
 private:
 	int _max_connections;
-	Vector<Ref<DungeonRoom> > _rooms;
+	Vector<Ref<DungeonRoom> > _dungeon_rooms;
 };
 
 #endif

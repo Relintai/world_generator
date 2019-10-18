@@ -1,5 +1,56 @@
 #include "dungeon_room.h"
 
+int DungeonRoom::get_seed() {
+	return _seed;
+}
+void DungeonRoom::set_seed(int value) {
+	_seed = value;
+}
+
+//Position
+int DungeonRoom::get_posx() {
+	return _posx;
+}
+void DungeonRoom::set_posx(int value) {
+	_posx = value;
+}
+
+int DungeonRoom::get_posy() {
+	return _posy;
+}
+void DungeonRoom::set_posy(int value) {
+	_posy = value;
+}
+
+int DungeonRoom::get_posz() {
+	return _posz;
+}
+void DungeonRoom::set_posz(int value) {
+	_posz = value;
+}
+
+//Size
+int DungeonRoom::get_sizex() {
+	return _sizex;
+}
+void DungeonRoom::set_sizex(int value) {
+	_sizex = value;
+}
+
+int DungeonRoom::get_sizey() {
+	return _sizey;
+}
+void DungeonRoom::set_sizey(int value) {
+	_sizey = value;
+}
+
+int DungeonRoom::get_sizez() {
+	return _sizez;
+}
+void DungeonRoom::set_sizez(int value) {
+	_sizez = value;
+}
+
 Ref<EnvironmentData> DungeonRoom::get_environment() {
 	return _environment;
 }
@@ -43,7 +94,15 @@ void DungeonRoom::generate_room(Ref<VoxelStructure> structure) {
 }
 
 DungeonRoom::DungeonRoom() {
+	_seed = 0;
 
+	_posx = 0;
+	_posy = 0;
+	_posz = 0;
+
+	_sizex = 0;
+	_sizey = 0;
+	_sizez = 0;
 }
 DungeonRoom::~DungeonRoom() {
 	_environment.unref();
@@ -56,6 +115,36 @@ void DungeonRoom::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &DungeonRoom::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_room", "structure"), &DungeonRoom::generate_room);
+
+	ClassDB::bind_method(D_METHOD("get_seed"), &DungeonRoom::get_seed);
+	ClassDB::bind_method(D_METHOD("set_seed", "value"), &DungeonRoom::set_seed);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
+
+	//Position
+	ClassDB::bind_method(D_METHOD("get_posx"), &DungeonRoom::get_posx);
+	ClassDB::bind_method(D_METHOD("set_posx", "value"), &DungeonRoom::set_posx);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "posx"), "set_posx", "get_posx");
+
+	ClassDB::bind_method(D_METHOD("get_posy"), &DungeonRoom::get_posy);
+	ClassDB::bind_method(D_METHOD("set_posy", "value"), &DungeonRoom::set_posy);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "posy"), "set_posy", "get_posy");
+
+	ClassDB::bind_method(D_METHOD("get_posz"), &DungeonRoom::get_posz);
+	ClassDB::bind_method(D_METHOD("set_posz", "value"), &DungeonRoom::set_posz);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "posz"), "set_posz", "get_posz");
+
+	//Size
+	ClassDB::bind_method(D_METHOD("get_sizex"), &DungeonRoom::get_sizex);
+	ClassDB::bind_method(D_METHOD("set_sizex", "value"), &DungeonRoom::set_sizex);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "sizex"), "set_sizex", "get_sizex");
+
+	ClassDB::bind_method(D_METHOD("get_sizey"), &DungeonRoom::get_sizey);
+	ClassDB::bind_method(D_METHOD("set_sizey", "value"), &DungeonRoom::set_sizey);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "sizey"), "set_sizey", "get_sizey");
+
+	ClassDB::bind_method(D_METHOD("get_sizez"), &DungeonRoom::get_sizez);
+	ClassDB::bind_method(D_METHOD("set_sizez", "value"), &DungeonRoom::set_sizez);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "sizez"), "set_sizez", "get_sizez");
 
 	ClassDB::bind_method(D_METHOD("get_environment"), &DungeonRoom::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &DungeonRoom::set_environment);

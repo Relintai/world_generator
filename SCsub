@@ -3,6 +3,7 @@ Import('env')
 env.add_source_files(env.modules_sources,"register_types.cpp")
 
 env.add_source_files(env.modules_sources,"main/dungeon_room.cpp")
+env.add_source_files(env.modules_sources,"main/dungeon_corridor.cpp")
 env.add_source_files(env.modules_sources,"main/dungeon.cpp")
 env.add_source_files(env.modules_sources,"main/biome.cpp")
 env.add_source_files(env.modules_sources,"main/planet.cpp")
