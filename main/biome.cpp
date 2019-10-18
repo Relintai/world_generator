@@ -31,6 +31,30 @@ int Biome::get_prop_data_count() const {
 	return _prop_datas.size();
 }
 
+//Entities
+Ref<EntityData> Biome::get_entity_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _entity_datas.size(), Ref<EntityData>());
+
+	return _entity_datas.get(index);
+}
+void Biome::set_entity_data(const int index, const Ref<EntityData> entity_data) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.set(index, entity_data);
+}
+void Biome::add_entity_data(const Ref<EntityData> entity_data) {
+	_entity_datas.push_back(entity_data);
+}
+void Biome::remove_entity_data(const int index) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.remove(index);
+}
+
+int Biome::get_entity_data_count() const {
+	return _entity_datas.size();
+}
+
 ////    Dungeons    ////
 Ref<Dungeon> Biome::get_dungeon(const int index) const {
 	ERR_FAIL_INDEX_V(index, _dungeons.size(), Ref<Dungeon>());
@@ -73,6 +97,7 @@ Biome::Biome() {
 Biome::~Biome() {
 	_environment.unref();
 	_prop_datas.clear();
+	_entity_datas.clear();
 	_dungeons.clear();
 }
 
@@ -87,6 +112,7 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
+	//Props
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &Biome::get_prop_data);
 	ClassDB::bind_method(D_METHOD("set_prop_data", "index", "data"), &Biome::set_prop_data);
 	ClassDB::bind_method(D_METHOD("add_prop_data", "prop_data"), &Biome::add_prop_data);
@@ -94,6 +120,15 @@ void Biome::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_prop_data_count"), &Biome::get_prop_data_count);
 
+	//Entities
+	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &Biome::get_entity_data);
+	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &Biome::set_entity_data);
+	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &Biome::add_entity_data);
+	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &Biome::remove_entity_data);
+
+	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &Biome::get_entity_data_count);
+
+	//Dungeons
 	ClassDB::bind_method(D_METHOD("get_dungeon", "index"), &Biome::get_dungeon);
 	ClassDB::bind_method(D_METHOD("set_dungeon", "index", "data"), &Biome::set_dungeon);
 	ClassDB::bind_method(D_METHOD("add_dungeon", "dungeon"), &Biome::add_dungeon);

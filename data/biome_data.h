@@ -9,6 +9,7 @@
 #include "dungeon_data.h"
 #include "prop_data.h"
 #include "../../voxelman/world/environment_data.h"
+#include "../../entity_spell_system/entities/data/entity_data.h"
 
 class BiomeData : public Resource {
 	GDCLASS(BiomeData, Resource);
@@ -42,6 +43,17 @@ public:
 	Vector<Variant> get_prop_datas();
 	void set_prop_datas(const Vector<Variant> &prop_datas);
 
+	//Entities
+	Ref<EntityData> get_entity_data(const int index) const;
+	void set_entity_data(const int index, const Ref<EntityData> entity_data);
+	void add_entity_data(const Ref<EntityData> entity_data);
+	void remove_entity_data(const int index);
+
+	int get_entity_data_count() const;
+
+	Vector<Variant> get_entity_datas();
+	void set_entity_datas(const Vector<Variant> &entity_datas);
+
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -67,6 +79,7 @@ private:
 	Vector2 _temperature_range;
 	Vector<Ref<DungeonData> > _dungeon_datas;
 	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<EntityData> > _entity_datas;
 	Vector<Ref<EnvironmentData> > _environment_datas;
 };
 

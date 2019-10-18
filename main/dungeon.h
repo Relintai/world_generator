@@ -80,9 +80,9 @@ public:
 	int get_dungeon_corridor_count() const;
 
 	//Entities
-	Ref<DungeonCorridor> get_entity_data(const int index) const;
-	void set_entity_data(const int index, const Ref<DungeonCorridor> entity_datas);
-	void add_entity_data(const Ref<DungeonCorridor> entity_datas);
+	Ref<EntityData> get_entity_data(const int index) const;
+	void set_entity_data(const int index, const Ref<EntityData> entity_datas);
+	void add_entity_data(const Ref<EntityData> entity_datas);
 	void remove_entity_data(const int index);
 
 	int get_entity_data_count() const;

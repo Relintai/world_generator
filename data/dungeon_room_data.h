@@ -7,10 +7,32 @@
 #include "prop_data.h"
 #include "../../voxelman/world/environment_data.h"
 
+#include "../../entity_spell_system/entities/data/entity_data.h"
+
 class DungeonRoomData : public Resource {
 	GDCLASS(DungeonRoomData, Resource);
 	
 public:
+	//Min Size
+	int get_min_sizex();
+	void set_min_sizex(int value);
+
+	int get_min_sizey();
+	void set_min_sizey(int value);
+
+	int get_min_sizez();
+	void set_min_sizez(int value);
+
+	//Max Size
+	int get_max_sizex();
+	void set_max_sizex(int value);
+
+	int get_max_sizey();
+	void set_max_sizey(int value);
+
+	int get_max_sizez();
+	void set_max_sizez(int value);
+
 	//Prop Data
 	Ref<PropData> get_prop_data(const int index) const;
 	void set_prop_data(const int index, const Ref<PropData> prop_data);
@@ -35,6 +57,17 @@ public:
 
 	Ref<DungeonRoom> setup_room(int seed);
 
+	//Entities
+	Ref<EntityData> get_entity_data(const int index) const;
+	void set_entity_data(const int index, const Ref<EntityData> entity_data);
+	void add_entity_data(const Ref<EntityData> entity_data);
+	void remove_entity_data(const int index);
+
+	int get_entity_data_count() const;
+
+	Vector<Variant> get_entity_datas();
+	void set_entity_datas(const Vector<Variant> &entity_datas);
+
 	DungeonRoomData();
 	~DungeonRoomData();
 
@@ -42,7 +75,16 @@ protected:
 	static void _bind_methods();
 
 private:
+	int _min_sizex;
+	int _min_sizey;
+	int _min_sizez;
+
+	int _max_sizex;
+	int _max_sizey;
+	int _max_sizez;
+
 	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<EntityData> > _entity_datas;
 	Vector<Ref<EnvironmentData> > _environment_datas;
 };
 

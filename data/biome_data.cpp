@@ -96,6 +96,47 @@ void BiomeData::set_prop_datas(const Vector<Variant> &prop_datas) {
 	}
 }
 
+//Entities
+
+Ref<EntityData> BiomeData::get_entity_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _entity_datas.size(), Ref<EntityData>());
+
+	return _entity_datas.get(index);
+}
+void BiomeData::set_entity_data(const int index, const Ref<EntityData> entity_data) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.set(index, entity_data);
+}
+void BiomeData::add_entity_data(const Ref<EntityData> entity_data) {
+	_entity_datas.push_back(entity_data);
+}
+void BiomeData::remove_entity_data(const int index) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.remove(index);
+}
+
+int BiomeData::get_entity_data_count() const {
+	return _entity_datas.size();
+}
+
+Vector<Variant> BiomeData::get_entity_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _entity_datas.size(); i++) {
+		r.push_back(_entity_datas[i].get_ref_ptr());
+	}
+	return r;
+}
+void BiomeData::set_entity_datas(const Vector<Variant> &entity_datas) {
+	_entity_datas.clear();
+	for (int i = 0; i < entity_datas.size(); i++) {
+		Ref<EntityData> entity_data = Ref<EntityData>(entity_datas[i]);
+
+		_entity_datas.push_back(entity_data);
+	}
+}
+
 //Environments
 Ref<EnvironmentData> BiomeData::get_environment_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
@@ -149,6 +190,7 @@ BiomeData::BiomeData() {
 BiomeData::~BiomeData() {
 	_dungeon_datas.clear();
 	_prop_datas.clear();
+	_entity_datas.clear();
 }
 
 void BiomeData::_bind_methods() {
@@ -187,6 +229,18 @@ void BiomeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_prop_datas"), &BiomeData::get_prop_datas);
 	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &BiomeData::set_prop_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:PropData", PROPERTY_USAGE_DEFAULT, "PropData"), "set_prop_datas", "get_prop_datas");
+
+	//Entities
+	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &BiomeData::get_entity_data);
+	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &BiomeData::set_entity_data);
+	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &BiomeData::add_entity_data);
+	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &BiomeData::remove_entity_data);
+
+	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &BiomeData::get_entity_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_entity_datas"), &BiomeData::get_entity_datas);
+	ClassDB::bind_method(D_METHOD("set_entity_datas", "entity_datas"), &BiomeData::set_entity_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
 
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &BiomeData::get_environment_data);

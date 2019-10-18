@@ -162,17 +162,17 @@ int Dungeon::get_dungeon_corridor_count() const {
 }
 
 //Entities
-Ref<DungeonCorridor> Dungeon::get_entity_data(const int index) const {
+Ref<EntityData> Dungeon::get_entity_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _entity_datas.size(), Ref<DungeonCorridor>());
 
 	return _entity_datas.get(index);
 }
-void Dungeon::set_entity_data(const int index, const Ref<DungeonCorridor> entity_data) {
+void Dungeon::set_entity_data(const int index, const Ref<EntityData> entity_data) {
 	ERR_FAIL_INDEX(index, _entity_datas.size());
 
 	_entity_datas.set(index, entity_data);
 }
-void Dungeon::add_entity_data(const Ref<DungeonCorridor> entity_data) {
+void Dungeon::add_entity_data(const Ref<EntityData> entity_data) {
 	_entity_datas.push_back(entity_data);
 }
 void Dungeon::remove_entity_data(const int index) {

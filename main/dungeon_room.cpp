@@ -58,6 +58,14 @@ void DungeonRoom::set_environment(Ref<EnvironmentData> value) {
 	_environment = value;
 }
 
+Ref<VoxelStructure> DungeonRoom::get_structure() {
+	return _structure;
+}
+void DungeonRoom::set_structure(Ref<VoxelStructure> structure) {
+	_structure = structure;
+}
+
+//Props
 Ref<PropData> DungeonRoom::get_prop_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<PropData>());
 
@@ -79,6 +87,37 @@ void DungeonRoom::remove_prop_data(const int index) {
 
 int DungeonRoom::get_prop_data_count() const {
 	return _prop_datas.size();
+}
+
+//Entities
+Ref<EntityData> DungeonRoom::get_entity_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _entity_datas.size(), Ref<EntityData>());
+
+	return _entity_datas.get(index);
+}
+void DungeonRoom::set_entity_data(const int index, const Ref<EntityData> entity_data) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.set(index, entity_data);
+}
+void DungeonRoom::add_entity_data(const Ref<EntityData> entity_data) {
+	_entity_datas.push_back(entity_data);
+}
+void DungeonRoom::remove_entity_data(const int index) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.remove(index);
+}
+
+int DungeonRoom::get_entity_data_count() const {
+	return _entity_datas.size();
+}
+
+
+void DungeonRoom::setup() {
+	if (has_method("_setup")) {
+		call("_setup");
+	}
 }
 
 void DungeonRoom::generate_chunk(Ref<VoxelChunk> chunk) {
@@ -107,12 +146,15 @@ DungeonRoom::DungeonRoom() {
 DungeonRoom::~DungeonRoom() {
 	_environment.unref();
 	_prop_datas.clear();
+	_entity_datas.clear();
 }
 
 void DungeonRoom::_bind_methods() {
+	BIND_VMETHOD(MethodInfo("_setup"));
 	BIND_VMETHOD(MethodInfo("_generate_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
 
+	ClassDB::bind_method(D_METHOD("setup"), &DungeonRoom::setup);
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &DungeonRoom::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_room", "structure"), &DungeonRoom::generate_room);
 
@@ -150,10 +192,23 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &DungeonRoom::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
+	ClassDB::bind_method(D_METHOD("get_structure"), &DungeonRoom::get_structure);
+	ClassDB::bind_method(D_METHOD("set_structure", "value"), &DungeonRoom::set_structure);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), "set_structure", "get_structure");
+
+	//Props
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &DungeonRoom::get_prop_data);
 	ClassDB::bind_method(D_METHOD("set_prop_data", "index", "data"), &DungeonRoom::set_prop_data);
 	ClassDB::bind_method(D_METHOD("add_prop_data", "prop_data"), &DungeonRoom::add_prop_data);
 	ClassDB::bind_method(D_METHOD("remove_prop_data", "index"), &DungeonRoom::remove_prop_data);
 
 	ClassDB::bind_method(D_METHOD("get_prop_data_count"), &DungeonRoom::get_prop_data_count);
+
+	//Entities
+	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &DungeonRoom::get_entity_data);
+	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &DungeonRoom::set_entity_data);
+	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &DungeonRoom::add_entity_data);
+	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &DungeonRoom::remove_entity_data);
+
+	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &DungeonRoom::get_entity_data_count);
 }

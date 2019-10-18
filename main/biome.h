@@ -7,6 +7,7 @@
 #include "../data/prop_data.h"
 #include "dungeon.h"
 #include "../../voxelman/world/environment_data.h"
+#include "../../entity_spell_system/entities/data/entity_data.h"
 
 class Biome : public Reference {
 	GDCLASS(Biome, Reference);
@@ -23,6 +24,14 @@ public:
 	void remove_prop_data(const int index);
 
 	int get_prop_data_count() const;
+
+	//Entities
+	Ref<EntityData> get_entity_data(const int index) const;
+	void set_entity_data(const int index, const Ref<EntityData> entity_data);
+	void add_entity_data(const Ref<EntityData> entity_data);
+	void remove_entity_data(const int index);
+
+	int get_entity_data_count() const;
 
 	//Dungeons
 	Ref<Dungeon> get_dungeon(const int index) const;
@@ -44,6 +53,7 @@ protected:
 private:
 	Ref<EnvironmentData> _environment;
 	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<EntityData> > _entity_datas;
 	Vector<Ref<Dungeon> > _dungeons;
 };
 
