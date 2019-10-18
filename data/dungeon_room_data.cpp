@@ -83,7 +83,7 @@ Ref<DungeonRoom> DungeonRoomData::setup_room(int seed) {
 		return call("_setup_room", seed);
 	}
 
-	return Ref<DungeonRoom>(NULL);
+	return Ref<DungeonRoom>();
 }
 
 DungeonRoomData::DungeonRoomData() {

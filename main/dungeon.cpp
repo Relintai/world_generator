@@ -130,17 +130,17 @@ int Dungeon::get_dungeon_end_room_count() const {
 }
 
 //Corridors
-Ref<DungeonRoom> Dungeon::get_dungeon_corridor(const int index) const {
-	ERR_FAIL_INDEX_V(index, _dungeon_corridors.size(), Ref<DungeonRoom>());
+Ref<DungeonCorridor> Dungeon::get_dungeon_corridor(const int index) const {
+	ERR_FAIL_INDEX_V(index, _dungeon_corridors.size(), Ref<DungeonCorridor>());
 
 	return _dungeon_corridors.get(index);
 }
-void Dungeon::set_dungeon_corridor(const int index, const Ref<DungeonRoom> dungeon_corridor) {
+void Dungeon::set_dungeon_corridor(const int index, const Ref<DungeonCorridor> dungeon_corridor) {
 	ERR_FAIL_INDEX(index, _dungeon_corridors.size());
 
 	_dungeon_corridors.set(index, dungeon_corridor);
 }
-void Dungeon::add_dungeon_corridor(const Ref<DungeonRoom> dungeon_corridor) {
+void Dungeon::add_dungeon_corridor(const Ref<DungeonCorridor> dungeon_corridor) {
 	_dungeon_corridors.push_back(dungeon_corridor);
 }
 void Dungeon::remove_dungeon_corridor(const int index) {

@@ -4,6 +4,7 @@
 #include "core/reference.h"
 
 #include "dungeon_room.h"
+#include "dungeon_corridor.h"
 
 #include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/voxel_structure.h"
@@ -63,9 +64,9 @@ public:
 	int get_dungeon_end_room_count() const;
 
 	//Corridors
-	Ref<DungeonRoom> get_dungeon_corridor(const int index) const;
-	void set_dungeon_corridor(const int index, const Ref<DungeonRoom> dungeon_corridors);
-	void add_dungeon_corridor(const Ref<DungeonRoom> dungeon_corridors);
+	Ref<DungeonCorridor> get_dungeon_corridor(const int index) const;
+	void set_dungeon_corridor(const int index, const Ref<DungeonCorridor> dungeon_corridors);
+	void add_dungeon_corridor(const Ref<DungeonCorridor> dungeon_corridors);
 	void remove_dungeon_corridor(const int index);
 
 	int get_dungeon_corridor_count() const;
@@ -97,7 +98,7 @@ private:
 	Vector<Ref<DungeonRoom> > _dungeon_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_start_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_end_rooms;
-	Vector<Ref<DungeonRoom> > _dungeon_corridors;
+	Vector<Ref<DungeonCorridor> > _dungeon_corridors;
 };
 
 #endif

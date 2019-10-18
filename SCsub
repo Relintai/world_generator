@@ -8,6 +8,7 @@ env.add_source_files(env.modules_sources,"main/biome.cpp")
 env.add_source_files(env.modules_sources,"main/planet.cpp")
 
 env.add_source_files(env.modules_sources,"data/dungeon_room_data.cpp")
+env.add_source_files(env.modules_sources,"data/dungeon_corridor_data.cpp")
 env.add_source_files(env.modules_sources,"data/dungeon_data.cpp")
 env.add_source_files(env.modules_sources,"data/biome_data.cpp")
 env.add_source_files(env.modules_sources,"data/planet_data.cpp")
