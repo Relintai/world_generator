@@ -51,6 +51,13 @@ void Dungeon::set_sizez(int value) {
 	_sizez = value;
 }
 
+int Dungeon::get_room_count() {
+	return _room_count;
+}
+void Dungeon::set_room_count(int value) {
+	_room_count = value;
+}
+
 Ref<EnvironmentData> Dungeon::get_environment() {
 	return _environment;
 }
@@ -154,6 +161,31 @@ int Dungeon::get_dungeon_corridor_count() const {
 	return _dungeon_corridors.size();
 }
 
+//Entities
+Ref<DungeonCorridor> Dungeon::get_entity_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _entity_datas.size(), Ref<DungeonCorridor>());
+
+	return _entity_datas.get(index);
+}
+void Dungeon::set_entity_data(const int index, const Ref<DungeonCorridor> entity_data) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.set(index, entity_data);
+}
+void Dungeon::add_entity_data(const Ref<DungeonCorridor> entity_data) {
+	_entity_datas.push_back(entity_data);
+}
+void Dungeon::remove_entity_data(const int index) {
+	ERR_FAIL_INDEX(index, _entity_datas.size());
+
+	_entity_datas.remove(index);
+}
+
+int Dungeon::get_entity_data_count() const {
+	return _entity_datas.size();
+}
+
+
 void Dungeon::setup() {
 	if (has_method("_setup")) {
 		call("_setup");
@@ -188,6 +220,8 @@ Dungeon::Dungeon() {
 	_sizex = 0;
 	_sizey = 0;
 	_sizez = 0;
+
+	_room_count = 0;
 }
 Dungeon::~Dungeon() {
 	_environment.unref();
@@ -195,6 +229,7 @@ Dungeon::~Dungeon() {
 	_dungeon_start_rooms.clear();
 	_dungeon_end_rooms.clear();
 	_dungeon_corridors.clear();
+	_entity_datas.clear();
 }
 
 void Dungeon::_bind_methods() {
@@ -236,6 +271,11 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_sizez", "value"), &Dungeon::set_sizez);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "sizez"), "set_sizez", "get_sizez");
 
+	//Room Count
+	ClassDB::bind_method(D_METHOD("get_room_count"), &Dungeon::get_room_count);
+	ClassDB::bind_method(D_METHOD("set_room_count", "value"), &Dungeon::set_room_count);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_count"), "set_room_count", "get_room_count");
+
 	//Environment
 	ClassDB::bind_method(D_METHOD("get_environment"), &Dungeon::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Dungeon::set_environment);
@@ -272,6 +312,14 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_dungeon_corridor", "index"), &Dungeon::remove_dungeon_corridor);
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_corridor_count"), &Dungeon::get_dungeon_corridor_count);
+
+	//Entities
+	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &Dungeon::get_entity_data);
+	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &Dungeon::set_entity_data);
+	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &Dungeon::add_entity_data);
+	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &Dungeon::remove_entity_data);
+
+	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &Dungeon::get_entity_data_count);
 
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
 

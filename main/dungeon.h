@@ -10,6 +10,8 @@
 #include "../../voxelman/world/voxel_structure.h"
 #include "../../voxelman/world/environment_data.h"
 
+#include "../../entity_spell_system/entities/data/entity_data.h"
+
 class Dungeon : public Reference {
 	GDCLASS(Dungeon, Reference);
 	
@@ -17,6 +19,7 @@ public:
 	int get_seed();
 	void set_seed(int value);
 
+	//Pos
 	int get_posx();
 	void set_posx(int value);
 
@@ -26,6 +29,7 @@ public:
 	int get_posz();
 	void set_posz(int value);
 
+	//Size
 	int get_sizex();
 	void set_sizex(int value);
 
@@ -34,6 +38,10 @@ public:
 
 	int get_sizez();
 	void set_sizez(int value);
+
+	//Room Count
+	int get_room_count();
+	void set_room_count(int value);
 
 	//Environment
 	Ref<EnvironmentData> get_environment();
@@ -71,6 +79,14 @@ public:
 
 	int get_dungeon_corridor_count() const;
 
+	//Entities
+	Ref<DungeonCorridor> get_entity_data(const int index) const;
+	void set_entity_data(const int index, const Ref<DungeonCorridor> entity_datas);
+	void add_entity_data(const Ref<DungeonCorridor> entity_datas);
+	void remove_entity_data(const int index);
+
+	int get_entity_data_count() const;
+
 	void setup();
 	void generate_chunk(Ref<VoxelChunk> chunk);
 	void generate_structure(Ref<VoxelStructure> structure);
@@ -94,11 +110,14 @@ private:
 	int _sizey;
 	int _sizez;
 
+	int _room_count;
+
 	Ref<EnvironmentData> _environment;
 	Vector<Ref<DungeonRoom> > _dungeon_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_start_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_end_rooms;
 	Vector<Ref<DungeonCorridor> > _dungeon_corridors;
+	Vector<Ref<EntityData> > _entity_datas;
 };
 
 #endif
