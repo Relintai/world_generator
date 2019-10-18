@@ -1,5 +1,12 @@
 #include "planet.h"
 
+int Planet::get_seed() {
+	return _seed;
+}
+void Planet::set_seed(int value) {
+	_seed = value;
+}
+
 Ref<EnvironmentData> Planet::get_environment() {
 	return _environment;
 }
@@ -30,6 +37,12 @@ int Planet::get_biome_count() const {
 	return _biomes.size();
 }
 
+void Planet::setup() {
+	if (has_method("_setup")) {
+		call("_setup");
+	}
+}
+
 void Planet::generate_chunk(Ref<VoxelChunk> chunk) {
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk);
@@ -43,7 +56,7 @@ Ref<Image> Planet::generate_map() {
 }
 
 Planet::Planet() {
-
+	_seed = 0;
 }
 Planet::~Planet() {
 	_environment.unref();
@@ -51,9 +64,15 @@ Planet::~Planet() {
 }
 
 void Planet::_bind_methods() {
+	BIND_VMETHOD(MethodInfo("_setup"));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
+	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
+
+	ClassDB::bind_method(D_METHOD("get_seed"), &Planet::get_seed);
+	ClassDB::bind_method(D_METHOD("set_seed", "value"), &Planet::set_seed);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
 
 	ClassDB::bind_method(D_METHOD("get_environment"), &Planet::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Planet::set_environment);

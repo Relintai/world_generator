@@ -12,6 +12,9 @@ class Planet : public Reference {
 	GDCLASS(Planet, Reference);
 	
 public:
+	int get_seed();
+	void set_seed(int value);
+
 	//Environment
 	Ref<EnvironmentData> get_environment();
 	void set_environment(Ref<EnvironmentData> value);
@@ -23,6 +26,7 @@ public:
 
 	int get_biome_count() const;
 
+	void setup();
 	void generate_chunk(Ref<VoxelChunk> chunk);
 	Ref<Image> generate_map();
 
@@ -33,6 +37,7 @@ protected:
 	static void _bind_methods();
 
 private:
+	int _seed;
 	Ref<EnvironmentData> _environment;
 	Vector<Ref<Biome> > _biomes;
 };
