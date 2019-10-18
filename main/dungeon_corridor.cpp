@@ -38,7 +38,7 @@ DungeonCorridor::~DungeonCorridor() {
 	_dungeon_rooms.clear();
 }
 
-void DungeonRoom::_bind_methods() {
+void DungeonCorridor::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_max_connections"), &DungeonCorridor::get_max_connections);
 	ClassDB::bind_method(D_METHOD("set_max_connections", "value"), &DungeonCorridor::set_max_connections);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_connections"), "set_max_connections", "get_max_connections");
