@@ -120,15 +120,15 @@ void DungeonRoom::setup() {
 	}
 }
 
-void DungeonRoom::generate_chunk(Ref<VoxelChunk> chunk) {
+void DungeonRoom::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk);
+		call("_generate_chunk", chunk, spawn_mobs);
 	}
 }
 
-void DungeonRoom::generate_room(Ref<VoxelStructure> structure) {
+void DungeonRoom::generate_room(Ref<VoxelStructure> structure, bool spawn_mobs) {
 	if (has_method("_generate_room")) {
-		call("_generate_room", structure);
+		call("_generate_room", structure, spawn_mobs);
 	}
 }
 
@@ -151,12 +151,12 @@ DungeonRoom::~DungeonRoom() {
 
 void DungeonRoom::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
-	BIND_VMETHOD(MethodInfo("_generate_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
+	BIND_VMETHOD(MethodInfo("_generate_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
 	ClassDB::bind_method(D_METHOD("setup"), &DungeonRoom::setup);
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &DungeonRoom::generate_chunk);
-	ClassDB::bind_method(D_METHOD("generate_room", "structure"), &DungeonRoom::generate_room);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &DungeonRoom::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_room", "structure", "spawn_mobs"), &DungeonRoom::generate_room);
 
 	ClassDB::bind_method(D_METHOD("get_seed"), &DungeonRoom::get_seed);
 	ClassDB::bind_method(D_METHOD("set_seed", "value"), &DungeonRoom::set_seed);

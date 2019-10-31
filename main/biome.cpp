@@ -80,14 +80,14 @@ int Biome::get_dungeon_count() const {
 }
 
 
-void Biome::generate_chunk(Ref<VoxelChunk> chunk) {
+void Biome::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk);
+		call("_generate_chunk", chunk, spawn_mobs);
 	}
 }
-void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z) {
+void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs) {
 	if (has_method("_generate_stack")) {
-		call("_generate_stack", chunk, x, z);
+		call("_generate_stack", chunk, x, z, spawn_mobs);
 	}
 }
 
@@ -102,11 +102,11 @@ Biome::~Biome() {
 }
 
 void Biome::_bind_methods() {
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
-	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Biome::generate_chunk);
-	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z"), &Biome::generate_stack);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
 
 	ClassDB::bind_method(D_METHOD("get_environment"), &Biome::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);

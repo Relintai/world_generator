@@ -192,15 +192,15 @@ void Dungeon::setup() {
 	}
 }
 
-void Dungeon::generate_chunk(Ref<VoxelChunk> chunk) {
+void Dungeon::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk);
+		call("_generate_chunk", chunk, spawn_mobs);
 	}
 }
 
-void Dungeon::generate_structure(Ref<VoxelStructure> structure) {
+void Dungeon::generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs) {
 	if (has_method("_generate_structure")) {
-		call("_generate_structure", structure);
+		call("_generate_structure", structure, spawn_mobs);
 	}
 }
 
@@ -234,12 +234,12 @@ Dungeon::~Dungeon() {
 
 void Dungeon::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
-	BIND_VMETHOD(MethodInfo("_generate_structure", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk")));
+	BIND_VMETHOD(MethodInfo("_generate_structure", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
 	ClassDB::bind_method(D_METHOD("setup"), &Dungeon::setup);
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Dungeon::generate_chunk);
-	ClassDB::bind_method(D_METHOD("generate_structure", "structure"), &Dungeon::generate_structure);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_structure", "structure", "spawn_mobs"), &Dungeon::generate_structure);
 
 	ClassDB::bind_method(D_METHOD("get_seed"), &Dungeon::get_seed);
 	ClassDB::bind_method(D_METHOD("set_seed", "value"), &Dungeon::set_seed);

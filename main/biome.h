@@ -41,8 +41,8 @@ public:
 
 	int get_dungeon_count() const;
 
-	void generate_chunk(Ref<VoxelChunk> chunk);
-	void generate_stack(Ref<VoxelChunk> chunk, int x, int z);
+	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
+	void generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs);
 
 	Biome();
 	~Biome();

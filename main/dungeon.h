@@ -88,8 +88,8 @@ public:
 	int get_entity_data_count() const;
 
 	void setup();
-	void generate_chunk(Ref<VoxelChunk> chunk);
-	void generate_structure(Ref<VoxelStructure> structure);
+	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
+	void generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs);
 
 	Ref<Image> generate_map();
 
