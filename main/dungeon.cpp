@@ -7,6 +7,13 @@ void Dungeon::set_seed(int value) {
 	_seed = value;
 }
 
+Vector2 Dungeon::get_level_range() {
+	return _level_range;
+}
+void Dungeon::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 //Position
 int Dungeon::get_posx() {
 	return _posx;
@@ -244,6 +251,10 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_seed"), &Dungeon::get_seed);
 	ClassDB::bind_method(D_METHOD("set_seed", "value"), &Dungeon::set_seed);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &Dungeon::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Dungeon::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	//Position
 	ClassDB::bind_method(D_METHOD("get_posx"), &Dungeon::get_posx);

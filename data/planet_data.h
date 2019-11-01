@@ -16,6 +16,9 @@ public:
 	int get_id() const;
 	void set_id(const int value);
 
+	Vector2 get_level_range();
+	void set_level_range(Vector2 value);
+
 	Ref<FastnoiseNoiseParams> get_humidity_noise_params();
 	void set_humidity_noise_params(Ref<FastnoiseNoiseParams> value);
 
@@ -53,8 +56,10 @@ protected:
 	static void _bind_methods();
 
 private:
-
 	int _id;
+
+	Vector2 _level_range;
+
 	Ref<FastnoiseNoiseParams> _humidity_noise_params;
 	Ref<FastnoiseNoiseParams> _temperature_noise_params;
 	Vector<Ref<BiomeData> > _biome_datas;

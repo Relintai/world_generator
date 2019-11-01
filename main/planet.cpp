@@ -7,6 +7,13 @@ void Planet::set_seed(int value) {
 	_seed = value;
 }
 
+Vector2 Planet::get_level_range() {
+	return _level_range;
+}
+void Planet::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 Ref<EnvironmentData> Planet::get_environment() {
 	return _environment;
 }
@@ -73,6 +80,10 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_seed"), &Planet::get_seed);
 	ClassDB::bind_method(D_METHOD("set_seed", "value"), &Planet::set_seed);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &Planet::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Planet::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	ClassDB::bind_method(D_METHOD("get_environment"), &Planet::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Planet::set_environment);

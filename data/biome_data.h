@@ -15,6 +15,9 @@ class BiomeData : public Resource {
 	GDCLASS(BiomeData, Resource);
 	
 public:
+	Vector2 get_level_range();
+	void set_level_range(Vector2 value);
+
 	Vector2 get_humidity_range();
 	void set_humidity_range(Vector2 range);
 
@@ -74,9 +77,11 @@ protected:
 	static void _bind_methods();
 
 private:
+	Vector2 _level_range;
 
 	Vector2 _humidity_range;
 	Vector2 _temperature_range;
+
 	Vector<Ref<DungeonData> > _dungeon_datas;
 	Vector<Ref<PropData> > _prop_datas;
 	Vector<Ref<EntityData> > _entity_datas;

@@ -13,6 +13,9 @@ class DungeonRoomData : public Resource {
 	GDCLASS(DungeonRoomData, Resource);
 	
 public:
+	Vector2 get_level_range();
+	void set_level_range(Vector2 value);
+
 	//Min Size
 	int get_min_sizex();
 	void set_min_sizex(int value);
@@ -75,6 +78,8 @@ protected:
 	static void _bind_methods();
 
 private:
+	Vector2 _level_range;
+
 	int _min_sizex;
 	int _min_sizey;
 	int _min_sizez;

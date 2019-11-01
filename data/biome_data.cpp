@@ -1,5 +1,12 @@
 #include "biome_data.h"
 
+Vector2 BiomeData::get_level_range() {
+	return _level_range;
+}
+void BiomeData::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 Vector2 BiomeData::get_humidity_range() {
 	return _humidity_range;
 }
@@ -197,6 +204,10 @@ void BiomeData::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "room", PROPERTY_HINT_RESOURCE_TYPE, "Biome"), "_setup_biome", PropertyInfo(Variant::INT, "seed")));
 
 	ClassDB::bind_method(D_METHOD("setup_biome", "seed"), &BiomeData::setup_biome);
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &BiomeData::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &BiomeData::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	ClassDB::bind_method(D_METHOD("get_humidity_range"), &BiomeData::get_humidity_range);
 	ClassDB::bind_method(D_METHOD("set_humidity_range", "value"), &BiomeData::set_humidity_range);

@@ -1,5 +1,12 @@
 #include "dungeon_room_data.h"
 
+Vector2 DungeonRoomData::get_level_range() {
+	return _level_range;
+}
+void DungeonRoomData::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 //Min Size
 int DungeonRoomData::get_min_sizex() {
 	return _min_sizex;
@@ -186,6 +193,10 @@ void DungeonRoomData::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "room", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoom"), "_setup_room", PropertyInfo(Variant::INT, "seed")));
 
 	ClassDB::bind_method(D_METHOD("setup_room", "seed"), &DungeonRoomData::setup_room);
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &DungeonRoomData::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &DungeonRoomData::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	//Min Size
 	ClassDB::bind_method(D_METHOD("get_min_sizex"), &DungeonRoomData::get_min_sizex);

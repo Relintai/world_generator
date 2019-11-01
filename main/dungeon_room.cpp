@@ -7,6 +7,13 @@ void DungeonRoom::set_seed(int value) {
 	_seed = value;
 }
 
+Vector2 DungeonRoom::get_level_range() {
+	return _level_range;
+}
+void DungeonRoom::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 //Position
 int DungeonRoom::get_posx() {
 	return _posx;
@@ -161,6 +168,10 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_seed"), &DungeonRoom::get_seed);
 	ClassDB::bind_method(D_METHOD("set_seed", "value"), &DungeonRoom::set_seed);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &DungeonRoom::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &DungeonRoom::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	//Position
 	ClassDB::bind_method(D_METHOD("get_posx"), &DungeonRoom::get_posx);

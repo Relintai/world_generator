@@ -7,6 +7,13 @@ void PlanetData::set_id(const int value) {
 	_id = value;
 }
 
+Vector2 PlanetData::get_level_range() {
+	return _level_range;
+}
+void PlanetData::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 Ref<FastnoiseNoiseParams> PlanetData::get_humidity_noise_params() {
 	return _humidity_noise_params;
 }
@@ -123,6 +130,10 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_id"), &PlanetData::get_id);
 	ClassDB::bind_method(D_METHOD("set_id", "value"), &PlanetData::set_id);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "id"), "set_id", "get_id");
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &PlanetData::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &PlanetData::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	ClassDB::bind_method(D_METHOD("get_humidity_noise_params"), &PlanetData::get_humidity_noise_params);
 	ClassDB::bind_method(D_METHOD("set_humidity_noise_params", "value"), &PlanetData::set_humidity_noise_params);

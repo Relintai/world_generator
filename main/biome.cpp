@@ -1,5 +1,12 @@
 #include "biome.h"
 
+Vector2 Biome::get_level_range() {
+	return _level_range;
+}
+void Biome::set_level_range(Vector2 value) {
+	_level_range = value;
+}
+
 Ref<EnvironmentData> Biome::get_environment() {
 	return _environment;
 }
@@ -107,6 +114,10 @@ void Biome::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
+
+	ClassDB::bind_method(D_METHOD("get_level_range"), &Biome::get_level_range);
+	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Biome::set_level_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
 	ClassDB::bind_method(D_METHOD("get_environment"), &Biome::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);
