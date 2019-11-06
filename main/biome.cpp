@@ -87,15 +87,25 @@ int Biome::get_dungeon_count() const {
 }
 
 
-void Biome::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+void Biome::generate_chunk(VoxelChunk *chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
 	}
 }
-void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs) {
+void Biome::generate_chunk_bind(Node *chunk, bool spawn_mobs) {
+	generate_chunk(Object::cast_to<VoxelChunk>(chunk), spawn_mobs);
+}
+void Biome::generate_stack(VoxelChunk *chunk, int x, int z, bool spawn_mobs) {
+	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+
 	if (has_method("_generate_stack")) {
 		call("_generate_stack", chunk, x, z, spawn_mobs);
 	}
+}
+void Biome::generate_stack_bind(Node *chunk, int x, int z, bool spawn_mobs) {
+	generate_stack(Object::cast_to<VoxelChunk>(chunk), x, z, spawn_mobs);
 }
 
 Biome::Biome() {
@@ -109,11 +119,11 @@ Biome::~Biome() {
 }
 
 void Biome::_bind_methods() {
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
-	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk_bind);
+	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack_bind);
 
 	ClassDB::bind_method(D_METHOD("get_level_range"), &Biome::get_level_range);
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Biome::set_level_range);

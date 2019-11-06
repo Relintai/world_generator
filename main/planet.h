@@ -30,7 +30,8 @@ public:
 	int get_biome_count() const;
 
 	void setup();
-	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
+	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
+	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
 	Ref<Image> generate_map();
 
 	Planet();

@@ -50,10 +50,16 @@ void Planet::setup() {
 	}
 }
 
-void Planet::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+void Planet::generate_chunk(VoxelChunk *chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
 	}
+}
+
+void Planet::generate_chunk_bind(Node *chunk, bool spawn_mobs) {
+	generate_chunk(Object::cast_to<VoxelChunk>(chunk), spawn_mobs);
 }
 
 Ref<Image> Planet::generate_map() {
@@ -72,9 +78,9 @@ Planet::~Planet() {
 
 void Planet::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk_bind);
 	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
 
 	ClassDB::bind_method(D_METHOD("get_seed"), &Planet::get_seed);
