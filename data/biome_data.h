@@ -7,7 +7,7 @@
 
 #include "../main/biome.h"
 #include "dungeon_data.h"
-#include "prop_data.h"
+#include "world_generator_prop_data.h"
 #include "../../voxelman/world/environment_data.h"
 #include "../../entity_spell_system/entities/data/entity_data.h"
 
@@ -35,10 +35,10 @@ public:
 	Vector<Variant> get_dungeon_datas();
 	void set_dungeon_datas(const Vector<Variant> &dungeon_datas);
 
-	//PropData
-	Ref<PropData> get_prop_data(const int index) const;
-	void set_prop_data(const int index, const Ref<PropData> prop_data);
-	void add_prop_data(const Ref<PropData> prop_data);
+	//WorldGeneratorPropData
+	Ref<WorldGeneratorPropData> get_prop_data(const int index) const;
+	void set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data);
+	void add_prop_data(const Ref<WorldGeneratorPropData> prop_data);
 	void remove_prop_data(const int index);
 
 	int get_prop_data_count() const;
@@ -83,7 +83,7 @@ private:
 	Vector2 _temperature_range;
 
 	Vector<Ref<DungeonData> > _dungeon_datas;
-	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 	Vector<Ref<EntityData> > _entity_datas;
 	Vector<Ref<EnvironmentData> > _environment_datas;
 };

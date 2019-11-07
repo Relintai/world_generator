@@ -52,17 +52,17 @@ void DungeonRoomData::set_max_sizez(int value) {
 }
 
 //Props
-Ref<PropData> DungeonRoomData::get_prop_data(const int index) const {
-	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<PropData>());
+Ref<WorldGeneratorPropData> DungeonRoomData::get_prop_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<WorldGeneratorPropData>());
 
 	return _prop_datas.get(index);
 }
-void DungeonRoomData::set_prop_data(const int index, const Ref<PropData> prop_data) {
+void DungeonRoomData::set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data) {
 	ERR_FAIL_INDEX(index, _prop_datas.size());
 
 	_prop_datas.set(index, prop_data);
 }
-void DungeonRoomData::add_prop_data(const Ref<PropData> prop_data) {
+void DungeonRoomData::add_prop_data(const Ref<WorldGeneratorPropData> prop_data) {
 	_prop_datas.push_back(prop_data);
 }
 void DungeonRoomData::remove_prop_data(const int index) {
@@ -84,7 +84,7 @@ Vector<Variant> DungeonRoomData::get_prop_datas() {
 void DungeonRoomData::set_prop_datas(const Vector<Variant> &prop_datas) {
 	_prop_datas.clear();
 	for (int i = 0; i < prop_datas.size(); i++) {
-		Ref<PropData> prop_data = Ref<PropData>(prop_datas[i]);
+		Ref<WorldGeneratorPropData> prop_data = Ref<WorldGeneratorPropData>(prop_datas[i]);
 
 		_prop_datas.push_back(prop_data);
 	}
@@ -234,7 +234,7 @@ void DungeonRoomData::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_prop_datas"), &DungeonRoomData::get_prop_datas);
 	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &DungeonRoomData::set_prop_datas);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:PropData", PROPERTY_USAGE_DEFAULT, "PropData"), "set_prop_datas", "get_prop_datas");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:WorldGeneratorPropData", PROPERTY_USAGE_DEFAULT, "WorldGeneratorPropData"), "set_prop_datas", "get_prop_datas");
 
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &DungeonRoomData::get_entity_data);

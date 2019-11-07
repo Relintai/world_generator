@@ -15,17 +15,17 @@ void Biome::set_environment(Ref<EnvironmentData> value) {
 }
 
 ////    Prop Data    ////
-Ref<PropData> Biome::get_prop_data(const int index) const {
-	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<PropData>());
+Ref<WorldGeneratorPropData> Biome::get_prop_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<WorldGeneratorPropData>());
 
 	return _prop_datas.get(index);
 }
-void Biome::set_prop_data(const int index, const Ref<PropData> prop_data) {
+void Biome::set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data) {
 	ERR_FAIL_INDEX(index, _prop_datas.size());
 
 	_prop_datas.set(index, prop_data);
 }
-void Biome::add_prop_data(const Ref<PropData> prop_data) {
+void Biome::add_prop_data(const Ref<WorldGeneratorPropData> prop_data) {
 	_prop_datas.push_back(prop_data);
 }
 void Biome::remove_prop_data(const int index) {

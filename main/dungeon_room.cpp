@@ -73,17 +73,17 @@ void DungeonRoom::set_structure(Ref<VoxelStructure> structure) {
 }
 
 //Props
-Ref<PropData> DungeonRoom::get_prop_data(const int index) const {
-	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<PropData>());
+Ref<WorldGeneratorPropData> DungeonRoom::get_prop_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<WorldGeneratorPropData>());
 
 	return _prop_datas.get(index);
 }
-void DungeonRoom::set_prop_data(const int index, const Ref<PropData> prop_data) {
+void DungeonRoom::set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data) {
 	ERR_FAIL_INDEX(index, _prop_datas.size());
 
 	_prop_datas.set(index, prop_data);
 }
-void DungeonRoom::add_prop_data(const Ref<PropData> prop_data) {
+void DungeonRoom::add_prop_data(const Ref<WorldGeneratorPropData> prop_data) {
 	_prop_datas.push_back(prop_data);
 }
 void DungeonRoom::remove_prop_data(const int index) {

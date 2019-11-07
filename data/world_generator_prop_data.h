@@ -5,16 +5,16 @@
 
 #include "../../voxelman/props/voxelman_prop.h"
 
-class PropData : public Resource {
-	GDCLASS(PropData, Resource);
+class WorldGeneratorPropData : public Resource {
+	GDCLASS(WorldGeneratorPropData, Resource);
 	
 public:
 
 	bool can_spawn(int seed);
 	Ref<VoxelmanProp> get_prop(int seed);
 
-	PropData();
-	~PropData();
+	WorldGeneratorPropData();
+	~WorldGeneratorPropData();
 
 protected:
 	static void _bind_methods();

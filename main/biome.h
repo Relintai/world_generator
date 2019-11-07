@@ -4,7 +4,7 @@
 #include "core/reference.h"
 
 #include "../../voxelman/world/voxel_chunk.h"
-#include "../data/prop_data.h"
+#include "../data/world_generator_prop_data.h"
 #include "dungeon.h"
 #include "../../voxelman/world/environment_data.h"
 #include "../../entity_spell_system/entities/data/entity_data.h"
@@ -20,10 +20,10 @@ public:
 	Ref<EnvironmentData> get_environment();
 	void set_environment(Ref<EnvironmentData> value);
 
-	//PropData
-	Ref<PropData> get_prop_data(const int index) const;
-	void set_prop_data(const int index, const Ref<PropData> prop_data);
-	void add_prop_data(const Ref<PropData> prop_data);
+	//WorldGeneratorPropData
+	Ref<WorldGeneratorPropData> get_prop_data(const int index) const;
+	void set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data);
+	void add_prop_data(const Ref<WorldGeneratorPropData> prop_data);
 	void remove_prop_data(const int index);
 
 	int get_prop_data_count() const;
@@ -59,7 +59,7 @@ private:
 	Vector2 _level_range;
 
 	Ref<EnvironmentData> _environment;
-	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 	Vector<Ref<EntityData> > _entity_datas;
 	Vector<Ref<Dungeon> > _dungeons;
 };

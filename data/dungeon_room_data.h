@@ -4,7 +4,7 @@
 #include "core/resource.h"
 
 #include "../main/dungeon_room.h"
-#include "prop_data.h"
+#include "world_generator_prop_data.h"
 #include "../../voxelman/world/environment_data.h"
 
 #include "../../entity_spell_system/entities/data/entity_data.h"
@@ -37,9 +37,9 @@ public:
 	void set_max_sizez(int value);
 
 	//Prop Data
-	Ref<PropData> get_prop_data(const int index) const;
-	void set_prop_data(const int index, const Ref<PropData> prop_data);
-	void add_prop_data(const Ref<PropData> prop_data);
+	Ref<WorldGeneratorPropData> get_prop_data(const int index) const;
+	void set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data);
+	void add_prop_data(const Ref<WorldGeneratorPropData> prop_data);
 	void remove_prop_data(const int index);
 
 	int get_prop_data_count() const;
@@ -88,7 +88,7 @@ private:
 	int _max_sizey;
 	int _max_sizez;
 
-	Vector<Ref<PropData> > _prop_datas;
+	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 	Vector<Ref<EntityData> > _entity_datas;
 	Vector<Ref<EnvironmentData> > _environment_datas;
 };

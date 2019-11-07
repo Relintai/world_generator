@@ -13,7 +13,7 @@ env.add_source_files(env.modules_sources,"data/dungeon_corridor_data.cpp")
 env.add_source_files(env.modules_sources,"data/dungeon_data.cpp")
 env.add_source_files(env.modules_sources,"data/biome_data.cpp")
 env.add_source_files(env.modules_sources,"data/planet_data.cpp")
-env.add_source_files(env.modules_sources,"data/prop_data.cpp")
+env.add_source_files(env.modules_sources,"data/world_generator_prop_data.cpp")
 
 env.add_source_files(env.modules_sources,"world_generator.cpp")
 

@@ -64,17 +64,17 @@ void BiomeData::set_dungeon_datas(const Vector<Variant> &dungeon_datas) {
 
 ////    PROP DATA    ////
 
-Ref<PropData> BiomeData::get_prop_data(const int index) const {
-	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<PropData>());
+Ref<WorldGeneratorPropData> BiomeData::get_prop_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<WorldGeneratorPropData>());
 
 	return _prop_datas.get(index);
 }
-void BiomeData::set_prop_data(const int index, const Ref<PropData> prop_data) {
+void BiomeData::set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data) {
 	ERR_FAIL_INDEX(index, _prop_datas.size());
 
 	_prop_datas.set(index, prop_data);
 }
-void BiomeData::add_prop_data(const Ref<PropData> prop_data) {
+void BiomeData::add_prop_data(const Ref<WorldGeneratorPropData> prop_data) {
 	_prop_datas.push_back(prop_data);
 }
 void BiomeData::remove_prop_data(const int index) {
@@ -97,7 +97,7 @@ Vector<Variant> BiomeData::get_prop_datas() {
 void BiomeData::set_prop_datas(const Vector<Variant> &prop_datas) {
 	_prop_datas.clear();
 	for (int i = 0; i < prop_datas.size(); i++) {
-		Ref<PropData> prop_data = Ref<PropData>(prop_datas[i]);
+		Ref<WorldGeneratorPropData> prop_data = Ref<WorldGeneratorPropData>(prop_datas[i]);
 
 		_prop_datas.push_back(prop_data);
 	}
@@ -229,7 +229,7 @@ void BiomeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_dungeon_datas", "dungeon_datas"), &BiomeData::set_dungeon_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_datas", PROPERTY_HINT_NONE, "17/17:DungeonData", PROPERTY_USAGE_DEFAULT, "DungeonData"), "set_dungeon_datas", "get_dungeon_datas");
 
-	//PropData
+	//WorldGeneratorPropData
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &BiomeData::get_prop_data);
 	ClassDB::bind_method(D_METHOD("set_prop_data", "index", "data"), &BiomeData::set_prop_data);
 	ClassDB::bind_method(D_METHOD("add_prop_data", "prop_data"), &BiomeData::add_prop_data);
@@ -239,7 +239,7 @@ void BiomeData::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_prop_datas"), &BiomeData::get_prop_datas);
 	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &BiomeData::set_prop_datas);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:PropData", PROPERTY_USAGE_DEFAULT, "PropData"), "set_prop_datas", "get_prop_datas");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:WorldGeneratorPropData", PROPERTY_USAGE_DEFAULT, "WorldGeneratorPropData"), "set_prop_datas", "get_prop_datas");
 
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &BiomeData::get_entity_data);
