@@ -3,7 +3,7 @@
 
 #include "core/resource.h"
 
-#include "../../voxelman/props/prop_data.h"
+#include "../../props/prop_data.h"
 
 class WorldGeneratorPropData : public Resource {
 	GDCLASS(WorldGeneratorPropData, Resource);

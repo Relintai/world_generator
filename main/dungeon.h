@@ -6,18 +6,23 @@
 #include "dungeon_room.h"
 #include "dungeon_corridor.h"
 
-#include "../../voxelman/world/voxel_chunk.h"
-#include "../../voxelman/world/voxel_structure.h"
-#include "../../voxelman/world/environment_data.h"
+#include "../../world/voxel_chunk.h"
+#include "../../world/voxel_structure.h"
+#include "../../world/environment_data.h"
 
-#include "../../entity_spell_system/entities/data/entity_data.h"
+#include "../../../entity_spell_system/entities/data/entity_data.h"
+
+#include "../data/dungeon_data.h"
+#include "../../library/voxelman_library.h"
+
+class DungeonData;
 
 class Dungeon : public Reference {
 	GDCLASS(Dungeon, Reference);
 	
 public:
-	int get_seed();
-	void set_seed(int value);
+	int get_current_seed();
+	void set_current_seed(int value);
 
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
@@ -50,12 +55,14 @@ public:
 	Ref<EnvironmentData> get_environment();
 	void set_environment(Ref<EnvironmentData> value);
 
+	Ref<DungeonData> get_data();
+	void set_data(Ref<DungeonData> value);
+
 	//Rooms
 	Ref<DungeonRoom> get_dungeon_room(const int index) const;
 	void set_dungeon_room(const int index, const Ref<DungeonRoom> dungeon_room);
 	void add_dungeon_room(const Ref<DungeonRoom> dungeon_room);
 	void remove_dungeon_room(const int index);
-
 	int get_dungeon_room_count() const;
 
 	//Start Rooms
@@ -63,7 +70,6 @@ public:
 	void set_dungeon_start_room(const int index, const Ref<DungeonRoom> dungeon_start_room);
 	void add_dungeon_start_room(const Ref<DungeonRoom> dungeon_start_room);
 	void remove_dungeon_start_room(const int index);
-
 	int get_dungeon_start_room_count() const;
 
 	//End Rooms
@@ -71,7 +77,6 @@ public:
 	void set_dungeon_end_room(const int index, const Ref<DungeonRoom> dungeon_end_room);
 	void add_dungeon_end_room(const Ref<DungeonRoom> dungeon_end_room);
 	void remove_dungeon_end_room(const int index);
-
 	int get_dungeon_end_room_count() const;
 
 	//Corridors
@@ -79,7 +84,6 @@ public:
 	void set_dungeon_corridor(const int index, const Ref<DungeonCorridor> dungeon_corridors);
 	void add_dungeon_corridor(const Ref<DungeonCorridor> dungeon_corridors);
 	void remove_dungeon_corridor(const int index);
-
 	int get_dungeon_corridor_count() const;
 
 	//Entities
@@ -87,10 +91,12 @@ public:
 	void set_entity_data(const int index, const Ref<EntityData> entity_datas);
 	void add_entity_data(const Ref<EntityData> entity_datas);
 	void remove_entity_data(const int index);
-
 	int get_entity_data_count() const;
 
 	void setup();
+	void setup_library(Ref<VoxelmanLibrary> library);
+	void _setup_library(Ref<VoxelmanLibrary> library);
+
 	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
 	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
 	void generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs);
@@ -104,7 +110,7 @@ protected:
 	static void _bind_methods();
 
 private:
-	int _seed;
+	int _current_seed;
 
 	Vector2 _level_range;
 
@@ -119,6 +125,7 @@ private:
 	int _room_count;
 
 	Ref<EnvironmentData> _environment;
+	Ref<DungeonData> _data;
 	Vector<Ref<DungeonRoom> > _dungeon_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_start_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_end_rooms;

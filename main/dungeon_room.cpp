@@ -1,10 +1,10 @@
 #include "dungeon_room.h"
 
-int DungeonRoom::get_seed() {
-	return _seed;
+int DungeonRoom::get_current_seed() {
+	return _current_seed;
 }
-void DungeonRoom::set_seed(int value) {
-	_seed = value;
+void DungeonRoom::set_current_seed(int value) {
+	_current_seed = value;
 }
 
 Vector2 DungeonRoom::get_level_range() {
@@ -65,6 +65,15 @@ void DungeonRoom::set_environment(Ref<EnvironmentData> value) {
 	_environment = value;
 }
 
+Ref<DungeonRoomData> DungeonRoom::get_data() {
+	return _data;
+}
+void DungeonRoom::set_data(Ref<DungeonRoomData> value) {
+	_data = value;
+
+	setup();
+}
+
 Ref<VoxelStructure> DungeonRoom::get_structure() {
 	return _structure;
 }
@@ -91,7 +100,6 @@ void DungeonRoom::remove_prop_data(const int index) {
 
 	_prop_datas.remove(index);
 }
-
 int DungeonRoom::get_prop_data_count() const {
 	return _prop_datas.size();
 }
@@ -115,15 +123,43 @@ void DungeonRoom::remove_entity_data(const int index) {
 
 	_entity_datas.remove(index);
 }
-
 int DungeonRoom::get_entity_data_count() const {
 	return _entity_datas.size();
 }
 
-
 void DungeonRoom::setup() {
+	if (!_data.is_valid())
+		return;
+
 	if (has_method("_setup")) {
 		call("_setup");
+	}
+}
+
+void DungeonRoom::setup_library(Ref<VoxelmanLibrary> library) {
+	if (!_data.is_valid())
+		return;
+
+	if (has_method("_setup_library")) {
+		call("_setup_library", library);
+	}
+}
+
+void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
+	for (int i = 0; i < _data->get_voxel_surface_count(); ++i) {
+		Ref<VoxelSurface> s = _data->get_voxel_surface(i);
+
+		if (s.is_valid()) {
+			library->add_voxel_surface(s);
+		}
+	}
+
+	for (int i = 0; i < _data->get_liquid_voxel_surface_count(); ++i) {
+		Ref<VoxelSurface> s = _data->get_liquid_voxel_surface(i);
+
+		if (s.is_valid()) {
+			library->add_liquid_voxel_surface(s);
+		}
 	}
 }
 
@@ -146,7 +182,7 @@ void DungeonRoom::generate_room(Ref<VoxelStructure> structure, bool spawn_mobs) 
 }
 
 DungeonRoom::DungeonRoom() {
-	_seed = 0;
+	_current_seed = 0;
 
 	_posx = 0;
 	_posy = 0;
@@ -158,22 +194,28 @@ DungeonRoom::DungeonRoom() {
 }
 DungeonRoom::~DungeonRoom() {
 	_environment.unref();
+	_data.unref();
+	_structure.unref();
 	_prop_datas.clear();
 	_entity_datas.clear();
 }
 
 void DungeonRoom::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
+	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
 	ClassDB::bind_method(D_METHOD("setup"), &DungeonRoom::setup);
+	ClassDB::bind_method(D_METHOD("setup_library", "library"), &DungeonRoom::setup_library);
+	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &DungeonRoom::_setup_library);
+
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &DungeonRoom::generate_chunk_bind);
 	ClassDB::bind_method(D_METHOD("generate_room", "structure", "spawn_mobs"), &DungeonRoom::generate_room);
 
-	ClassDB::bind_method(D_METHOD("get_seed"), &DungeonRoom::get_seed);
-	ClassDB::bind_method(D_METHOD("set_seed", "value"), &DungeonRoom::set_seed);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
+	ClassDB::bind_method(D_METHOD("get_current_seed"), &DungeonRoom::get_current_seed);
+	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &DungeonRoom::set_current_seed);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "current_seed"), "set_current_seed", "get_current_seed");
 
 	ClassDB::bind_method(D_METHOD("get_level_range"), &DungeonRoom::get_level_range);
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &DungeonRoom::set_level_range);
@@ -209,6 +251,10 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &DungeonRoom::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
+	ClassDB::bind_method(D_METHOD("get_data"), &DungeonRoom::get_data);
+	ClassDB::bind_method(D_METHOD("set_data", "value"), &DungeonRoom::set_data);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "PlanetData"), "set_data", "get_data");
+
 	ClassDB::bind_method(D_METHOD("get_structure"), &DungeonRoom::get_structure);
 	ClassDB::bind_method(D_METHOD("set_structure", "value"), &DungeonRoom::set_structure);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), "set_structure", "get_structure");
@@ -218,7 +264,6 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_prop_data", "index", "data"), &DungeonRoom::set_prop_data);
 	ClassDB::bind_method(D_METHOD("add_prop_data", "prop_data"), &DungeonRoom::add_prop_data);
 	ClassDB::bind_method(D_METHOD("remove_prop_data", "index"), &DungeonRoom::remove_prop_data);
-
 	ClassDB::bind_method(D_METHOD("get_prop_data_count"), &DungeonRoom::get_prop_data_count);
 
 	//Entities
@@ -226,6 +271,5 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &DungeonRoom::set_entity_data);
 	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &DungeonRoom::add_entity_data);
 	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &DungeonRoom::remove_entity_data);
-
 	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &DungeonRoom::get_entity_data_count);
 }

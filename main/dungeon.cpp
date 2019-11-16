@@ -1,10 +1,10 @@
 #include "dungeon.h"
 
-int Dungeon::get_seed() {
-	return _seed;
+int Dungeon::get_current_seed() {
+	return _current_seed;
 }
-void Dungeon::set_seed(int value) {
-	_seed = value;
+void Dungeon::set_current_seed(int value) {
+	_current_seed = value;
 }
 
 Vector2 Dungeon::get_level_range() {
@@ -70,6 +70,15 @@ Ref<EnvironmentData> Dungeon::get_environment() {
 }
 void Dungeon::set_environment(Ref<EnvironmentData> value) {
 	_environment = value;
+}
+
+Ref<DungeonData> Dungeon::get_data() {
+	return _data;
+}
+void Dungeon::set_data(Ref<DungeonData> value) {
+	_data = value;
+
+	setup();
 }
 
 //Rooms
@@ -163,7 +172,6 @@ void Dungeon::remove_dungeon_corridor(const int index) {
 
 	_dungeon_corridors.remove(index);
 }
-
 int Dungeon::get_dungeon_corridor_count() const {
 	return _dungeon_corridors.size();
 }
@@ -187,15 +195,43 @@ void Dungeon::remove_entity_data(const int index) {
 
 	_entity_datas.remove(index);
 }
-
 int Dungeon::get_entity_data_count() const {
 	return _entity_datas.size();
 }
 
-
 void Dungeon::setup() {
+	if (!_data.is_valid())
+		return;
+
 	if (has_method("_setup")) {
 		call("_setup");
+	}
+}
+
+void Dungeon::setup_library(Ref<VoxelmanLibrary> library) {
+	if (!_data.is_valid())
+		return;
+
+	if (has_method("_setup_library")) {
+		call("_setup_library", library);
+	}
+}
+
+void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
+	for (int i = 0; i < _data->get_voxel_surface_count(); ++i) {
+		Ref<VoxelSurface> s = _data->get_voxel_surface(i);
+
+		if (s.is_valid()) {
+			library->add_voxel_surface(s);
+		}
+	}
+
+	for (int i = 0; i < _data->get_liquid_voxel_surface_count(); ++i) {
+		Ref<VoxelSurface> s = _data->get_liquid_voxel_surface(i);
+
+		if (s.is_valid()) {
+			library->add_liquid_voxel_surface(s);
+		}
 	}
 }
 
@@ -223,7 +259,7 @@ Ref<Image> Dungeon::generate_map() {
 }
 
 Dungeon::Dungeon() {
-	_seed = 0;
+	_current_seed = 0;
 
 	_posx = 0;
 	_posy = 0;
@@ -237,6 +273,7 @@ Dungeon::Dungeon() {
 }
 Dungeon::~Dungeon() {
 	_environment.unref();
+	_data.unref();
 	_dungeon_rooms.clear();
 	_dungeon_start_rooms.clear();
 	_dungeon_end_rooms.clear();
@@ -246,16 +283,20 @@ Dungeon::~Dungeon() {
 
 void Dungeon::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
+	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_structure", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
 	ClassDB::bind_method(D_METHOD("setup"), &Dungeon::setup);
+	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Dungeon::setup_library);
+	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Dungeon::_setup_library);
+
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk_bind);
 	ClassDB::bind_method(D_METHOD("generate_structure", "structure", "spawn_mobs"), &Dungeon::generate_structure);
 
-	ClassDB::bind_method(D_METHOD("get_seed"), &Dungeon::get_seed);
-	ClassDB::bind_method(D_METHOD("set_seed", "value"), &Dungeon::set_seed);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
+	ClassDB::bind_method(D_METHOD("get_current_seed"), &Dungeon::get_current_seed);
+	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &Dungeon::set_current_seed);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "current_seed"), "set_current_seed", "get_current_seed");
 
 	ClassDB::bind_method(D_METHOD("get_level_range"), &Dungeon::get_level_range);
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Dungeon::set_level_range);
@@ -297,6 +338,10 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Dungeon::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 
+	ClassDB::bind_method(D_METHOD("get_data"), &Dungeon::get_data);
+	ClassDB::bind_method(D_METHOD("set_data", "value"), &Dungeon::set_data);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "PlanetData"), "set_data", "get_data");
+
 	//Rooms
 	ClassDB::bind_method(D_METHOD("get_dungeon_room", "index"), &Dungeon::get_dungeon_room);
 	ClassDB::bind_method(D_METHOD("set_dungeon_room", "index", "data"), &Dungeon::set_dungeon_room);
@@ -318,7 +363,6 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_dungeon_end_room", "index", "data"), &Dungeon::set_dungeon_end_room);
 	ClassDB::bind_method(D_METHOD("add_dungeon_end_room", "dungeon_end_room"), &Dungeon::add_dungeon_end_room);
 	ClassDB::bind_method(D_METHOD("remove_dungeon_end_room", "index"), &Dungeon::remove_dungeon_end_room);
-
 	ClassDB::bind_method(D_METHOD("get_dungeon_end_room_count"), &Dungeon::get_dungeon_end_room_count);
 
 	//Corridors
@@ -326,7 +370,6 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_dungeon_corridor", "index", "data"), &Dungeon::set_dungeon_corridor);
 	ClassDB::bind_method(D_METHOD("add_dungeon_corridor", "dungeon_corridor"), &Dungeon::add_dungeon_corridor);
 	ClassDB::bind_method(D_METHOD("remove_dungeon_corridor", "index"), &Dungeon::remove_dungeon_corridor);
-
 	ClassDB::bind_method(D_METHOD("get_dungeon_corridor_count"), &Dungeon::get_dungeon_corridor_count);
 
 	//Entities
@@ -334,7 +377,6 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &Dungeon::set_entity_data);
 	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &Dungeon::add_entity_data);
 	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &Dungeon::remove_entity_data);
-
 	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &Dungeon::get_entity_data_count);
 
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
