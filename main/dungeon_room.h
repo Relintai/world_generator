@@ -4,14 +4,15 @@
 #include "core/reference.h"
 #include "core/vector.h"
 
-#include "../../world/voxel_chunk.h"
-#include "../../world/voxel_structure.h"
+#include "../../voxelman/world/voxel_chunk.h"
+#include "../../voxelman/world/voxel_structure.h"
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxelman_library.h"
+
 #include "../data/world_generator_prop_data.h"
-#include "../../world/environment_data.h"
-#include "../../../entity_spell_system/entities/data/entity_data.h"
+#include "../../entity_spell_system/entities/data/entity_data.h"
 
 #include "../data/dungeon_room_data.h"
-#include "../../library/voxelman_library.h"
 
 class DungeonRoomData;
 

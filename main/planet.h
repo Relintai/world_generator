@@ -4,14 +4,16 @@
 #include "core/reference.h"
 #include "core/image.h"
 
-#include "../../world/voxel_chunk.h"
+
 #include "biome.h"
 #include "dungeon.h"
-#include "../../world/environment_data.h"
 
 #include "../data/planet_data.h"
-#include "../../library/voxel_surface.h"
-#include "../../library/voxelman_library.h"
+
+#include "../../voxelman/world/voxel_chunk.h"
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxel_surface.h"
+#include "../../voxelman/library/voxelman_library.h"
 
 class PlanetData;
 

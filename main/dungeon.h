@@ -6,14 +6,14 @@
 #include "dungeon_room.h"
 #include "dungeon_corridor.h"
 
-#include "../../world/voxel_chunk.h"
-#include "../../world/voxel_structure.h"
-#include "../../world/environment_data.h"
+#include "../../voxelman/world/voxel_chunk.h"
+#include "../../voxelman/world/voxel_structure.h"
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxelman_library.h"
 
-#include "../../../entity_spell_system/entities/data/entity_data.h"
+#include "../../entity_spell_system/entities/data/entity_data.h"
 
 #include "../data/dungeon_data.h"
-#include "../../library/voxelman_library.h"
 
 class DungeonData;
 

@@ -9,10 +9,12 @@
 #include "../main/dungeon.h"
 #include "dungeon_room_data.h"
 #include "dungeon_corridor_data.h"
-#include "../../world/environment_data.h"
 
-#include "../../../entity_spell_system/entities/data/entity_data.h"
-#include "../../library/voxel_surface.h"
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxel_surface.h"
+
+#include "../../entity_spell_system/entities/data/entity_data.h"
+
 
 class DungeonData : public Resource {
 	GDCLASS(DungeonData, Resource);

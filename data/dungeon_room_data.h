@@ -5,12 +5,14 @@
 #include "core/ustring.h"
 #include "core/script_language.h"
 
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxel_surface.h"
+
 #include "../main/dungeon_room.h"
 #include "world_generator_prop_data.h"
-#include "../../world/environment_data.h"
 
-#include "../../../entity_spell_system/entities/data/entity_data.h"
-#include "../../library/voxel_surface.h"
+#include "../../entity_spell_system/entities/data/entity_data.h"
+
 
 class DungeonRoomData : public Resource {
 	GDCLASS(DungeonRoomData, Resource);

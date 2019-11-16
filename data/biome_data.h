@@ -10,9 +10,11 @@
 #include "../main/biome.h"
 #include "dungeon_data.h"
 #include "world_generator_prop_data.h"
-#include "../../world/environment_data.h"
-#include "../../../entity_spell_system/entities/data/entity_data.h"
-#include "../../library/voxel_surface.h"
+
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxel_surface.h"
+
+#include "../../entity_spell_system/entities/data/entity_data.h"
 
 class BiomeData : public Resource {
 	GDCLASS(BiomeData, Resource);

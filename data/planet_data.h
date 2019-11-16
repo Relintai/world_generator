@@ -5,12 +5,13 @@
 #include "core/ustring.h"
 #include "core/script_language.h"
 
-#include "../../../fastnoise/fastnoise_noise_params.h"
+#include "../../fastnoise/fastnoise_noise_params.h"
 
 #include "../main/planet.h"
 #include "../data/biome_data.h"
-#include "../../world/environment_data.h"
-#include "../../library/voxel_surface.h"
+
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/library/voxel_surface.h"
 
 class PlanetData : public Resource {
 	GDCLASS(PlanetData, Resource);
