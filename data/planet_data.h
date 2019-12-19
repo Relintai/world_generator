@@ -10,8 +10,10 @@
 #include "../main/planet.h"
 #include "../data/biome_data.h"
 
+#ifdef VOXELMAN_PRESENT
 #include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
+#endif
 
 class PlanetData : public Resource {
 	GDCLASS(PlanetData, Resource);
@@ -45,6 +47,7 @@ public:
 	Vector<Variant> get_biome_datas();
 	void set_biome_datas(const Vector<Variant> &biome_datas);
 
+	#ifdef VOXELMAN_PRESENT
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -74,6 +77,7 @@ public:
 
 	Vector<Variant> get_liquid_voxel_surfaces();
 	void set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
+	#endif
 
 	PlanetData();
 	~PlanetData();
@@ -92,9 +96,12 @@ private:
 	Ref<FastnoiseNoiseParams> _humidity_noise_params;
 	Ref<FastnoiseNoiseParams> _temperature_noise_params;
 	Vector<Ref<BiomeData> > _biome_datas;
+
+	#ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
+	#endif
 };
 
 #endif

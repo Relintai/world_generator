@@ -6,14 +6,20 @@
 #include "dungeon_room.h"
 #include "dungeon_corridor.h"
 
+#include "../data/dungeon_data.h"
+
+#ifdef VOXELMAN_PRESENT
 #include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/voxel_structure.h"
 #include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxelman_library.h"
+#else
+#include "scene/main/node.h"
+#endif
 
+#ifdef ESS_PRESENT
 #include "../../entity_spell_system/entities/data/entity_data.h"
-
-#include "../data/dungeon_data.h"
+#endif
 
 class DungeonData;
 
@@ -51,9 +57,11 @@ public:
 	int get_room_count();
 	void set_room_count(int value);
 
+	#ifdef VOXELMAN_PRESENT
 	//Environment
 	Ref<EnvironmentData> get_environment();
 	void set_environment(Ref<EnvironmentData> value);
+	#endif
 
 	Ref<DungeonData> get_data();
 	void set_data(Ref<DungeonData> value);
@@ -86,20 +94,28 @@ public:
 	void remove_dungeon_corridor(const int index);
 	int get_dungeon_corridor_count() const;
 
+	#ifdef ESS_PRESENT
 	//Entities
 	Ref<EntityData> get_entity_data(const int index) const;
 	void set_entity_data(const int index, const Ref<EntityData> entity_datas);
 	void add_entity_data(const Ref<EntityData> entity_datas);
 	void remove_entity_data(const int index);
 	int get_entity_data_count() const;
+	#endif
 
 	void setup();
+
+	#ifdef VOXELMAN_PRESENT
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
 	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
 	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
 	void generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs);
+	#else
+	void setup_library(Ref<Resource> library);
+	void generate_chunk(Node *chunk, bool spawn_mobs);
+	#endif
 
 	Ref<Image> generate_map();
 
@@ -124,13 +140,19 @@ private:
 
 	int _room_count;
 
+	#ifdef VOXELMAN_PRESENT
 	Ref<EnvironmentData> _environment;
+	#endif
+
 	Ref<DungeonData> _data;
 	Vector<Ref<DungeonRoom> > _dungeon_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_start_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_end_rooms;
 	Vector<Ref<DungeonCorridor> > _dungeon_corridors;
+
+	#ifdef ESS_PRESENT
 	Vector<Ref<EntityData> > _entity_datas;
+	#endif
 };
 
 #endif

@@ -3,7 +3,9 @@
 
 #include "core/resource.h"
 
+#ifdef VOXELMAN_PRESENT
 #include "../../voxelman/props/prop_data.h"
+#endif
 
 class WorldGeneratorPropData : public Resource {
 	GDCLASS(WorldGeneratorPropData, Resource);
@@ -11,7 +13,12 @@ class WorldGeneratorPropData : public Resource {
 public:
 
 	bool can_spawn(int seed);
+	
+	#ifdef VOXELMAN_PRESENT
 	Ref<PropData> get_prop(int seed);
+	#else
+	Ref<Resource> get_prop(int seed);
+	#endif
 
 	WorldGeneratorPropData();
 	~WorldGeneratorPropData();

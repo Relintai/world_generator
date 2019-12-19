@@ -3,7 +3,6 @@
 
 #include "dungeon_room.h"
 
-
 class DungeonCorridor : public DungeonRoom {
 	GDCLASS(DungeonCorridor, DungeonRoom);
 	

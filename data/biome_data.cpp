@@ -117,8 +117,8 @@ void BiomeData::set_prop_datas(const Vector<Variant> &prop_datas) {
 	}
 }
 
+#ifdef ESS_PRESENT
 //Entities
-
 Ref<EntityData> BiomeData::get_entity_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _entity_datas.size(), Ref<EntityData>());
 
@@ -158,6 +158,9 @@ void BiomeData::set_entity_datas(const Vector<Variant> &entity_datas) {
 	}
 }
 
+#endif
+
+#ifdef VOXELMAN_PRESENT
 //Environments
 Ref<EnvironmentData> BiomeData::get_environment_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
@@ -275,17 +278,24 @@ void BiomeData::set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces)
 	}
 }
 
+#endif
+
 BiomeData::BiomeData() {
 
 }
 BiomeData::~BiomeData() {
 	_dungeon_datas.clear();
 	_prop_datas.clear();
-	_entity_datas.clear();
 
+	#ifdef ESS_PRESENT
+	_entity_datas.clear();
+	#endif
+
+	#ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
 	_liquid_voxel_surfaces.clear();
+	#endif
 }
 
 void BiomeData::_bind_methods() {
@@ -331,6 +341,7 @@ void BiomeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &BiomeData::set_prop_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:WorldGeneratorPropData", PROPERTY_USAGE_DEFAULT, "WorldGeneratorPropData"), "set_prop_datas", "get_prop_datas");
 
+	#ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &BiomeData::get_entity_data);
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &BiomeData::set_entity_data);
@@ -341,7 +352,9 @@ void BiomeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_entity_datas"), &BiomeData::get_entity_datas);
 	ClassDB::bind_method(D_METHOD("set_entity_datas", "entity_datas"), &BiomeData::set_entity_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
+	#endif
 
+	#ifdef VOXELMAN_PRESENT
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &BiomeData::get_environment_data);
 	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &BiomeData::set_environment_data);
@@ -374,4 +387,5 @@ void BiomeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surfaces"), &BiomeData::get_liquid_voxel_surfaces);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surfaces", "voxel_surfaces"), &BiomeData::set_liquid_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "liquid_voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_liquid_voxel_surfaces", "get_liquid_voxel_surfaces");
+	#endif
 }

@@ -10,11 +10,14 @@
 #include "dungeon_room_data.h"
 #include "dungeon_corridor_data.h"
 
+#ifdef VOXELMAN_PRESENT
 #include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
+#endif
 
+#ifdef ESS_PRESENT
 #include "../../entity_spell_system/entities/data/entity_data.h"
-
+#endif
 
 class DungeonData : public Resource {
 	GDCLASS(DungeonData, Resource);
@@ -56,6 +59,7 @@ public:
 	int get_max_room_count();
 	void set_max_room_count(int value);
 
+	#ifdef VOXELMAN_PRESENT
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -65,6 +69,7 @@ public:
 
 	Vector<Variant> get_environment_datas();
 	void set_environment_datas(const Vector<Variant> &environment_datas);
+	#endif
 
 	//Rooms
 	Ref<DungeonRoomData> get_dungeon_room_data(const int index) const;
@@ -106,6 +111,7 @@ public:
 	Vector<Variant> get_dungeon_corridor_datas();
 	void set_dungeon_corridor_datas(const Vector<Variant> &dungeon_corridor_datas);
 
+	#ifdef ESS_PRESENT
 	//Entities
 	Ref<EntityData> get_entity_data(const int index) const;
 	void set_entity_data(const int index, const Ref<EntityData> entity_data);
@@ -115,7 +121,9 @@ public:
 
 	Vector<Variant> get_entity_datas();
 	void set_entity_datas(const Vector<Variant> &entity_datas);
+	#endif
 
+	#ifdef VOXELMAN_PRESENT
 	//Surfaces
 	Ref<VoxelSurface> get_voxel_surface(const int index) const;
 	void set_voxel_surface(const int index, const Ref<VoxelSurface> voxel_surface);
@@ -135,6 +143,7 @@ public:
 
 	Vector<Variant> get_liquid_voxel_surfaces();
 	void set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
+	#endif
 
 	DungeonData();
 	~DungeonData();
@@ -159,15 +168,23 @@ private:
 	int _min_room_count;
 	int _max_room_count;
 
+	#ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
+	#endif
 
 	Vector<Ref<DungeonRoomData> > _dungeon_room_datas;
 	Vector<Ref<DungeonRoomData> > _dungeon_start_room_datas;
 	Vector<Ref<DungeonRoomData> > _dungeon_end_room_datas;
 	Vector<Ref<DungeonRoomData> > _dungeon_corridor_datas;
+
+	#ifdef ESS_PRESENT
 	Vector<Ref<EntityData> > _entity_datas;
+	#endif
+
+	#ifdef VOXELMAN_PRESENT
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
+	#endif
 };
 
 #endif

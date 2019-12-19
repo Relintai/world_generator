@@ -10,10 +10,12 @@
 
 #include "../data/planet_data.h"
 
+#ifdef VOXELMAN_PRESENT
 #include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
 #include "../../voxelman/library/voxelman_library.h"
+#endif
 
 class PlanetData;
 
@@ -27,10 +29,12 @@ public:
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
 
+	#ifdef VOXELMAN_PRESENT
 	//Environment
 	Ref<EnvironmentData> get_environment();
 	void set_environment(Ref<EnvironmentData> value);
-
+	#endif
+	
 	Ref<PlanetData> get_data();
 	void set_data(Ref<PlanetData> value);
 
@@ -49,11 +53,18 @@ public:
 	int get_dungeon_count() const;
 
 	void setup();
+
+	#ifdef VOXELMAN_PRESENT
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
 	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
 	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
+	#else
+	void generate_chunk(Node *chunk, bool spawn_mobs);
+	void setup_library(Ref<Resource> library);
+	#endif
+
 	Ref<Image> generate_map();
 
 	Planet();
@@ -65,7 +76,11 @@ protected:
 private:
 	int _current_seed;
 	Vector2 _level_range;
+
+	#ifdef VOXELMAN_PRESENT
 	Ref<EnvironmentData> _environment;
+	#endif
+
 	Ref<PlanetData> _data;
 	Vector<Ref<Biome> > _biomes;
 	Vector<Ref<Dungeon> > _dungeons;

@@ -14,12 +14,14 @@ void Planet::set_level_range(Vector2 value) {
 	_level_range = value;
 }
 
+#ifdef VOXELMAN_PRESENT
 Ref<EnvironmentData> Planet::get_environment() {
 	return _environment;
 }
 void Planet::set_environment(Ref<EnvironmentData> value) {
 	_environment = value;
 }
+#endif
 
 Ref<PlanetData> Planet::get_data() {
 	return _data;
@@ -85,6 +87,7 @@ void Planet::setup() {
 	}
 }
 
+#ifdef VOXELMAN_PRESENT
 void Planet::setup_library(Ref<VoxelmanLibrary> library) {
 	if (!_data.is_valid())
 		return;
@@ -123,6 +126,24 @@ void Planet::generate_chunk(VoxelChunk *chunk, bool spawn_mobs) {
 void Planet::generate_chunk_bind(Node *chunk, bool spawn_mobs) {
 	generate_chunk(Object::cast_to<VoxelChunk>(chunk), spawn_mobs);
 }
+#else
+void Planet::setup_library(Ref<Resource> library) {
+	if (!_data.is_valid())
+		return;
+
+	if (has_method("_setup_library")) {
+		call("_setup_library", library);
+	}
+}
+
+void Planet::generate_chunk(Node *chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+
+	if (has_method("_generate_chunk")) {
+		call("_generate_chunk", chunk, spawn_mobs);
+	}
+}
+#endif
 
 Ref<Image> Planet::generate_map() {
 	ERR_FAIL_COND_V(!has_method("_generate_map"), Ref<Image>());
@@ -134,7 +155,10 @@ Planet::Planet() {
 	_current_seed = 0;
 }
 Planet::~Planet() {
+	#ifdef VOXELMAN_PRESENT
 	_environment.unref();
+	#endif
+
 	_data.unref();
 	_biomes.clear();
 	_dungeons.clear();
@@ -142,14 +166,26 @@ Planet::~Planet() {
 
 void Planet::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
+
+	#ifdef VOXELMAN_PRESENT
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	#else
+	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	#endif
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk_bind);
 	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
-	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Planet::setup_library);
-	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Planet::_setup_library);
 
+	#ifdef VOXELMAN_PRESENT
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk_bind);
+	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Planet::_setup_library);
+	#else
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
+	#endif
+
+	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Planet::setup_library);
+	
 	ClassDB::bind_method(D_METHOD("get_current_seed"), &Planet::get_current_seed);
 	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &Planet::set_current_seed);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "current_seed"), "set_current_seed", "get_current_seed");
@@ -158,9 +194,11 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Planet::set_level_range);
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
+	#ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("get_environment"), &Planet::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Planet::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
+	#endif
 
 	ClassDB::bind_method(D_METHOD("get_data"), &Planet::get_data);
 	ClassDB::bind_method(D_METHOD("set_data", "value"), &Planet::set_data);
