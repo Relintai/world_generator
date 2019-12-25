@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Planet" inherits="Reference" category="Core" version="3.2">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="_generate_chunk" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<argument index="0" name="chunk" type="VoxelChunk">
+			</argument>
+			<argument index="1" name="spawn_mobs" type="bool">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="_generate_map" qualifiers="virtual">
+			<return type="Image">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="_setup" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="_setup_library" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<argument index="0" name="library" type="VoxelmanLibrary">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_biome">
+			<return type="void">
+			</return>
+			<argument index="0" name="biome" type="Biome">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_dungeon">
+			<return type="void">
+			</return>
+			<argument index="0" name="dungeon" type="Dungeon">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="generate_chunk">
+			<return type="void">
+			</return>
+			<argument index="0" name="chunk" type="Node">
+			</argument>
+			<argument index="1" name="arg1" type="bool">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="generate_map">
+			<return type="Image">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_biome" qualifiers="const">
+			<return type="Biome">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_biome_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon" qualifiers="const">
+			<return type="Dungeon">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="remove_biome">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_dungeon">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_biome">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="Biome">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_dungeon">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="Dungeon">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="setup">
+			<return type="void">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="setup_library">
+			<return type="void">
+			</return>
+			<argument index="0" name="library" type="VoxelmanLibrary">
+			</argument>
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="current_seed" type="int" setter="set_current_seed" getter="get_current_seed" default="0">
+		</member>
+		<member name="data" type="PlanetData" setter="set_data" getter="get_data">
+		</member>
+		<member name="environment" type="EnvironmentData" setter="set_environment" getter="get_environment">
+		</member>
+		<member name="level_range" type="Vector2" setter="set_level_range" getter="get_level_range" default="Vector2( 0, 0 )">
+		</member>
+	</members>
+	<constants>
+	</constants>
+</class>

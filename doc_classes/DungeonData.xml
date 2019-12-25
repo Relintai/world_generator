@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DungeonData" inherits="Resource" category="Core" version="3.2">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_dungeon_corridor_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="dungeon_corridor_data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_dungeon_end_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="dungeon_end_room_data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_dungeon_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="dungeon_room_data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_dungeon_start_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="dungeon_start_room_data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_entity_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="entity_data" type="EntityData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_environment_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="environment_data" type="EnvironmentData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_liquid_voxel_surface">
+			<return type="void">
+			</return>
+			<argument index="0" name="voxel_surface" type="VoxelSurface">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_voxel_surface">
+			<return type="void">
+			</return>
+			<argument index="0" name="voxel_surface" type="VoxelSurface">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_corridor_data" qualifiers="const">
+			<return type="DungeonRoomData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_corridor_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_end_room_data" qualifiers="const">
+			<return type="DungeonRoomData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_end_room_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_room_data" qualifiers="const">
+			<return type="DungeonRoomData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_room_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_start_room_data" qualifiers="const">
+			<return type="DungeonRoomData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_start_room_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_entity_data" qualifiers="const">
+			<return type="EntityData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_entity_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_environment_data" qualifiers="const">
+			<return type="EnvironmentData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_environment_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_liquid_voxel_surface" qualifiers="const">
+			<return type="VoxelSurface">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_liquid_voxel_surface_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_voxel_surface" qualifiers="const">
+			<return type="VoxelSurface">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_voxel_surface_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="remove_dungeon_corridor_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_dungeon_end_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_dungeon_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_dungeon_start_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_entity_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_environment_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_liquid_voxel_surface">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_voxel_surface">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_dungeon_corridor_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_dungeon_end_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_dungeon_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_dungeon_start_room_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="DungeonRoomData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_entity_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="EntityData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_environment_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="EnvironmentData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_liquid_voxel_surface">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="VoxelSurface">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_voxel_surface">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="VoxelSurface">
+			</argument>
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="dungeon_corridor_datas" type="Array" setter="set_dungeon_corridor_datas" getter="get_dungeon_corridor_datas" default="[  ]">
+		</member>
+		<member name="dungeon_end_room_datas" type="Array" setter="set_dungeon_end_room_datas" getter="get_dungeon_end_room_datas" default="[  ]">
+		</member>
+		<member name="dungeon_room_datas" type="Array" setter="set_dungeon_room_datas" getter="get_dungeon_room_datas" default="[  ]">
+		</member>
+		<member name="dungeon_start_room_datas" type="Array" setter="set_dungeon_start_room_datas" getter="get_dungeon_start_room_datas" default="[  ]">
+		</member>
+		<member name="entity_datas" type="Array" setter="set_entity_datas" getter="get_entity_datas" default="[  ]">
+		</member>
+		<member name="environment_datas" type="Array" setter="set_environment_datas" getter="get_environment_datas" default="[  ]">
+		</member>
+		<member name="level_range" type="Vector2" setter="set_level_range" getter="get_level_range" default="Vector2( 0, 0 )">
+		</member>
+		<member name="liquid_voxel_surfaces" type="Array" setter="set_liquid_voxel_surfaces" getter="get_liquid_voxel_surfaces" default="[  ]">
+		</member>
+		<member name="max_room_count" type="int" setter="set_max_room_count" getter="get_max_room_count" default="0">
+		</member>
+		<member name="max_sizex" type="int" setter="set_max_sizex" getter="get_max_sizex" default="0">
+		</member>
+		<member name="max_sizey" type="int" setter="set_max_sizey" getter="get_max_sizey" default="0">
+		</member>
+		<member name="max_sizez" type="int" setter="set_max_sizez" getter="get_max_sizez" default="0">
+		</member>
+		<member name="min_room_count" type="int" setter="set_min_room_count" getter="get_min_room_count" default="0">
+		</member>
+		<member name="min_sizex" type="int" setter="set_min_sizex" getter="get_min_sizex" default="0">
+		</member>
+		<member name="min_sizey" type="int" setter="set_min_sizey" getter="get_min_sizey" default="0">
+		</member>
+		<member name="min_sizez" type="int" setter="set_min_sizez" getter="get_min_sizez" default="0">
+		</member>
+		<member name="target_class_name" type="String" setter="set_target_class_name" getter="get_target_class_name" default="&quot;&quot;">
+		</member>
+		<member name="target_script" type="Script" setter="set_target_script" getter="get_target_script">
+		</member>
+		<member name="voxel_surfaces" type="Array" setter="set_voxel_surfaces" getter="get_voxel_surfaces" default="[  ]">
+		</member>
+	</members>
+	<constants>
+	</constants>
+</class>

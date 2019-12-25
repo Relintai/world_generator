@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DungeonCorridorData" inherits="DungeonRoomData" category="Core" version="3.2">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="_setup_corridor" qualifiers="virtual">
+			<return type="DungeonCorridor">
+			</return>
+			<argument index="0" name="seed" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="setup_corridor">
+			<return type="DungeonCorridor">
+			</return>
+			<argument index="0" name="seed" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="max_connections" type="int" setter="set_max_connections" getter="get_max_connections" default="2">
+		</member>
+	</members>
+	<constants>
+	</constants>
+</class>

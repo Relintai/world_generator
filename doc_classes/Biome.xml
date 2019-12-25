@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Biome" inherits="Reference" category="Core" version="3.2">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="_generate_chunk" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<argument index="0" name="chunk" type="VoxelChunk">
+			</argument>
+			<argument index="1" name="spawn_mobs" type="bool">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="_generate_stack" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<argument index="0" name="chunk" type="VoxelChunk">
+			</argument>
+			<argument index="1" name="x" type="int">
+			</argument>
+			<argument index="2" name="z" type="int">
+			</argument>
+			<argument index="3" name="spawn_mobs" type="bool">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="_setup" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="_setup_library" qualifiers="virtual">
+			<return type="void">
+			</return>
+			<argument index="0" name="library" type="VoxelmanLibrary">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_dungeon">
+			<return type="void">
+			</return>
+			<argument index="0" name="dungeon" type="Dungeon">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_entity_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="entity_data" type="EntityData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_prop_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="prop_data" type="WorldGeneratorPropData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="generate_chunk">
+			<return type="void">
+			</return>
+			<argument index="0" name="chunk" type="Node">
+			</argument>
+			<argument index="1" name="spawn_mobs" type="bool">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="generate_stack">
+			<return type="void">
+			</return>
+			<argument index="0" name="chunk" type="Node">
+			</argument>
+			<argument index="1" name="x" type="int">
+			</argument>
+			<argument index="2" name="z" type="int">
+			</argument>
+			<argument index="3" name="spawn_mobs" type="bool">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon" qualifiers="const">
+			<return type="Dungeon">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_dungeon_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_entity_data" qualifiers="const">
+			<return type="EntityData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_entity_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="get_prop_data" qualifiers="const">
+			<return type="WorldGeneratorPropData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_prop_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="remove_dungeon">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_entity_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="remove_prop_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_dungeon">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="Dungeon">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_entity_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="EntityData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_prop_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="WorldGeneratorPropData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="setup">
+			<return type="void">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="setup_library">
+			<return type="void">
+			</return>
+			<argument index="0" name="library" type="VoxelmanLibrary">
+			</argument>
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="current_seed" type="int" setter="set_current_seed" getter="get_current_seed" default="0">
+		</member>
+		<member name="data" type="BiomeData" setter="set_data" getter="get_data">
+		</member>
+		<member name="environment" type="EnvironmentData" setter="set_environment" getter="get_environment">
+		</member>
+		<member name="level_range" type="Vector2" setter="set_level_range" getter="get_level_range" default="Vector2( 0, 0 )">
+		</member>
+	</members>
+	<constants>
+	</constants>
+</class>
