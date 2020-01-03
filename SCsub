@@ -5,12 +5,10 @@ Import('env')
 module_env = env.Clone()
 
 if os.path.isdir('../entity_spell_system'):
-    print("ESS FOUND")
-    env.Append(CPPDEFINES=['ESS_PRESENT'])
+    module_env.Append(CPPDEFINES=['ESS_PRESENT'])
 
 if os.path.isdir('../voxelman'):
-    print("VOXELMAN FOUND")
-    env.Append(CPPDEFINES=['VOXELMAN_PRESENT'])
+    module_env.Append(CPPDEFINES=['VOXELMAN_PRESENT'])
 
 sources = [
 
