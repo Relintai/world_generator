@@ -121,7 +121,6 @@ void PlanetData::set_environment_datas(const Vector<Variant> &environment_datas)
 	}
 }
 
-
 ////    Surfaces    ////
 Ref<VoxelSurface> PlanetData::get_voxel_surface(const int index) const {
 	ERR_FAIL_INDEX_V(index, _voxel_surfaces.size(), Ref<VoxelSurface>());
@@ -210,11 +209,11 @@ PlanetData::~PlanetData() {
 
 	_biome_datas.clear();
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
 	_liquid_voxel_surfaces.clear();
-	#endif
+#endif
 }
 
 void PlanetData::_bind_methods() {
@@ -253,7 +252,7 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_biome_datas", "biome_datas"), &PlanetData::set_biome_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "biome_datas", PROPERTY_HINT_NONE, "17/17:BiomeData", PROPERTY_USAGE_DEFAULT, "BiomeData"), "set_biome_datas", "get_biome_datas");
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &PlanetData::get_environment_data);
 	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &PlanetData::set_environment_data);
@@ -286,5 +285,5 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surfaces"), &PlanetData::get_liquid_voxel_surfaces);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surfaces", "voxel_surfaces"), &PlanetData::set_liquid_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "liquid_voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_liquid_voxel_surfaces", "get_liquid_voxel_surfaces");
-	#endif
+#endif
 }

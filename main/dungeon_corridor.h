@@ -5,7 +5,7 @@
 
 class DungeonCorridor : public DungeonRoom {
 	GDCLASS(DungeonCorridor, DungeonRoom);
-	
+
 public:
 	int get_max_connections();
 	void set_max_connections(int value);

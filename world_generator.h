@@ -8,10 +8,9 @@
 
 #include "main/planet.h"
 
-
 class WorldGenerator : public Resource {
 	GDCLASS(WorldGenerator, Resource);
-	
+
 public:
 	Ref<PlanetData> get_planet_data(const int index) const;
 	void set_planet_data(const int index, const Ref<PlanetData> planet_data);
@@ -32,7 +31,6 @@ protected:
 	static void _bind_methods();
 
 private:
-
 	Vector<Ref<PlanetData> > _planet_datas;
 };
 

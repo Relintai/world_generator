@@ -1,19 +1,19 @@
 #ifndef dungeon_data_H
 #define dungeon_data_H
 
-#include "core/resource.h"
-#include "core/vector.h"
 #include "core/math/vector2.h"
-#include "core/ustring.h"
+#include "core/resource.h"
 #include "core/script_language.h"
+#include "core/ustring.h"
+#include "core/vector.h"
 
 #include "../main/biome.h"
 #include "dungeon_data.h"
 #include "world_generator_prop_data.h"
 
 #ifdef VOXELMAN_PRESENT
-#include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
+#include "../../voxelman/world/environment_data.h"
 #endif
 
 #ifdef ESS_PRESENT
@@ -22,7 +22,7 @@
 
 class BiomeData : public Resource {
 	GDCLASS(BiomeData, Resource);
-	
+
 public:
 	String get_target_class_name();
 	void set_target_class_name(String name);
@@ -60,7 +60,7 @@ public:
 	Vector<Variant> get_prop_datas();
 	void set_prop_datas(const Vector<Variant> &prop_datas);
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	//Entities
 	Ref<EntityData> get_entity_data(const int index) const;
 	void set_entity_data(const int index, const Ref<EntityData> entity_data);
@@ -70,9 +70,9 @@ public:
 
 	Vector<Variant> get_entity_datas();
 	void set_entity_datas(const Vector<Variant> &entity_datas);
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -102,7 +102,7 @@ public:
 
 	Vector<Variant> get_liquid_voxel_surfaces();
 	void set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
-	#endif
+#endif
 
 	BiomeData();
 	~BiomeData();
@@ -122,15 +122,15 @@ private:
 	Vector<Ref<DungeonData> > _dungeon_datas;
 	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	Vector<Ref<EntityData> > _entity_datas;
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
-	#endif
+#endif
 };
 
 #endif

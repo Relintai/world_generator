@@ -7,7 +7,7 @@
 
 class DungeonCorridorData : public DungeonRoomData {
 	GDCLASS(DungeonCorridorData, DungeonRoomData);
-	
+
 public:
 	int get_max_connections();
 	void set_max_connections(int value);

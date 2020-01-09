@@ -223,41 +223,41 @@ DungeonRoom::~DungeonRoom() {
 	_data.unref();
 	_prop_datas.clear();
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	_environment.unref();
 	_structure.unref();
-	#endif
+#endif
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	_entity_datas.clear();
-	#endif
+#endif
 }
 
 void DungeonRoom::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
-	
-	#ifdef VOXELMAN_PRESENT
+
+#ifdef VOXELMAN_PRESENT
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	#else
+#else
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	#endif
+#endif
 
 	ClassDB::bind_method(D_METHOD("setup"), &DungeonRoom::setup);
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &DungeonRoom::setup_library);
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &DungeonRoom::_setup_library);
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &DungeonRoom::generate_chunk_bind);
 	ClassDB::bind_method(D_METHOD("generate_room", "structure", "spawn_mobs"), &DungeonRoom::generate_room);
-	#else
+#else
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &DungeonRoom::generate_chunk);
-	#endif
+#endif
 
 	ClassDB::bind_method(D_METHOD("get_current_seed"), &DungeonRoom::get_current_seed);
 	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &DungeonRoom::set_current_seed);
@@ -293,21 +293,21 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_sizez", "value"), &DungeonRoom::set_sizez);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "sizez"), "set_sizez", "get_sizez");
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("get_environment"), &DungeonRoom::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &DungeonRoom::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
-	#endif 
+#endif
 
 	ClassDB::bind_method(D_METHOD("get_data"), &DungeonRoom::get_data);
 	ClassDB::bind_method(D_METHOD("set_data", "value"), &DungeonRoom::set_data);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "PlanetData"), "set_data", "get_data");
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("get_structure"), &DungeonRoom::get_structure);
 	ClassDB::bind_method(D_METHOD("set_structure", "value"), &DungeonRoom::set_structure);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), "set_structure", "get_structure");
-	#endif
+#endif
 
 	//Props
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &DungeonRoom::get_prop_data);
@@ -316,12 +316,12 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_prop_data", "index"), &DungeonRoom::remove_prop_data);
 	ClassDB::bind_method(D_METHOD("get_prop_data_count"), &DungeonRoom::get_prop_data_count);
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &DungeonRoom::get_entity_data);
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &DungeonRoom::set_entity_data);
 	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &DungeonRoom::add_entity_data);
 	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &DungeonRoom::remove_entity_data);
 	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &DungeonRoom::get_entity_data_count);
-	#endif
+#endif
 }

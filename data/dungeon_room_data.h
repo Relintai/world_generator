@@ -2,8 +2,8 @@
 #define DUNGEON_ROOM_DATA_H
 
 #include "core/resource.h"
-#include "core/ustring.h"
 #include "core/script_language.h"
+#include "core/ustring.h"
 
 #include "../main/dungeon_room.h"
 #include "world_generator_prop_data.h"
@@ -13,13 +13,13 @@
 #endif
 
 #ifdef VOXELMAN_PRESENT
-#include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
+#include "../../voxelman/world/environment_data.h"
 #endif
 
 class DungeonRoomData : public Resource {
 	GDCLASS(DungeonRoomData, Resource);
-	
+
 public:
 	String get_target_class_name();
 	void set_target_class_name(String name);
@@ -60,7 +60,7 @@ public:
 	Vector<Variant> get_prop_datas();
 	void set_prop_datas(const Vector<Variant> &prop_datas);
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//TOO: Environments are useful for every game, this should be decoupled from voxelman.
 
 	//Environments
@@ -92,11 +92,11 @@ public:
 
 	Vector<Variant> get_liquid_voxel_surfaces();
 	void set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
-	#else
-	//TODO Create generic binds
-	#endif
+#else
+//TODO Create generic binds
+#endif
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	//Entities
 	Ref<EntityData> get_entity_data(const int index) const;
 	void set_entity_data(const int index, const Ref<EntityData> entity_data);
@@ -106,7 +106,7 @@ public:
 
 	Vector<Variant> get_entity_datas();
 	void set_entity_datas(const Vector<Variant> &entity_datas);
-	#endif
+#endif
 
 	DungeonRoomData();
 	~DungeonRoomData();
@@ -130,15 +130,15 @@ private:
 
 	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	Vector<Ref<EntityData> > _entity_datas;
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
-	#endif
+#endif
 };
 
 #endif

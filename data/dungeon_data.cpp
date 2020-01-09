@@ -412,24 +412,24 @@ DungeonData::DungeonData() {
 	_max_room_count = 0;
 }
 DungeonData::~DungeonData() {
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
-	#endif
+#endif
 
 	_dungeon_room_datas.clear();
 	_dungeon_start_room_datas.clear();
 	_dungeon_end_room_datas.clear();
 	_dungeon_corridor_datas.clear();
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	_entity_datas.clear();
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	_entity_datas.clear();
 	_voxel_surfaces.clear();
 	_liquid_voxel_surfaces.clear();
-	#endif
+#endif
 }
 
 void DungeonData::_bind_methods() {
@@ -524,7 +524,7 @@ void DungeonData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_dungeon_corridor_datas", "dungeon_corridor_datas"), &DungeonData::set_dungeon_corridor_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_corridor_datas", PROPERTY_HINT_NONE, "17/17:DungeonCorridorData", PROPERTY_USAGE_DEFAULT, "DungeonCorridorData"), "set_dungeon_corridor_datas", "get_dungeon_corridor_datas");
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &DungeonData::get_entity_data);
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &DungeonData::set_entity_data);
@@ -535,9 +535,9 @@ void DungeonData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_entity_datas"), &DungeonData::get_entity_datas);
 	ClassDB::bind_method(D_METHOD("set_entity_datas", "entity_datas"), &DungeonData::set_entity_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &DungeonData::get_environment_data);
 	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &DungeonData::set_environment_data);
@@ -570,5 +570,5 @@ void DungeonData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surfaces"), &DungeonData::get_liquid_voxel_surfaces);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surfaces", "voxel_surfaces"), &DungeonData::set_liquid_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "liquid_voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_liquid_voxel_surfaces", "get_liquid_voxel_surfaces");
-	#endif
+#endif
 }

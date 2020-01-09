@@ -279,15 +279,15 @@ DungeonRoomData::DungeonRoomData() {
 DungeonRoomData::~DungeonRoomData() {
 	_prop_datas.clear();
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	_entity_datas.clear();
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
 	_liquid_voxel_surfaces.clear();
-	#endif
+#endif
 }
 
 void DungeonRoomData::_bind_methods() {
@@ -340,7 +340,7 @@ void DungeonRoomData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &DungeonRoomData::set_prop_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:WorldGeneratorPropData", PROPERTY_USAGE_DEFAULT, "WorldGeneratorPropData"), "set_prop_datas", "get_prop_datas");
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &DungeonRoomData::get_entity_data);
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &DungeonRoomData::set_entity_data);
@@ -351,9 +351,9 @@ void DungeonRoomData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_entity_datas"), &DungeonRoomData::get_entity_datas);
 	ClassDB::bind_method(D_METHOD("set_entity_datas", "entity_datas"), &DungeonRoomData::set_entity_datas);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
-	#endif
+#endif
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &DungeonRoomData::get_environment_data);
 	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &DungeonRoomData::set_environment_data);
@@ -386,5 +386,5 @@ void DungeonRoomData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surfaces"), &DungeonRoomData::get_liquid_voxel_surfaces);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surfaces", "voxel_surfaces"), &DungeonRoomData::set_liquid_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "liquid_voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_liquid_voxel_surfaces", "get_liquid_voxel_surfaces");
-	#endif
+#endif
 }

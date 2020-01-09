@@ -19,7 +19,6 @@ DungeonCorridorData::DungeonCorridorData() {
 	_max_connections = 2;
 }
 DungeonCorridorData::~DungeonCorridorData() {
-
 }
 
 void DungeonCorridorData::_bind_methods() {

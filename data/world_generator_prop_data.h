@@ -9,23 +9,21 @@
 
 class WorldGeneratorPropData : public Resource {
 	GDCLASS(WorldGeneratorPropData, Resource);
-	
-public:
 
+public:
 	bool can_spawn(int seed);
-	
-	#ifdef VOXELMAN_PRESENT
+
+#ifdef VOXELMAN_PRESENT
 	Ref<PropData> get_prop(int seed);
-	#else
+#else
 	Ref<Resource> get_prop(int seed);
-	#endif
+#endif
 
 	WorldGeneratorPropData();
 	~WorldGeneratorPropData();
 
 protected:
 	static void _bind_methods();
-
 };
 
 #endif

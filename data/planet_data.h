@@ -2,22 +2,22 @@
 #define biome_data_H
 
 #include "core/resource.h"
-#include "core/ustring.h"
 #include "core/script_language.h"
+#include "core/ustring.h"
 
 #include "../../fastnoise/fastnoise_noise_params.h"
 
-#include "../main/planet.h"
 #include "../data/biome_data.h"
+#include "../main/planet.h"
 
 #ifdef VOXELMAN_PRESENT
-#include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
+#include "../../voxelman/world/environment_data.h"
 #endif
 
 class PlanetData : public Resource {
 	GDCLASS(PlanetData, Resource);
-	
+
 public:
 	int get_id() const;
 	void set_id(const int value);
@@ -47,7 +47,7 @@ public:
 	Vector<Variant> get_biome_datas();
 	void set_biome_datas(const Vector<Variant> &biome_datas);
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -77,7 +77,7 @@ public:
 
 	Vector<Variant> get_liquid_voxel_surfaces();
 	void set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
-	#endif
+#endif
 
 	PlanetData();
 	~PlanetData();
@@ -97,11 +97,11 @@ private:
 	Ref<FastnoiseNoiseParams> _temperature_noise_params;
 	Vector<Ref<BiomeData> > _biome_datas;
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
-	#endif
+#endif
 };
 
 #endif

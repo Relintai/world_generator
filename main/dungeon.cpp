@@ -295,9 +295,9 @@ Dungeon::Dungeon() {
 	_room_count = 0;
 }
 Dungeon::~Dungeon() {
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	_environment.unref();
-	#endif
+#endif
 
 	_data.unref();
 	_dungeon_rooms.clear();
@@ -305,35 +305,35 @@ Dungeon::~Dungeon() {
 	_dungeon_end_rooms.clear();
 	_dungeon_corridors.clear();
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	_entity_datas.clear();
-	#endif
+#endif
 }
 
 void Dungeon::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup"));
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_structure", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	#else
+#else
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	#endif
+#endif
 
 	ClassDB::bind_method(D_METHOD("setup"), &Dungeon::setup);
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Dungeon::setup_library);
 	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Dungeon::_setup_library);
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk_bind);
 	ClassDB::bind_method(D_METHOD("generate_structure", "structure", "spawn_mobs"), &Dungeon::generate_structure);
-	#else
+#else
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Dungeon::setup_library);
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk);
-	#endif
+#endif
 
 	ClassDB::bind_method(D_METHOD("get_current_seed"), &Dungeon::get_current_seed);
 	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &Dungeon::set_current_seed);
@@ -374,12 +374,12 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_room_count", "value"), &Dungeon::set_room_count);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_count"), "set_room_count", "get_room_count");
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environment
 	ClassDB::bind_method(D_METHOD("get_environment"), &Dungeon::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Dungeon::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
-	#endif
+#endif
 
 	ClassDB::bind_method(D_METHOD("get_data"), &Dungeon::get_data);
 	ClassDB::bind_method(D_METHOD("set_data", "value"), &Dungeon::set_data);
@@ -415,14 +415,14 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_dungeon_corridor", "index"), &Dungeon::remove_dungeon_corridor);
 	ClassDB::bind_method(D_METHOD("get_dungeon_corridor_count"), &Dungeon::get_dungeon_corridor_count);
 
-	#ifdef ESS_PRESENT
+#ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &Dungeon::get_entity_data);
 	ClassDB::bind_method(D_METHOD("set_entity_data", "index", "data"), &Dungeon::set_entity_data);
 	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &Dungeon::add_entity_data);
 	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &Dungeon::remove_entity_data);
 	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &Dungeon::get_entity_data_count);
-	#endif
+#endif
 
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
 

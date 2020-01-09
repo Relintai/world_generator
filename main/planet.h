@@ -1,9 +1,8 @@
 #ifndef PLANET_H
 #define PLANET_H
 
-#include "core/reference.h"
 #include "core/image.h"
-
+#include "core/reference.h"
 
 #include "biome.h"
 #include "dungeon.h"
@@ -11,17 +10,17 @@
 #include "../data/planet_data.h"
 
 #ifdef VOXELMAN_PRESENT
-#include "../../voxelman/world/voxel_chunk.h"
-#include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/library/voxel_surface.h"
 #include "../../voxelman/library/voxelman_library.h"
+#include "../../voxelman/world/environment_data.h"
+#include "../../voxelman/world/voxel_chunk.h"
 #endif
 
 class PlanetData;
 
 class Planet : public Reference {
 	GDCLASS(Planet, Reference);
-	
+
 public:
 	int get_current_seed();
 	void set_current_seed(int value);
@@ -29,12 +28,12 @@ public:
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	//Environment
 	Ref<EnvironmentData> get_environment();
 	void set_environment(Ref<EnvironmentData> value);
-	#endif
-	
+#endif
+
 	Ref<PlanetData> get_data();
 	void set_data(Ref<PlanetData> value);
 
@@ -54,16 +53,16 @@ public:
 
 	void setup();
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
 	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
 	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
-	#else
+#else
 	void generate_chunk(Node *chunk, bool spawn_mobs);
 	void setup_library(Ref<Resource> library);
-	#endif
+#endif
 
 	Ref<Image> generate_map();
 
@@ -77,9 +76,9 @@ private:
 	int _current_seed;
 	Vector2 _level_range;
 
-	#ifdef VOXELMAN_PRESENT
+#ifdef VOXELMAN_PRESENT
 	Ref<EnvironmentData> _environment;
-	#endif
+#endif
 
 	Ref<PlanetData> _data;
 	Vector<Ref<Biome> > _biomes;

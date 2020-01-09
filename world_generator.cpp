@@ -48,7 +48,6 @@ Ref<Planet> WorldGenerator::setup_planet(int seed) {
 }
 
 WorldGenerator::WorldGenerator() {
-
 }
 WorldGenerator::~WorldGenerator() {
 	_planet_datas.clear();
