@@ -272,7 +272,7 @@ void BiomeData::set_liquid_voxel_surface(const int index, const Ref<VoxelSurface
 
 	_liquid_voxel_surfaces.set(index, voxel_surface);
 }
-void BiomeData::add_liquid_voxel_surface(const Ref<VoxelSurface> voxel_surface) {
+void BiomeData::add_liquid_surface(const Ref<VoxelSurface> voxel_surface) {
 	_liquid_voxel_surfaces.push_back(voxel_surface);
 }
 void BiomeData::remove_liquid_voxel_surface(const int index) {
@@ -401,7 +401,7 @@ void BiomeData::_bind_methods() {
 	//Liquid Surfaces
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface", "index"), &BiomeData::get_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surface", "index", "data"), &BiomeData::set_liquid_voxel_surface);
-	ClassDB::bind_method(D_METHOD("add_liquid_voxel_surface", "voxel_surface"), &BiomeData::add_liquid_voxel_surface);
+	ClassDB::bind_method(D_METHOD("add_liquid_surface", "voxel_surface"), &BiomeData::add_liquid_surface);
 	ClassDB::bind_method(D_METHOD("remove_liquid_voxel_surface", "index"), &BiomeData::remove_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface_count"), &BiomeData::get_liquid_voxel_surface_count);
 

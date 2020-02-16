@@ -257,7 +257,7 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<VoxelSurface> s = _data->get_liquid_voxel_surface(i);
 
 		if (s.is_valid()) {
-			library->add_liquid_voxel_surface(s);
+			library->add_liquid_surface(s);
 		}
 	}
 }

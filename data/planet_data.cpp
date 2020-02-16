@@ -193,7 +193,7 @@ void PlanetData::set_liquid_voxel_surface(const int index, const Ref<VoxelSurfac
 
 	_liquid_voxel_surfaces.set(index, voxel_surface);
 }
-void PlanetData::add_liquid_voxel_surface(const Ref<VoxelSurface> voxel_surface) {
+void PlanetData::add_liquid_surface(const Ref<VoxelSurface> voxel_surface) {
 	_liquid_voxel_surfaces.push_back(voxel_surface);
 }
 void PlanetData::remove_liquid_voxel_surface(const int index) {
@@ -300,7 +300,7 @@ void PlanetData::_bind_methods() {
 	//Liquid Surfaces
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface", "index"), &PlanetData::get_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surface", "index", "data"), &PlanetData::set_liquid_voxel_surface);
-	ClassDB::bind_method(D_METHOD("add_liquid_voxel_surface", "voxel_surface"), &PlanetData::add_liquid_voxel_surface);
+	ClassDB::bind_method(D_METHOD("add_liquid_surface", "voxel_surface"), &PlanetData::add_liquid_surface);
 	ClassDB::bind_method(D_METHOD("remove_liquid_voxel_surface", "index"), &PlanetData::remove_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface_count"), &PlanetData::get_liquid_voxel_surface_count);
 

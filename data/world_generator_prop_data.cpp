@@ -31,37 +31,61 @@ bool WorldGeneratorPropData::can_spawn(int seed) {
 }
 
 #ifdef VOXELMAN_PRESENT
-Ref<PropData> WorldGeneratorPropData::get_prop(int seed) {
-	if (has_method("_get_prop")) {
-		return call("_get_prop", seed);
+Ref<PropData> WorldGeneratorPropData::get_prop() {
+	return _prop;
+}
+void WorldGeneratorPropData::set_prop(Ref<PropData> value) {
+	_prop = value;
+}
+
+Ref<PropData> WorldGeneratorPropData::get_prop_seeded(int seed) {
+	if (has_method("_get_prop_seeded")) {
+		return call("_get_prop_seeded", seed);
 	}
 
-	return Ref<PropData>(NULL);
+	return Ref<PropData>();
 }
 #else
-Ref<Resource> WorldGeneratorPropData::get_prop(int seed) {
-	if (has_method("_get_prop")) {
-		return call("_get_prop", seed);
+Ref<Resource> WorldGeneratorPropData::get_prop() {
+	return _prop;
+}
+void WorldGeneratorPropData::set_prop(Ref<Resource> value) {
+	_prop = value;
+}
+
+Ref<Resource> WorldGeneratorPropData::get_prop_seeded(int seed) {
+	if (has_method("_get_prop_seeded")) {
+		return call("_get_prop_seeded", seed);
 	}
 
-	return Ref<Resource>(NULL);
+	return Ref<Resource>();
 }
 #endif
 
 WorldGeneratorPropData::WorldGeneratorPropData() {
 }
 WorldGeneratorPropData::~WorldGeneratorPropData() {
+	_prop.unref();
 }
 
 void WorldGeneratorPropData::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::BOOL, "can"), "_can_spawn", PropertyInfo(Variant::INT, "seed")));
 
 #ifdef VOXELMAN_PRESENT
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "PropData"), "_get_prop", PropertyInfo(Variant::INT, "seed")));
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "PropData"), "_get_prop_seeded", PropertyInfo(Variant::INT, "seed")));
 #else
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "Resource"), "_get_prop", PropertyInfo(Variant::INT, "seed")));
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "Resource"), "_get_prop_seeded", PropertyInfo(Variant::INT, "seed")));
+#endif
+
+	ClassDB::bind_method(D_METHOD("get_prop"), &WorldGeneratorPropData::get_prop);
+	ClassDB::bind_method(D_METHOD("set_prop"), &WorldGeneratorPropData::set_prop);
+
+#ifdef VOXELMAN_PRESENT
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "PropData"), "set_prop", "get_prop");
+#else
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop"), "set_prop", "get_prop");
 #endif
 
 	ClassDB::bind_method(D_METHOD("can_spawn", "seed"), &WorldGeneratorPropData::can_spawn);
-	ClassDB::bind_method(D_METHOD("get_prop", "seed"), &WorldGeneratorPropData::get_prop);
+	ClassDB::bind_method(D_METHOD("get_prop_seeded", "seed"), &WorldGeneratorPropData::get_prop_seeded);
 }

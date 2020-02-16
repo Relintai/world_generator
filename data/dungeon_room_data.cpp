@@ -216,7 +216,7 @@ void DungeonRoomData::set_liquid_voxel_surface(const int index, const Ref<VoxelS
 
 	_liquid_voxel_surfaces.set(index, voxel_surface);
 }
-void DungeonRoomData::add_liquid_voxel_surface(const Ref<VoxelSurface> voxel_surface) {
+void DungeonRoomData::add_liquid_surface(const Ref<VoxelSurface> voxel_surface) {
 	_liquid_voxel_surfaces.push_back(voxel_surface);
 }
 void DungeonRoomData::remove_liquid_voxel_surface(const int index) {
@@ -401,7 +401,7 @@ void DungeonRoomData::_bind_methods() {
 	//Liquid Surfaces
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface", "index"), &DungeonRoomData::get_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surface", "index", "data"), &DungeonRoomData::set_liquid_voxel_surface);
-	ClassDB::bind_method(D_METHOD("add_liquid_voxel_surface", "voxel_surface"), &DungeonRoomData::add_liquid_voxel_surface);
+	ClassDB::bind_method(D_METHOD("add_liquid_surface", "voxel_surface"), &DungeonRoomData::add_liquid_surface);
 	ClassDB::bind_method(D_METHOD("remove_liquid_voxel_surface", "index"), &DungeonRoomData::remove_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface_count"), &DungeonRoomData::get_liquid_voxel_surface_count);
 

@@ -353,7 +353,7 @@ void DungeonData::set_liquid_voxel_surface(const int index, const Ref<VoxelSurfa
 
 	_liquid_voxel_surfaces.set(index, voxel_surface);
 }
-void DungeonData::add_liquid_voxel_surface(const Ref<VoxelSurface> voxel_surface) {
+void DungeonData::add_liquid_surface(const Ref<VoxelSurface> voxel_surface) {
 	_liquid_voxel_surfaces.push_back(voxel_surface);
 }
 void DungeonData::remove_liquid_voxel_surface(const int index) {
@@ -585,7 +585,7 @@ void DungeonData::_bind_methods() {
 	//Liquid Surfaces
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface", "index"), &DungeonData::get_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("set_liquid_voxel_surface", "index", "data"), &DungeonData::set_liquid_voxel_surface);
-	ClassDB::bind_method(D_METHOD("add_liquid_voxel_surface", "voxel_surface"), &DungeonData::add_liquid_voxel_surface);
+	ClassDB::bind_method(D_METHOD("add_liquid_surface", "voxel_surface"), &DungeonData::add_liquid_surface);
 	ClassDB::bind_method(D_METHOD("remove_liquid_voxel_surface", "index"), &DungeonData::remove_liquid_voxel_surface);
 	ClassDB::bind_method(D_METHOD("get_liquid_voxel_surface_count"), &DungeonData::get_liquid_voxel_surface_count);
 

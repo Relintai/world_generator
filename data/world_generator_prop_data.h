@@ -36,9 +36,15 @@ public:
 	bool can_spawn(int seed);
 
 #ifdef VOXELMAN_PRESENT
-	Ref<PropData> get_prop(int seed);
+	Ref<PropData> get_prop();
+	void set_prop(Ref<PropData> value);
+
+	Ref<PropData> get_prop_seeded(int seed);
 #else
-	Ref<Resource> get_prop(int seed);
+	Ref<Resource> get_prop();
+	void set_prop(Ref<Resource> value);
+
+	Ref<Resource> get_prop_seeded(int seed);
 #endif
 
 	WorldGeneratorPropData();
@@ -46,6 +52,12 @@ public:
 
 protected:
 	static void _bind_methods();
+
+#ifdef VOXELMAN_PRESENT
+	Ref<PropData> _prop;
+#else
+	Ref<Resource> _prop;
+#endif
 };
 
 #endif

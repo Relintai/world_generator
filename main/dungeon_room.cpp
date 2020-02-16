@@ -187,7 +187,18 @@ void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<VoxelSurface> s = _data->get_liquid_voxel_surface(i);
 
 		if (s.is_valid()) {
-			library->add_liquid_voxel_surface(s);
+			library->add_liquid_surface(s);
+		}
+	}
+
+	for (int i = 0; i < _data->get_prop_data_count(); ++i) {
+		Ref<WorldGeneratorPropData> s = _data->get_prop_data(i);
+
+		if (s.is_valid()) {
+			Ref<PropData> pd = s->get_prop();
+
+			if (pd.is_valid())
+				library->add_prop(pd);
 		}
 	}
 }
