@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WorldGenerator" inherits="Resource" version="3.2">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="_setup_planet" qualifiers="virtual">
+			<return type="Planet">
+			</return>
+			<argument index="0" name="seed" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="add_planet_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="planet_data" type="PlanetData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_planet_data" qualifiers="const">
+			<return type="PlanetData">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="get_planet_data_count" qualifiers="const">
+			<return type="int">
+			</return>
+			<description>
+			</description>
+		</method>
+		<method name="remove_planet_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="set_planet_data">
+			<return type="void">
+			</return>
+			<argument index="0" name="index" type="int">
+			</argument>
+			<argument index="1" name="data" type="PlanetData">
+			</argument>
+			<description>
+			</description>
+		</method>
+		<method name="setup_planet">
+			<return type="Planet">
+			</return>
+			<argument index="0" name="seed" type="int">
+			</argument>
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="planet_datas" type="Array" setter="set_planet_datas" getter="get_planet_datas" default="[  ]">
+		</member>
+	</members>
+	<constants>
+	</constants>
+</class>

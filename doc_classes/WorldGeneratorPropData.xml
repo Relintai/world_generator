@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="WorldGeneratorPropData" inherits="Resource" category="Core" version="3.2">
+<class name="WorldGeneratorPropData" inherits="Resource" version="3.2">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -15,7 +15,7 @@
 			<description>
 			</description>
 		</method>
-		<method name="_get_prop" qualifiers="virtual">
+		<method name="_get_prop_seeded" qualifiers="virtual">
 			<return type="PropData">
 			</return>
 			<argument index="0" name="seed" type="int">
@@ -31,7 +31,7 @@
 			<description>
 			</description>
 		</method>
-		<method name="get_prop">
+		<method name="get_prop_seeded">
 			<return type="PropData">
 			</return>
 			<argument index="0" name="seed" type="int">
@@ -40,6 +40,10 @@
 			</description>
 		</method>
 	</methods>
+	<members>
+		<member name="prop" type="PropData" setter="set_prop" getter="get_prop">
+		</member>
+	</members>
 	<constants>
 	</constants>
 </class>

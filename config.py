@@ -19,6 +19,8 @@ def get_doc_classes():
         "DungeonRoom",
         "DungeonCorridor",
         "Biome",
+
+        "WorldGenerator",
     ]
 
 def get_doc_path():
