@@ -136,25 +136,19 @@ void Biome::setup() {
 }
 
 #ifdef VOXELMAN_PRESENT
-void Biome::generate_chunk(VoxelChunk *chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Biome::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
 	}
 }
-void Biome::generate_chunk_bind(Node *chunk, bool spawn_mobs) {
-	generate_chunk(Object::cast_to<VoxelChunk>(chunk), spawn_mobs);
-}
-void Biome::generate_stack(VoxelChunk *chunk, int x, int z, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_stack")) {
 		call("_generate_stack", chunk, x, z, spawn_mobs);
 	}
-}
-void Biome::generate_stack_bind(Node *chunk, int x, int z, bool spawn_mobs) {
-	generate_stack(Object::cast_to<VoxelChunk>(chunk), x, z, spawn_mobs);
 }
 
 void Biome::setup_library(Ref<VoxelmanLibrary> library) {
@@ -204,8 +198,8 @@ void Biome::setup_library(Ref<Resource> library) {
 	}
 }
 
-void Biome::generate_chunk(Node *chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Biome::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
@@ -249,8 +243,8 @@ void Biome::_bind_methods() {
 #ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Biome::_setup_library);
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk_bind);
-	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack_bind);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
 #else
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
 #endif

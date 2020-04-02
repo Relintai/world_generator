@@ -262,15 +262,12 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 	}
 }
 
-void Dungeon::generate_chunk(VoxelChunk *chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Dungeon::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
 	}
-}
-void Dungeon::generate_chunk_bind(Node *chunk, bool spawn_mobs) {
-	generate_chunk(Object::cast_to<VoxelChunk>(chunk), spawn_mobs);
 }
 
 void Dungeon::generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs) {
@@ -288,8 +285,8 @@ void Dungeon::setup_library(Ref<Resource> library) {
 	}
 }
 
-void Dungeon::generate_chunk(Node *chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Dungeon::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
@@ -350,7 +347,7 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Dungeon::setup_library);
 	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Dungeon::_setup_library);
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk_bind);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_structure", "structure", "spawn_mobs"), &Dungeon::generate_structure);
 #else
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Dungeon::setup_library);

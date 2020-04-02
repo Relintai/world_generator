@@ -131,12 +131,11 @@ public:
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
-	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
-	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
+	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
 	void generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs);
 #else
 	void setup_library(Ref<Resource> library);
-	void generate_chunk(Node *chunk, bool spawn_mobs);
+	void generate_chunk(Ref<Resource> chunk, bool spawn_mobs);
 #endif
 
 	Ref<Image> generate_map();

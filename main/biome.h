@@ -24,6 +24,7 @@ SOFTWARE.
 #define BIOME_H
 
 #include "core/reference.h"
+#include "core/resource.h"
 
 #include "dungeon.h"
 
@@ -88,15 +89,13 @@ public:
 	void setup();
 
 #ifdef VOXELMAN_PRESENT
-	void generate_chunk(VoxelChunk *chunk, bool spawn_mobs);
-	void generate_chunk_bind(Node *chunk, bool spawn_mobs);
-	void generate_stack(VoxelChunk *chunk, int x, int z, bool spawn_mobs);
-	void generate_stack_bind(Node *chunk, int x, int z, bool spawn_mobs);
+	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
+	void generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs);
 
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 #else
-	void generate_chunk(Node *chunk, bool spawn_mobs);
+	void generate_chunk(Ref<Reource> chunk, bool spawn_mobs);
 
 	void setup_library(Ref<Resource> library);
 #endif

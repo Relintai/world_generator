@@ -137,17 +137,14 @@ void Planet::_setup_library(Ref<VoxelmanLibrary> library) {
 	}
 }
 
-void Planet::generate_chunk(VoxelChunk *chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Planet::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
 	}
 }
 
-void Planet::generate_chunk_bind(Node *chunk, bool spawn_mobs) {
-	generate_chunk(Object::cast_to<VoxelChunk>(chunk), spawn_mobs);
-}
 #else
 void Planet::setup_library(Ref<Resource> library) {
 	if (!_data.is_valid())
@@ -158,8 +155,8 @@ void Planet::setup_library(Ref<Resource> library) {
 	}
 }
 
-void Planet::generate_chunk(Node *chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!ObjectDB::instance_validate(chunk));
+void Planet::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk, spawn_mobs);
@@ -200,7 +197,7 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
 
 #ifdef VOXELMAN_PRESENT
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk_bind);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
 	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Planet::_setup_library);
 #else
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
