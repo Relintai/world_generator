@@ -72,7 +72,7 @@
 		<method name="generate_chunk">
 			<return type="void">
 			</return>
-			<argument index="0" name="chunk" type="Node">
+			<argument index="0" name="chunk" type="VoxelChunk">
 			</argument>
 			<argument index="1" name="spawn_mobs" type="bool">
 			</argument>
@@ -82,7 +82,7 @@
 		<method name="generate_stack">
 			<return type="void">
 			</return>
-			<argument index="0" name="chunk" type="Node">
+			<argument index="0" name="chunk" type="VoxelChunk">
 			</argument>
 			<argument index="1" name="x" type="int">
 			</argument>
