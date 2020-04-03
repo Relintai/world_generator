@@ -26,7 +26,7 @@ SOFTWARE.
 #include "core/resource.h"
 
 #ifdef VOXELMAN_PRESENT
-#include "../../voxelman/props/prop_data.h"
+#include "../../props/props/prop_data.h"
 #endif
 
 class WorldGeneratorPropData : public Resource {
