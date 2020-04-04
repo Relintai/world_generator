@@ -29,13 +29,15 @@ SOFTWARE.
 #include "../data/dungeon_room_data.h"
 #include "../data/world_generator_prop_data.h"
 
+#include "scene/resources/packed_scene.h"
+
 #ifdef VOXELMAN_PRESENT
 #include "../../voxelman/library/voxelman_library.h"
 #include "../../voxelman/world/environment_data.h"
 #include "../../voxelman/world/voxel_chunk.h"
 #include "../../voxelman/world/voxel_structure.h"
 #else
-#include "scene/main/node.h"
+#include "core/resource.h"
 #endif
 
 #ifdef ESS_PRESENT
@@ -115,7 +117,7 @@ public:
 	void generate_room(Ref<VoxelStructure> structure, bool spawn_mobs);
 #else
 	void setup_library(Ref<Resource> library);
-	void generate_chunk(Node *chunk, bool spawn_mobs);
+	void generate_chunk(Ref<Resource> chunk, bool spawn_mobs);
 #endif
 
 	DungeonRoom();

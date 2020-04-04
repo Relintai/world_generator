@@ -30,6 +30,7 @@ SOFTWARE.
 
 #include "../data/biome_data.h"
 #include "../data/world_generator_prop_data.h"
+#include "scene/resources/packed_scene.h"
 
 #ifdef VOXELMAN_PRESENT
 #include "../../voxelman/library/voxelman_library.h"

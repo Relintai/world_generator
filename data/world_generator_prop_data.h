@@ -25,9 +25,7 @@ SOFTWARE.
 
 #include "core/resource.h"
 
-#ifdef VOXELMAN_PRESENT
-#include "../../props/props/prop_data.h"
-#endif
+class PackedScene;
 
 class WorldGeneratorPropData : public Resource {
 	GDCLASS(WorldGeneratorPropData, Resource);
@@ -35,17 +33,10 @@ class WorldGeneratorPropData : public Resource {
 public:
 	bool can_spawn(int seed);
 
-#ifdef VOXELMAN_PRESENT
-	Ref<PropData> get_prop();
-	void set_prop(Ref<PropData> value);
+	Ref<PackedScene> get_prop();
+	void set_prop(Ref<PackedScene> value);
 
-	Ref<PropData> get_prop_seeded(int seed);
-#else
-	Ref<Resource> get_prop();
-	void set_prop(Ref<Resource> value);
-
-	Ref<Resource> get_prop_seeded(int seed);
-#endif
+	Ref<PackedScene> get_prop_seeded(int seed);
 
 	WorldGeneratorPropData();
 	~WorldGeneratorPropData();
@@ -54,7 +45,7 @@ protected:
 	static void _bind_methods();
 
 #ifdef VOXELMAN_PRESENT
-	Ref<PropData> _prop;
+	Ref<PackedScene> _prop;
 #else
 	Ref<Resource> _prop;
 #endif

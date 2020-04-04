@@ -181,7 +181,7 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<WorldGeneratorPropData> s = _data->get_prop_data(i);
 
 		if (s.is_valid()) {
-			Ref<PropData> pd = s->get_prop();
+			Ref<PackedScene> pd = s->get_prop();
 
 			if (pd.is_valid())
 				library->add_prop(s->get_prop());
@@ -234,7 +234,7 @@ void Biome::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #else
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Resource"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #endif
 
 	ClassDB::bind_method(D_METHOD("setup"), &Biome::setup);
