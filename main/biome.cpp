@@ -198,7 +198,7 @@ void Biome::setup_library(Ref<Resource> library) {
 	}
 }
 
-void Biome::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+void Biome::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_generate_chunk")) {

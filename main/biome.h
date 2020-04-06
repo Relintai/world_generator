@@ -96,7 +96,7 @@ public:
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 #else
-	void generate_chunk(Ref<Reource> chunk, bool spawn_mobs);
+	void generate_chunk(Ref<Resource> chunk, bool spawn_mobs);
 
 	void setup_library(Ref<Resource> library);
 #endif

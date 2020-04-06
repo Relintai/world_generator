@@ -50,6 +50,7 @@ void PlanetData::set_level_range(Vector2 value) {
 	_level_range = value;
 }
 
+#ifdef FASTNOISE_PRESENT
 Ref<FastnoiseNoiseParams> PlanetData::get_humidity_noise_params() {
 	return _humidity_noise_params;
 }
@@ -63,6 +64,7 @@ Ref<FastnoiseNoiseParams> PlanetData::get_temperature_noise_params() {
 void PlanetData::set_temperature_noise_params(Ref<FastnoiseNoiseParams> value) {
 	_temperature_noise_params = value;
 }
+#endif
 
 //Biomes
 Ref<BiomeData> PlanetData::get_biome_data(const int index) const {
@@ -226,8 +228,10 @@ PlanetData::PlanetData() {
 	_id = 0;
 }
 PlanetData::~PlanetData() {
+#ifdef FASTNOISE_PRESENT
 	_humidity_noise_params.unref();
 	_temperature_noise_params.unref();
+#endif
 
 	_biome_datas.clear();
 
@@ -255,6 +259,7 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &PlanetData::set_level_range);
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
+#ifdef FASTNOISE_PRESENT
 	ClassDB::bind_method(D_METHOD("get_humidity_noise_params"), &PlanetData::get_humidity_noise_params);
 	ClassDB::bind_method(D_METHOD("set_humidity_noise_params", "value"), &PlanetData::set_humidity_noise_params);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "humidity_noise_params", PROPERTY_HINT_RESOURCE_TYPE, "FastnoiseNoiseParams"), "set_humidity_noise_params", "get_humidity_noise_params");
@@ -262,6 +267,7 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_temperature_noise_params"), &PlanetData::get_temperature_noise_params);
 	ClassDB::bind_method(D_METHOD("set_temperature_noise_params", "value"), &PlanetData::set_temperature_noise_params);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "temperature_noise_params", PROPERTY_HINT_RESOURCE_TYPE, "FastnoiseNoiseParams"), "set_temperature_noise_params", "get_temperature_noise_params");
+#endif
 
 	//Biomes
 	ClassDB::bind_method(D_METHOD("get_biome_data", "index"), &PlanetData::get_biome_data);

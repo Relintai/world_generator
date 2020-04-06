@@ -27,7 +27,9 @@ SOFTWARE.
 #include "core/script_language.h"
 #include "core/ustring.h"
 
+#ifdef FASTNOISE_PRESENT
 #include "../../fastnoise/fastnoise_noise_params.h"
+#endif
 
 #include "../data/biome_data.h"
 #include "../main/planet.h"
@@ -53,11 +55,13 @@ public:
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
 
+#ifdef FASTNOISE_PRESENT
 	Ref<FastnoiseNoiseParams> get_humidity_noise_params();
 	void set_humidity_noise_params(Ref<FastnoiseNoiseParams> value);
 
 	Ref<FastnoiseNoiseParams> get_temperature_noise_params();
 	void set_temperature_noise_params(Ref<FastnoiseNoiseParams> value);
+#endif
 
 	//Biomes
 	Ref<BiomeData> get_biome_data(const int index) const;
@@ -115,8 +119,11 @@ private:
 
 	Vector2 _level_range;
 
+#ifdef FASTNOISE_PRESENT
 	Ref<FastnoiseNoiseParams> _humidity_noise_params;
 	Ref<FastnoiseNoiseParams> _temperature_noise_params;
+#endif
+
 	Vector<Ref<BiomeData> > _biome_datas;
 
 #ifdef VOXELMAN_PRESENT

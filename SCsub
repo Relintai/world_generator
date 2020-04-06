@@ -10,6 +10,9 @@ if os.path.isdir('../entity_spell_system'):
 if os.path.isdir('../voxelman'):
     module_env.Append(CPPDEFINES=['VOXELMAN_PRESENT'])
 
+if os.path.isdir('../fastnoise'):
+    module_env.Append(CPPDEFINES=['FASTNOISE_PRESENT'])
+
 sources = [
 
     "register_types.cpp",
