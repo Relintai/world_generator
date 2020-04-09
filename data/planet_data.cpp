@@ -22,6 +22,8 @@ SOFTWARE.
 
 #include "planet_data.h"
 
+#include "core/version.h"
+
 int PlanetData::get_id() const {
 	return _id;
 }
@@ -92,7 +94,11 @@ int PlanetData::get_biome_data_count() const {
 Vector<Variant> PlanetData::get_biome_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _biome_datas.size(); i++) {
+		#if VERSION_MAJOR < 4
 		r.push_back(_biome_datas[i].get_ref_ptr());
+		#else
+		r.push_back(_biome_datas[i]);
+		#endif
 	}
 	return r;
 }
@@ -132,7 +138,11 @@ int PlanetData::get_environment_data_count() const {
 Vector<Variant> PlanetData::get_environment_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _environment_datas.size(); i++) {
+		#if VERSION_MAJOR < 4
 		r.push_back(_environment_datas[i].get_ref_ptr());
+		#else
+		r.push_back(_environment_datas[i]);
+		#endif
 	}
 	return r;
 }
@@ -171,7 +181,11 @@ int PlanetData::get_voxel_surface_count() const {
 Vector<Variant> PlanetData::get_voxel_surfaces() {
 	Vector<Variant> r;
 	for (int i = 0; i < _voxel_surfaces.size(); i++) {
+		#if VERSION_MAJOR < 4
 		r.push_back(_voxel_surfaces[i].get_ref_ptr());
+		#else
+		r.push_back(_voxel_surfaces[i]);
+		#endif
 	}
 	return r;
 }
@@ -210,7 +224,11 @@ int PlanetData::get_liquid_voxel_surface_count() const {
 Vector<Variant> PlanetData::get_liquid_voxel_surfaces() {
 	Vector<Variant> r;
 	for (int i = 0; i < _liquid_voxel_surfaces.size(); i++) {
+		#if VERSION_MAJOR < 4
 		r.push_back(_liquid_voxel_surfaces[i].get_ref_ptr());
+		#else
+		r.push_back(_liquid_voxel_surfaces[i]);
+		#endif
 	}
 	return r;
 }

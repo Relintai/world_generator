@@ -22,6 +22,8 @@ SOFTWARE.
 
 #include "world_generator.h"
 
+#include "core/version.h"
+
 Ref<PlanetData> WorldGenerator::get_planet_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _planet_datas.size(), Ref<PlanetData>());
 
@@ -48,7 +50,11 @@ int WorldGenerator::get_planet_data_count() const {
 Vector<Variant> WorldGenerator::get_planet_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _planet_datas.size(); i++) {
+		#if VERSION_MAJOR < 4
 		r.push_back(_planet_datas[i].get_ref_ptr());
+		#else
+		r.push_back(_planet_datas[i]);
+		#endif
 	}
 	return r;
 }
