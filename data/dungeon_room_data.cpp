@@ -115,11 +115,11 @@ int DungeonRoomData::get_prop_data_count() const {
 Vector<Variant> DungeonRoomData::get_prop_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _prop_datas.size(); i++) {
-		#if VERSION_MAJOR < 4
+#if VERSION_MAJOR < 4
 		r.push_back(_prop_datas[i].get_ref_ptr());
-		#else
+#else
 		r.push_back(_prop_datas[i]);
-		#endif
+#endif
 	}
 	return r;
 }
@@ -159,11 +159,11 @@ int DungeonRoomData::get_environment_data_count() const {
 Vector<Variant> DungeonRoomData::get_environment_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _environment_datas.size(); i++) {
-		#if VERSION_MAJOR < 4
+#if VERSION_MAJOR < 4
 		r.push_back(_environment_datas[i].get_ref_ptr());
-		#else
+#else
 		r.push_back(_environment_datas[i]);
-		#endif
+#endif
 	}
 	return r;
 }
@@ -202,11 +202,11 @@ int DungeonRoomData::get_voxel_surface_count() const {
 Vector<Variant> DungeonRoomData::get_voxel_surfaces() {
 	Vector<Variant> r;
 	for (int i = 0; i < _voxel_surfaces.size(); i++) {
-		#if VERSION_MAJOR < 4
+#if VERSION_MAJOR < 4
 		r.push_back(_voxel_surfaces[i].get_ref_ptr());
-		#else
+#else
 		r.push_back(_voxel_surfaces[i]);
-		#endif
+#endif
 	}
 	return r;
 }
@@ -245,11 +245,11 @@ int DungeonRoomData::get_liquid_voxel_surface_count() const {
 Vector<Variant> DungeonRoomData::get_liquid_voxel_surfaces() {
 	Vector<Variant> r;
 	for (int i = 0; i < _liquid_voxel_surfaces.size(); i++) {
-		#if VERSION_MAJOR < 4
+#if VERSION_MAJOR < 4
 		r.push_back(_liquid_voxel_surfaces[i].get_ref_ptr());
-		#else
+#else
 		r.push_back(_liquid_voxel_surfaces[i]);
-		#endif
+#endif
 	}
 	return r;
 }
@@ -292,11 +292,11 @@ int DungeonRoomData::get_entity_data_count() const {
 Vector<Variant> DungeonRoomData::get_entity_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _entity_datas.size(); i++) {
-		#if VERSION_MAJOR < 4
+#if VERSION_MAJOR < 4
 		r.push_back(_entity_datas[i].get_ref_ptr());
-		#else
+#else
 		r.push_back(_entity_datas[i]);
-		#endif
+#endif
 	}
 	return r;
 }

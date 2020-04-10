@@ -50,11 +50,11 @@ int WorldGenerator::get_planet_data_count() const {
 Vector<Variant> WorldGenerator::get_planet_datas() {
 	Vector<Variant> r;
 	for (int i = 0; i < _planet_datas.size(); i++) {
-		#if VERSION_MAJOR < 4
+#if VERSION_MAJOR < 4
 		r.push_back(_planet_datas[i].get_ref_ptr());
-		#else
+#else
 		r.push_back(_planet_datas[i]);
-		#endif
+#endif
 	}
 	return r;
 }
