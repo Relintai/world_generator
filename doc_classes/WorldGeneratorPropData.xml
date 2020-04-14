@@ -16,7 +16,7 @@
 			</description>
 		</method>
 		<method name="_get_prop_seeded" qualifiers="virtual">
-			<return type="PropData">
+			<return type="PackedScene">
 			</return>
 			<argument index="0" name="seed" type="int">
 			</argument>
@@ -32,7 +32,7 @@
 			</description>
 		</method>
 		<method name="get_prop_seeded">
-			<return type="PropData">
+			<return type="PackedScene">
 			</return>
 			<argument index="0" name="seed" type="int">
 			</argument>
@@ -41,7 +41,7 @@
 		</method>
 	</methods>
 	<members>
-		<member name="prop" type="PropData" setter="set_prop" getter="get_prop">
+		<member name="prop" type="PackedScene" setter="set_prop" getter="get_prop">
 		</member>
 	</members>
 	<constants>
