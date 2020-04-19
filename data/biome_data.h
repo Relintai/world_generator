@@ -114,16 +114,6 @@ public:
 
 	Vector<Variant> get_voxel_surfaces();
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
-
-	//Liquid Surfaces
-	Ref<VoxelSurface> get_liquid_voxel_surface(const int index) const;
-	void set_liquid_voxel_surface(const int index, const Ref<VoxelSurface> voxel_surface);
-	void add_liquid_surface(const Ref<VoxelSurface> voxel_surface);
-	void remove_liquid_voxel_surface(const int index);
-	int get_liquid_voxel_surface_count() const;
-
-	Vector<Variant> get_liquid_voxel_surfaces();
-	void set_liquid_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 #endif
 
 	BiomeData();

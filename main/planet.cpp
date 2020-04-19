@@ -127,14 +127,6 @@ void Planet::_setup_library(Ref<VoxelmanLibrary> library) {
 			library->add_voxel_surface(s);
 		}
 	}
-
-	for (int i = 0; i < _data->get_liquid_voxel_surface_count(); ++i) {
-		Ref<VoxelSurface> s = _data->get_liquid_voxel_surface(i);
-
-		if (s.is_valid()) {
-			library->add_liquid_surface(s);
-		}
-	}
 }
 
 void Planet::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
