@@ -55,14 +55,6 @@
 			<description>
 			</description>
 		</method>
-		<method name="add_liquid_surface">
-			<return type="void">
-			</return>
-			<argument index="0" name="voxel_surface" type="VoxelSurface">
-			</argument>
-			<description>
-			</description>
-		</method>
 		<method name="add_voxel_surface">
 			<return type="void">
 			</return>
@@ -155,20 +147,6 @@
 			<description>
 			</description>
 		</method>
-		<method name="get_liquid_voxel_surface" qualifiers="const">
-			<return type="VoxelSurface">
-			</return>
-			<argument index="0" name="index" type="int">
-			</argument>
-			<description>
-			</description>
-		</method>
-		<method name="get_liquid_voxel_surface_count" qualifiers="const">
-			<return type="int">
-			</return>
-			<description>
-			</description>
-		</method>
 		<method name="get_voxel_surface" qualifiers="const">
 			<return type="VoxelSurface">
 			</return>
@@ -224,14 +202,6 @@
 			</description>
 		</method>
 		<method name="remove_environment_data">
-			<return type="void">
-			</return>
-			<argument index="0" name="index" type="int">
-			</argument>
-			<description>
-			</description>
-		</method>
-		<method name="remove_liquid_voxel_surface">
 			<return type="void">
 			</return>
 			<argument index="0" name="index" type="int">
@@ -307,16 +277,6 @@
 			<description>
 			</description>
 		</method>
-		<method name="set_liquid_voxel_surface">
-			<return type="void">
-			</return>
-			<argument index="0" name="index" type="int">
-			</argument>
-			<argument index="1" name="data" type="VoxelSurface">
-			</argument>
-			<description>
-			</description>
-		</method>
 		<method name="set_voxel_surface">
 			<return type="void">
 			</return>
@@ -342,8 +302,6 @@
 		<member name="environment_datas" type="Array" setter="set_environment_datas" getter="get_environment_datas" default="[  ]">
 		</member>
 		<member name="level_range" type="Vector2" setter="set_level_range" getter="get_level_range" default="Vector2( 0, 0 )">
-		</member>
-		<member name="liquid_voxel_surfaces" type="Array" setter="set_liquid_voxel_surfaces" getter="get_liquid_voxel_surfaces" default="[  ]">
 		</member>
 		<member name="max_room_count" type="int" setter="set_max_room_count" getter="get_max_room_count" default="0">
 		</member>
