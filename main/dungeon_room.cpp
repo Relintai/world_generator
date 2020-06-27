@@ -183,6 +183,7 @@ void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
 		}
 	}
 
+#ifdef PROPS_PRESENT
 	for (int i = 0; i < _data->get_prop_data_count(); ++i) {
 		Ref<WorldGeneratorPropData> s = _data->get_prop_data(i);
 
@@ -193,6 +194,7 @@ void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
 				library->add_prop(pd);
 		}
 	}
+#endif
 }
 
 void DungeonRoom::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {

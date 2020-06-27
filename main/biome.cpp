@@ -169,6 +169,7 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 		}
 	}
 
+#ifdef PROPS_PRESENT
 	for (int i = 0; i < _data->get_prop_data_count(); ++i) {
 		Ref<WorldGeneratorPropData> s = _data->get_prop_data(i);
 
@@ -179,6 +180,7 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 				library->add_prop(s->get_prop());
 		}
 	}
+#endif
 }
 #else
 void Biome::setup_library(Ref<Resource> library) {

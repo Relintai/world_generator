@@ -13,6 +13,10 @@ if os.path.isdir('../voxelman'):
 if os.path.isdir('../fastnoise'):
     module_env.Append(CPPDEFINES=['FASTNOISE_PRESENT'])
 
+if os.path.isdir('../props'):
+    module_env.Append(CPPDEFINES=['PROPS_PRESENT'])
+
+
 sources = [
 
     "register_types.cpp",
