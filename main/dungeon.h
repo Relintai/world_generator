@@ -24,6 +24,7 @@ SOFTWARE.
 #define DUNGEON_H
 
 #include "core/reference.h"
+#include "core/resource.h"
 
 #include "dungeon_corridor.h"
 #include "dungeon_room.h"
@@ -45,8 +46,8 @@ SOFTWARE.
 
 class DungeonData;
 
-class Dungeon : public Reference {
-	GDCLASS(Dungeon, Reference);
+class Dungeon : public Resource {
+	GDCLASS(Dungeon, Resource);
 
 public:
 	int get_current_seed();

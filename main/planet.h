@@ -25,6 +25,7 @@ SOFTWARE.
 
 #include "core/image.h"
 #include "core/reference.h"
+#include "core/resource.h"
 
 #include "biome.h"
 #include "dungeon.h"
@@ -40,8 +41,8 @@ SOFTWARE.
 
 class PlanetData;
 
-class Planet : public Reference {
-	GDCLASS(Planet, Reference);
+class Planet : public Resource {
+	GDCLASS(Planet, Resource);
 
 public:
 	int get_current_seed();

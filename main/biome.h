@@ -44,8 +44,8 @@ SOFTWARE.
 
 class BiomeData;
 
-class Biome : public Reference {
-	GDCLASS(Biome, Reference);
+class Biome : public Resource {
+	GDCLASS(Biome, Resource);
 
 public:
 	int get_current_seed();
