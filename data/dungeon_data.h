@@ -41,15 +41,14 @@ SOFTWARE.
 #include "../../entity_spell_system/entities/data/entity_data.h"
 #endif
 
+class Dungeon;
+
 class DungeonData : public Resource {
 	GDCLASS(DungeonData, Resource);
 
 public:
-	String get_target_class_name();
-	void set_target_class_name(String name);
-
-	Ref<Script> get_target_script();
-	void set_target_script(Ref<Script> script);
+	Ref<Dungeon> get_dungeon();
+	void set_dungeon(const Ref<Dungeon> &dungeon);
 
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
@@ -166,7 +165,7 @@ protected:
 
 private:
 	String _target_class_name;
-	Ref<Script> _target_script;
+	Ref<Dungeon> _dungeon;
 
 	Vector2 _level_range;
 

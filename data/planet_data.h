@@ -39,6 +39,8 @@ SOFTWARE.
 #include "../../voxelman/world/environment_data.h"
 #endif
 
+class Planet;
+
 class PlanetData : public Resource {
 	GDCLASS(PlanetData, Resource);
 
@@ -46,11 +48,8 @@ public:
 	int get_id() const;
 	void set_id(const int value);
 
-	String get_target_class_name();
-	void set_target_class_name(String name);
-
-	Ref<Script> get_target_script();
-	void set_target_script(Ref<Script> script);
+	Ref<Planet> get_planet();
+	void set_planet(const Ref<Planet> &planet);
 
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
@@ -106,7 +105,7 @@ private:
 	int _id;
 
 	String _target_class_name;
-	Ref<Script> _target_script;
+	Ref<Planet> _planet;
 
 	Vector2 _level_range;
 

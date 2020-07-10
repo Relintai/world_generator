@@ -42,15 +42,14 @@ SOFTWARE.
 #include "../../entity_spell_system/entities/data/entity_data.h"
 #endif
 
+class Biome;
+
 class BiomeData : public Resource {
 	GDCLASS(BiomeData, Resource);
 
 public:
-	String get_target_class_name();
-	void set_target_class_name(String name);
-
-	Ref<Script> get_target_script();
-	void set_target_script(Ref<Script> script);
+	Ref<Biome> get_biome();
+	void set_biome(const Ref<Biome> &biome);
 
 	Vector2 get_level_range();
 	void set_level_range(Vector2 value);
@@ -123,8 +122,7 @@ protected:
 	static void _bind_methods();
 
 private:
-	String _target_class_name;
-	Ref<Script> _target_script;
+	Ref<Biome> _biome;
 
 	Vector2 _level_range;
 

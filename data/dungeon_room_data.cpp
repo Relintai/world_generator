@@ -24,18 +24,11 @@ SOFTWARE.
 
 #include "core/version.h"
 
-String DungeonRoomData::get_target_class_name() {
-	return _target_class_name;
+Ref<DungeonRoom> DungeonRoomData::get_dungeon_room() {
+	return _dungeon_room;
 }
-void DungeonRoomData::set_target_class_name(String name) {
-	_target_class_name = name;
-}
-
-Ref<Script> DungeonRoomData::get_target_script() {
-	return _target_script;
-}
-void DungeonRoomData::set_target_script(Ref<Script> script) {
-	_target_script = script;
+void DungeonRoomData::set_dungeon_room(const Ref<DungeonRoom> &room) {
+	_dungeon_room = room;
 }
 
 Vector2 DungeonRoomData::get_level_range() {
@@ -292,13 +285,9 @@ DungeonRoomData::~DungeonRoomData() {
 }
 
 void DungeonRoomData::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_target_class_name"), &DungeonRoomData::get_target_class_name);
-	ClassDB::bind_method(D_METHOD("set_target_class_name", "value"), &DungeonRoomData::set_target_class_name);
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "target_class_name"), "set_target_class_name", "get_target_class_name");
-
-	ClassDB::bind_method(D_METHOD("get_target_script"), &DungeonRoomData::get_target_script);
-	ClassDB::bind_method(D_METHOD("set_target_script", "value"), &DungeonRoomData::set_target_script);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "target_script", PROPERTY_HINT_RESOURCE_TYPE, "Script"), "set_target_script", "get_target_script");
+	ClassDB::bind_method(D_METHOD("get_dungeon_room"), &DungeonRoomData::get_dungeon_room);
+	ClassDB::bind_method(D_METHOD("set_dungeon_room", "value"), &DungeonRoomData::set_dungeon_room);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dungeon_room", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoom"), "set_dungeon_room", "get_dungeon_room");
 
 	ClassDB::bind_method(D_METHOD("get_level_range"), &DungeonRoomData::get_level_range);
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &DungeonRoomData::set_level_range);

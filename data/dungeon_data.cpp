@@ -24,18 +24,13 @@ SOFTWARE.
 
 #include "core/version.h"
 
-String DungeonData::get_target_class_name() {
-	return _target_class_name;
-}
-void DungeonData::set_target_class_name(String name) {
-	_target_class_name = name;
-}
+#include "../main/dungeon.h"
 
-Ref<Script> DungeonData::get_target_script() {
-	return _target_script;
+Ref<Dungeon> DungeonData::get_dungeon() {
+	return _dungeon;
 }
-void DungeonData::set_target_script(Ref<Script> script) {
-	_target_script = script;
+void DungeonData::set_dungeon(const Ref<Dungeon> &dungeon) {
+	_dungeon = dungeon;
 }
 
 Vector2 DungeonData::get_level_range() {
@@ -446,13 +441,9 @@ DungeonData::~DungeonData() {
 }
 
 void DungeonData::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_target_class_name"), &DungeonData::get_target_class_name);
-	ClassDB::bind_method(D_METHOD("set_target_class_name", "value"), &DungeonData::set_target_class_name);
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "target_class_name"), "set_target_class_name", "get_target_class_name");
-
-	ClassDB::bind_method(D_METHOD("get_target_script"), &DungeonData::get_target_script);
-	ClassDB::bind_method(D_METHOD("set_target_script", "value"), &DungeonData::set_target_script);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "target_script", PROPERTY_HINT_RESOURCE_TYPE, "Script"), "set_target_script", "get_target_script");
+	ClassDB::bind_method(D_METHOD("get_dungeon"), &DungeonData::get_dungeon);
+	ClassDB::bind_method(D_METHOD("set_dungeon", "value"), &DungeonData::set_dungeon);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "dungeon", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon"), "set_dungeon", "get_dungeon");
 
 	ClassDB::bind_method(D_METHOD("get_level_range"), &DungeonData::get_level_range);
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &DungeonData::set_level_range);

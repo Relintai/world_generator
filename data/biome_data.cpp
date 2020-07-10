@@ -24,18 +24,13 @@ SOFTWARE.
 
 #include "core/version.h"
 
-String BiomeData::get_target_class_name() {
-	return _target_class_name;
-}
-void BiomeData::set_target_class_name(String name) {
-	_target_class_name = name;
-}
+#include "../main/biome.h"
 
-Ref<Script> BiomeData::get_target_script() {
-	return _target_script;
+Ref<Biome> BiomeData::get_biome() {
+	return _biome;
 }
-void BiomeData::set_target_script(Ref<Script> script) {
-	_target_script = script;
+void BiomeData::set_biome(const Ref<Biome> &biome) {
+	_biome = biome;
 }
 
 Vector2 BiomeData::get_level_range() {
@@ -303,13 +298,9 @@ BiomeData::~BiomeData() {
 }
 
 void BiomeData::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_target_class_name"), &BiomeData::get_target_class_name);
-	ClassDB::bind_method(D_METHOD("set_target_class_name", "value"), &BiomeData::set_target_class_name);
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "target_class_name"), "set_target_class_name", "get_target_class_name");
-
-	ClassDB::bind_method(D_METHOD("get_target_script"), &BiomeData::get_target_script);
-	ClassDB::bind_method(D_METHOD("set_target_script", "value"), &BiomeData::set_target_script);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "target_script", PROPERTY_HINT_RESOURCE_TYPE, "Script"), "set_target_script", "get_target_script");
+	ClassDB::bind_method(D_METHOD("get_biome"), &BiomeData::get_biome);
+	ClassDB::bind_method(D_METHOD("set_biome", "value"), &BiomeData::set_biome);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "biome", PROPERTY_HINT_RESOURCE_TYPE, "Biome"), "set_biome", "get_biome");
 
 	ClassDB::bind_method(D_METHOD("get_level_range"), &BiomeData::get_level_range);
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &BiomeData::set_level_range);
