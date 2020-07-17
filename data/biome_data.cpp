@@ -280,6 +280,20 @@ void BiomeData::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 
 #endif
 
+Ref<Biome> BiomeData::instance() {
+	Ref<Biome> biome;
+
+	if (!_biome.is_valid()) {
+		biome.instance(); 
+	} else {
+		biome = _biome->duplicate();
+	}
+
+	biome->set_data(Ref<BiomeData>(this));
+
+	return biome;
+}
+
 BiomeData::BiomeData() {
 }
 BiomeData::~BiomeData() {
@@ -372,4 +386,6 @@ void BiomeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &BiomeData::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance"), &BiomeData::instance);
 }

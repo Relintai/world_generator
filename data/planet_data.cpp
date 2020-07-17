@@ -195,6 +195,20 @@ void PlanetData::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 
 #endif
 
+Ref<Planet> PlanetData::instance() {
+	Ref<Planet> planet;
+
+	if (!_planet.is_valid()) {
+		planet.instance(); 
+	} else {
+		planet = _planet->duplicate();
+	}
+
+	planet->set_data(Ref<Planet>(this));
+
+	return planet;
+}
+
 PlanetData::PlanetData() {
 	_id = 0;
 }
@@ -270,4 +284,6 @@ void PlanetData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &PlanetData::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance"), &PlanetData::instance);
 }

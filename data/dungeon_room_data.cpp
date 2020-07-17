@@ -261,6 +261,20 @@ void DungeonRoomData::set_entity_datas(const Vector<Variant> &entity_datas) {
 
 #endif
 
+Ref<DungeonRoom> DungeonRoomData::instance() {
+	Ref<DungeonRoom> dungeon_room;
+
+	if (!_dungeon_room.is_valid()) {
+		dungeon_room.instance(); 
+	} else {
+		dungeon_room = _dungeon_room->duplicate();
+	}
+
+	dungeon_room->set_data(Ref<DungeonRoomData>(this));
+
+	return dungeon_room;
+}
+
 DungeonRoomData::DungeonRoomData() {
 	_min_sizex = 0;
 	_min_sizey = 0;
@@ -366,4 +380,6 @@ void DungeonRoomData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &DungeonRoomData::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance"), &DungeonRoomData::instance);
 }

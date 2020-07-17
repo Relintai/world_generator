@@ -115,6 +115,8 @@ public:
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 #endif
 
+	Ref<Biome> instance();
+
 	BiomeData();
 	~BiomeData();
 

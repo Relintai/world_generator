@@ -95,6 +95,8 @@ public:
 
 #endif
 
+	Ref<Planet> instance();
+
 	PlanetData();
 	~PlanetData();
 

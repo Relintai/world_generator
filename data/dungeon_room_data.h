@@ -120,6 +120,8 @@ public:
 	void set_entity_datas(const Vector<Variant> &entity_datas);
 #endif
 
+	Ref<DungeonRoom> instance();
+
 	DungeonRoomData();
 	~DungeonRoomData();
 

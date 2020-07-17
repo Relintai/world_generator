@@ -407,6 +407,20 @@ void DungeonData::set_environment_datas(const Vector<Variant> &environment_datas
 }
 #endif
 
+Ref<Dungeon> DungeonData::instance() {
+	Ref<Dungeon> dungeon;
+
+	if (!_dungeon.is_valid()) {
+		dungeon.instance(); 
+	} else {
+		dungeon = _dungeon->duplicate();
+	}
+
+	dungeon->set_data(Ref<Dungeon>(this));
+
+	return dungeon;
+}
+
 DungeonData::DungeonData() {
 	_min_sizex = 0;
 	_min_sizey = 0;
@@ -564,4 +578,6 @@ void DungeonData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &DungeonData::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance"), &DungeonData::instance);
 }

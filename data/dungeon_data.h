@@ -157,6 +157,8 @@ public:
 
 #endif
 
+	Ref<Dungeon> instance();
+
 	DungeonData();
 	~DungeonData();
 
