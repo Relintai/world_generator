@@ -50,8 +50,6 @@ Ref<PlanetData> Planet::get_data() {
 }
 void Planet::set_data(Ref<PlanetData> value) {
 	_data = value;
-
-	setup();
 }
 
 Ref<Biome> Planet::get_biome(const int index) const {

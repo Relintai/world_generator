@@ -199,7 +199,7 @@ Ref<Planet> PlanetData::instance() {
 	Ref<Planet> planet;
 
 	if (!_planet.is_valid()) {
-		planet.instance(); 
+		planet.instance();
 	} else {
 		planet = _planet->duplicate();
 	}

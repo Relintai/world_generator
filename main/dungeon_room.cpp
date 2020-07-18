@@ -94,8 +94,6 @@ Ref<DungeonRoomData> DungeonRoom::get_data() {
 }
 void DungeonRoom::set_data(Ref<DungeonRoomData> value) {
 	_data = value;
-
-	setup();
 }
 
 #ifdef VOXELMAN_PRESENT

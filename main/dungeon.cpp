@@ -101,8 +101,6 @@ Ref<DungeonData> Dungeon::get_data() {
 }
 void Dungeon::set_data(Ref<DungeonData> value) {
 	_data = value;
-
-	setup();
 }
 
 //Rooms

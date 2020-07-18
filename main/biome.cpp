@@ -50,8 +50,6 @@ Ref<BiomeData> Biome::get_data() {
 }
 void Biome::set_data(Ref<BiomeData> value) {
 	_data = value;
-
-	setup();
 }
 
 ////    Prop Data    ////
