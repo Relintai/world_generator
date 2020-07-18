@@ -129,7 +129,6 @@ protected:
 	static void _bind_methods();
 
 private:
-	String _target_class_name;
 	Ref<DungeonRoom> _dungeon_room;
 
 	Vector2 _level_range;

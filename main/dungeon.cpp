@@ -392,7 +392,7 @@ void Dungeon::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_data"), &Dungeon::get_data);
 	ClassDB::bind_method(D_METHOD("set_data", "value"), &Dungeon::set_data);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "DungeonData"), "set_data", "get_data");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "DungeonData", 0), "set_data", "get_data");
 
 	//Rooms
 	ClassDB::bind_method(D_METHOD("get_dungeon_room", "index"), &Dungeon::get_dungeon_room);

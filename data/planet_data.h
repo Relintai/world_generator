@@ -106,7 +106,6 @@ protected:
 private:
 	int _id;
 
-	String _target_class_name;
 	Ref<Planet> _planet;
 
 	Vector2 _level_range;

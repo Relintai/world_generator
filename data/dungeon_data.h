@@ -166,7 +166,6 @@ protected:
 	static void _bind_methods();
 
 private:
-	String _target_class_name;
 	Ref<Dungeon> _dungeon;
 
 	Vector2 _level_range;

@@ -322,7 +322,7 @@ void DungeonRoom::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_data"), &DungeonRoom::get_data);
 	ClassDB::bind_method(D_METHOD("set_data", "value"), &DungeonRoom::set_data);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoomData"), "set_data", "get_data");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoomData", 0), "set_data", "get_data");
 
 #ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("get_structure"), &DungeonRoom::get_structure);

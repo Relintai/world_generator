@@ -257,7 +257,7 @@ void Biome::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_data"), &Biome::get_data);
 	ClassDB::bind_method(D_METHOD("set_data", "value"), &Biome::set_data);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "BiomeData"), "set_data", "get_data");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "BiomeData", 0), "set_data", "get_data");
 
 	//Props
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &Biome::get_prop_data);

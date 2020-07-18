@@ -284,7 +284,7 @@ Ref<Biome> BiomeData::instance() {
 	Ref<Biome> biome;
 
 	if (!_biome.is_valid()) {
-		biome.instance(); 
+		biome.instance();
 	} else {
 		biome = _biome->duplicate();
 	}
