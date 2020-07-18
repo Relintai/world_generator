@@ -416,7 +416,7 @@ Ref<Dungeon> DungeonData::instance() {
 		dungeon = _dungeon->duplicate();
 	}
 
-	dungeon->set_data(Ref<Dungeon>(this));
+	dungeon->set_data(Ref<DungeonData>(this));
 
 	return dungeon;
 }

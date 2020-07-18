@@ -204,7 +204,7 @@ Ref<Planet> PlanetData::instance() {
 		planet = _planet->duplicate();
 	}
 
-	planet->set_data(Ref<Planet>(this));
+	planet->set_data(Ref<PlanetData>(this));
 
 	return planet;
 }
