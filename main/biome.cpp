@@ -150,6 +150,8 @@ void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs)
 }
 
 void Biome::setup_library(Ref<VoxelmanLibrary> library) {
+	ERR_FAIL_COND(!library.is_valid());
+
 	if (!_data.is_valid())
 		return;
 
@@ -164,6 +166,14 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 
 		if (s.is_valid()) {
 			library->add_voxel_surface(s);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_count(); ++i) {
+		Ref<Dungeon> d = get_dungeon(i);
+
+		if (d.is_valid()) {
+			d->setup_library(library);
 		}
 	}
 

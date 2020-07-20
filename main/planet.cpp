@@ -109,6 +109,8 @@ void Planet::setup() {
 
 #ifdef VOXELMAN_PRESENT
 void Planet::setup_library(Ref<VoxelmanLibrary> library) {
+	ERR_FAIL_COND(!library.is_valid());
+
 	if (!_data.is_valid())
 		return;
 
@@ -123,6 +125,22 @@ void Planet::_setup_library(Ref<VoxelmanLibrary> library) {
 
 		if (s.is_valid()) {
 			library->add_voxel_surface(s);
+		}
+	}
+
+	for (int i = 0; i < get_biome_count(); ++i) {
+		Ref<Biome> s = get_biome(i);
+
+		if (s.is_valid()) {
+			s->setup_library(library);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_count(); ++i) {
+		Ref<Dungeon> d = get_dungeon(i);
+
+		if (d.is_valid()) {
+			d->setup_library(library);
 		}
 	}
 }

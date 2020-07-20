@@ -250,6 +250,38 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 			library->add_voxel_surface(s);
 		}
 	}
+
+	for (int i = 0; i < get_dungeon_corridor_count(); ++i) {
+		Ref<DungeonCorridor> d = get_dungeon_corridor(i);
+
+		if (d.is_valid()) {
+			d->setup_library(library);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_end_room_count(); ++i) {
+		Ref<DungeonRoom> d = get_dungeon_end_room(i);
+
+		if (d.is_valid()) {
+			d->setup_library(library);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_room_count(); ++i) {
+		Ref<DungeonRoom> d = get_dungeon_room(i);
+
+		if (d.is_valid()) {
+			d->setup_library(library);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_start_room_count(); ++i) {
+		Ref<DungeonRoom> d = get_dungeon_start_room(i);
+
+		if (d.is_valid()) {
+			d->setup_library(library);
+		}
+	}
 }
 
 void Dungeon::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
