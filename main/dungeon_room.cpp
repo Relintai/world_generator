@@ -506,8 +506,8 @@ DungeonRoom::~DungeonRoom() {
 void DungeonRoom::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoom"),
 			"_instance",
-			PropertyInfo(Variant::INT, "seed"),
-			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoom")));
+			PropertyInfo(Variant::INT, "p_seed"),
+			PropertyInfo(Variant::OBJECT, "p_instance", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoom")));
 
 	BIND_VMETHOD(MethodInfo("_setup"));
 
@@ -521,7 +521,7 @@ void DungeonRoom::_bind_methods() {
 #endif
 
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &DungeonRoom::instance);
-	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &DungeonRoom::_instance);
+	ClassDB::bind_method(D_METHOD("_instance", "p_seed", "p_instance"), &DungeonRoom::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &DungeonRoom::setup);
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &DungeonRoom::setup_library);

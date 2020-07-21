@@ -711,8 +711,8 @@ Dungeon::~Dungeon() {
 void Dungeon::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon"),
 			"_instance",
-			PropertyInfo(Variant::INT, "seed"),
-			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon")));
+			PropertyInfo(Variant::INT, "p_seed"),
+			PropertyInfo(Variant::OBJECT, "p_instance", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon")));
 
 	BIND_VMETHOD(MethodInfo("_setup"));
 
@@ -726,7 +726,7 @@ void Dungeon::_bind_methods() {
 #endif
 
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Dungeon::instance);
-	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &Dungeon::_instance);
+	ClassDB::bind_method(D_METHOD("_instance", "p_seed", "p_instance"), &Dungeon::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Dungeon::setup);
 

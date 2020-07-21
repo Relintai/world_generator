@@ -460,8 +460,8 @@ Biome::~Biome() {
 void Biome::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "Biome"),
 			"_instance",
-			PropertyInfo(Variant::INT, "seed"),
-			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "Biome")));
+			PropertyInfo(Variant::INT, "p_seed"),
+			PropertyInfo(Variant::OBJECT, "p_instance", PROPERTY_HINT_RESOURCE_TYPE, "Biome")));
 
 	BIND_VMETHOD(MethodInfo("_setup"));
 
@@ -475,7 +475,7 @@ void Biome::_bind_methods() {
 #endif
 
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Biome::instance);
-	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &Biome::_instance);
+	ClassDB::bind_method(D_METHOD("_instance", "p_seed", "p_instance"), &Biome::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Biome::setup);
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Biome::setup_library);

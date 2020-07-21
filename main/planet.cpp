@@ -227,7 +227,7 @@ void Planet::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 
 Ref<Planet> Planet::instance(const int seed) {
 	if (has_method("_instance")) {
-		return call("_instance", seed);
+		return call("_instance", seed, Ref<Planet>());
 	}
 
 	return Ref<Planet>();
@@ -391,8 +391,8 @@ Planet::~Planet() {
 void Planet::_bind_methods() {
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "Planet"),
 			"_instance",
-			PropertyInfo(Variant::INT, "seed"),
-			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "Planet")));
+			PropertyInfo(Variant::INT, "p_seed"),
+			PropertyInfo(Variant::OBJECT, "p_instance", PROPERTY_HINT_RESOURCE_TYPE, "Planet")));
 
 	BIND_VMETHOD(MethodInfo("_setup"));
 
@@ -405,7 +405,7 @@ void Planet::_bind_methods() {
 #endif
 
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Planet::instance);
-	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &Planet::_instance);
+	ClassDB::bind_method(D_METHOD("_instance", "p_seed", "p_instance"), &Planet::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
 
