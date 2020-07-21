@@ -192,7 +192,7 @@ Vector<Variant> Dungeon::get_dungeon_rooms() {
 void Dungeon::set_dungeon_rooms(const Vector<Variant> &dungeon_rooms) {
 	_dungeon_rooms.clear();
 	for (int i = 0; i < dungeon_rooms.size(); i++) {
-		Ref<DungeonRoomData> dungeon_room_data = Ref<DungeonRoomData>(dungeon_rooms[i]);
+		Ref<DungeonRoom> dungeon_room_data = Ref<DungeonRoom>(dungeon_rooms[i]);
 
 		_dungeon_rooms.push_back(dungeon_room_data);
 	}
@@ -236,7 +236,7 @@ Vector<Variant> Dungeon::get_dungeon_start_rooms() {
 void Dungeon::set_dungeon_start_rooms(const Vector<Variant> &dungeon_start_rooms) {
 	_dungeon_start_rooms.clear();
 	for (int i = 0; i < dungeon_start_rooms.size(); i++) {
-		Ref<DungeonRoomData> dungeon_start_room_data = Ref<DungeonRoomData>(dungeon_start_rooms[i]);
+		Ref<DungeonRoom> dungeon_start_room_data = Ref<DungeonRoom>(dungeon_start_rooms[i]);
 
 		_dungeon_start_rooms.push_back(dungeon_start_room_data);
 	}
@@ -280,7 +280,7 @@ Vector<Variant> Dungeon::get_dungeon_end_rooms() {
 void Dungeon::set_dungeon_end_rooms(const Vector<Variant> &dungeon_end_rooms) {
 	_dungeon_end_rooms.clear();
 	for (int i = 0; i < dungeon_end_rooms.size(); i++) {
-		Ref<DungeonRoomData> dungeon_end_room_data = Ref<DungeonRoomData>(dungeon_end_rooms[i]);
+		Ref<DungeonRoom> dungeon_end_room_data = Ref<DungeonRoom>(dungeon_end_rooms[i]);
 
 		_dungeon_end_rooms.push_back(dungeon_end_room_data);
 	}
@@ -323,7 +323,7 @@ Vector<Variant> Dungeon::get_dungeon_corridors() {
 void Dungeon::set_dungeon_corridors(const Vector<Variant> &dungeon_corridors) {
 	_dungeon_corridors.clear();
 	for (int i = 0; i < dungeon_corridors.size(); i++) {
-		Ref<DungeonRoomData> dungeon_corridor_data = Ref<DungeonRoomData>(dungeon_corridors[i]);
+		Ref<DungeonRoom> dungeon_corridor_data = Ref<DungeonRoom>(dungeon_corridors[i]);
 
 		_dungeon_corridors.push_back(dungeon_corridor_data);
 	}
@@ -719,7 +719,7 @@ void Dungeon::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_rooms"), &Dungeon::get_dungeon_rooms);
 	ClassDB::bind_method(D_METHOD("set_dungeon_rooms", "dungeon_rooms"), &Dungeon::set_dungeon_rooms);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_rooms", PROPERTY_HINT_NONE, "17/17:DungeonRoomData", PROPERTY_USAGE_DEFAULT, "DungeonRoomData"), "set_dungeon_rooms", "get_dungeon_rooms");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_rooms", PROPERTY_HINT_NONE, "17/17:DungeonRoom", PROPERTY_USAGE_DEFAULT, "DungeonRoom"), "set_dungeon_rooms", "get_dungeon_rooms");
 
 	//Start Rooms
 	ClassDB::bind_method(D_METHOD("get_dungeon_start_room", "index"), &Dungeon::get_dungeon_start_room);
@@ -731,7 +731,7 @@ void Dungeon::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_start_rooms"), &Dungeon::get_dungeon_start_rooms);
 	ClassDB::bind_method(D_METHOD("set_dungeon_start_rooms", "dungeon_start_rooms"), &Dungeon::set_dungeon_start_rooms);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_start_rooms", PROPERTY_HINT_NONE, "17/17:DungeonRoomData", PROPERTY_USAGE_DEFAULT, "DungeonRoomData"), "set_dungeon_start_rooms", "get_dungeon_start_rooms");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_start_rooms", PROPERTY_HINT_NONE, "17/17:DungeonRoom", PROPERTY_USAGE_DEFAULT, "DungeonRoom"), "set_dungeon_start_rooms", "get_dungeon_start_rooms");
 
 	//End Rooms
 	ClassDB::bind_method(D_METHOD("get_dungeon_end_room", "index"), &Dungeon::get_dungeon_end_room);
@@ -742,7 +742,7 @@ void Dungeon::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_end_rooms"), &Dungeon::get_dungeon_end_rooms);
 	ClassDB::bind_method(D_METHOD("set_dungeon_end_rooms", "dungeon_end_rooms"), &Dungeon::set_dungeon_end_rooms);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_end_rooms", PROPERTY_HINT_NONE, "17/17:DungeonRoomData", PROPERTY_USAGE_DEFAULT, "DungeonRoomData"), "set_dungeon_end_rooms", "get_dungeon_end_rooms");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_end_rooms", PROPERTY_HINT_NONE, "17/17:DungeonRoom", PROPERTY_USAGE_DEFAULT, "DungeonRoom"), "set_dungeon_end_rooms", "get_dungeon_end_rooms");
 
 	//Corridors
 	ClassDB::bind_method(D_METHOD("get_dungeon_corridor", "index"), &Dungeon::get_dungeon_corridor);
@@ -753,7 +753,7 @@ void Dungeon::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_dungeon_corridors"), &Dungeon::get_dungeon_corridors);
 	ClassDB::bind_method(D_METHOD("set_dungeon_corridors", "dungeon_corridors"), &Dungeon::set_dungeon_corridors);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_corridors", PROPERTY_HINT_NONE, "17/17:DungeonCorridorData", PROPERTY_USAGE_DEFAULT, "DungeonCorridorData"), "set_dungeon_corridors", "get_dungeon_corridors");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_corridors", PROPERTY_HINT_NONE, "17/17:DungeonCorridor", PROPERTY_USAGE_DEFAULT, "DungeonCorridor"), "set_dungeon_corridors", "get_dungeon_corridors");
 
 #ifdef ESS_PRESENT
 	//Entities

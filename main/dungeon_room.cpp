@@ -36,6 +36,50 @@ void DungeonRoom::set_level_range(Vector2 value) {
 	_level_range = value;
 }
 
+//Min Size
+int DungeonRoom::get_min_sizex() {
+	return _min_sizex;
+}
+void DungeonRoom::set_min_sizex(int value) {
+	_min_sizex = value;
+}
+
+int DungeonRoom::get_min_sizey() {
+	return _min_sizey;
+}
+void DungeonRoom::set_min_sizey(int value) {
+	_min_sizey = value;
+}
+
+int DungeonRoom::get_min_sizez() {
+	return _min_sizez;
+}
+void DungeonRoom::set_min_sizez(int value) {
+	_min_sizez = value;
+}
+
+//Max Size
+int DungeonRoom::get_max_sizex() {
+	return _max_sizex;
+}
+void DungeonRoom::set_max_sizex(int value) {
+	_max_sizex = value;
+}
+
+int DungeonRoom::get_max_sizey() {
+	return _max_sizey;
+}
+void DungeonRoom::set_max_sizey(int value) {
+	_max_sizey = value;
+}
+
+int DungeonRoom::get_max_sizez() {
+	return _max_sizez;
+}
+void DungeonRoom::set_max_sizez(int value) {
+	_max_sizez = value;
+}
+
 //Position
 int DungeonRoom::get_posx() {
 	return _posx;
@@ -89,13 +133,6 @@ void DungeonRoom::set_environment(Ref<EnvironmentData> value) {
 }
 #endif
 
-Ref<DungeonRoomData> DungeonRoom::get_data() {
-	return _data;
-}
-void DungeonRoom::set_data(Ref<DungeonRoomData> value) {
-	_data = value;
-}
-
 #ifdef VOXELMAN_PRESENT
 Ref<VoxelStructure> DungeonRoom::get_structure() {
 	return _structure;
@@ -128,6 +165,115 @@ int DungeonRoom::get_prop_data_count() const {
 	return _prop_datas.size();
 }
 
+Vector<Variant> DungeonRoom::get_prop_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _prop_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_prop_datas[i].get_ref_ptr());
+#else
+		r.push_back(_prop_datas[i]);
+#endif
+	}
+	return r;
+}
+void DungeonRoom::set_prop_datas(const Vector<Variant> &prop_datas) {
+	_prop_datas.clear();
+	for (int i = 0; i < prop_datas.size(); i++) {
+		Ref<WorldGeneratorPropData> prop_data = Ref<WorldGeneratorPropData>(prop_datas[i]);
+
+		_prop_datas.push_back(prop_data);
+	}
+}
+
+#ifdef VOXELMAN_PRESENT
+//Environments
+Ref<EnvironmentData> DungeonRoom::get_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
+
+	return _environment_datas.get(index);
+}
+void DungeonRoom::set_environment_data(const int index, const Ref<EnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _environment_datas.size());
+
+	_environment_datas.set(index, environment_data);
+}
+void DungeonRoom::add_environment_data(const Ref<EnvironmentData> environment_data) {
+	_environment_datas.push_back(environment_data);
+}
+void DungeonRoom::remove_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _environment_datas.size());
+
+	_environment_datas.remove(index);
+}
+int DungeonRoom::get_environment_data_count() const {
+	return _environment_datas.size();
+}
+
+Vector<Variant> DungeonRoom::get_environment_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _environment_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_environment_datas[i].get_ref_ptr());
+#else
+		r.push_back(_environment_datas[i]);
+#endif
+	}
+	return r;
+}
+void DungeonRoom::set_environment_datas(const Vector<Variant> &environment_datas) {
+	_environment_datas.clear();
+	for (int i = 0; i < environment_datas.size(); i++) {
+		Ref<EnvironmentData> environment_data = Ref<EnvironmentData>(environment_datas[i]);
+
+		_environment_datas.push_back(environment_data);
+	}
+}
+
+////    Surfaces    ////
+Ref<VoxelSurface> DungeonRoom::get_voxel_surface(const int index) const {
+	ERR_FAIL_INDEX_V(index, _voxel_surfaces.size(), Ref<VoxelSurface>());
+
+	return _voxel_surfaces.get(index);
+}
+void DungeonRoom::set_voxel_surface(const int index, const Ref<VoxelSurface> voxel_surface) {
+	ERR_FAIL_INDEX(index, _voxel_surfaces.size());
+
+	_voxel_surfaces.set(index, voxel_surface);
+}
+void DungeonRoom::add_voxel_surface(const Ref<VoxelSurface> voxel_surface) {
+	_voxel_surfaces.push_back(voxel_surface);
+}
+void DungeonRoom::remove_voxel_surface(const int index) {
+	ERR_FAIL_INDEX(index, _voxel_surfaces.size());
+
+	_voxel_surfaces.remove(index);
+}
+int DungeonRoom::get_voxel_surface_count() const {
+	return _voxel_surfaces.size();
+}
+
+Vector<Variant> DungeonRoom::get_voxel_surfaces() {
+	Vector<Variant> r;
+	for (int i = 0; i < _voxel_surfaces.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_voxel_surfaces[i].get_ref_ptr());
+#else
+		r.push_back(_voxel_surfaces[i]);
+#endif
+	}
+	return r;
+}
+void DungeonRoom::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
+	_voxel_surfaces.clear();
+	for (int i = 0; i < voxel_surfaces.size(); i++) {
+		Ref<EnvironmentData> voxel_surface = Ref<EnvironmentData>(voxel_surfaces[i]);
+
+		_voxel_surfaces.push_back(voxel_surface);
+	}
+}
+
+#endif
+
 #ifdef ESS_PRESENT
 //Entities
 Ref<EntityData> DungeonRoom::get_entity_data(const int index) const {
@@ -151,12 +297,30 @@ void DungeonRoom::remove_entity_data(const int index) {
 int DungeonRoom::get_entity_data_count() const {
 	return _entity_datas.size();
 }
+
+Vector<Variant> DungeonRoom::get_entity_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _entity_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_entity_datas[i].get_ref_ptr());
+#else
+		r.push_back(_entity_datas[i]);
+#endif
+	}
+	return r;
+}
+void DungeonRoom::set_entity_datas(const Vector<Variant> &entity_datas) {
+	_entity_datas.clear();
+	for (int i = 0; i < entity_datas.size(); i++) {
+		Ref<EntityData> entity_data = Ref<EntityData>(entity_datas[i]);
+
+		_entity_datas.push_back(entity_data);
+	}
+}
+
 #endif
 
 void DungeonRoom::setup() {
-	if (!_data.is_valid())
-		return;
-
 	if (has_method("_setup")) {
 		call("_setup");
 	}
@@ -164,17 +328,14 @@ void DungeonRoom::setup() {
 
 #ifdef VOXELMAN_PRESENT
 void DungeonRoom::setup_library(Ref<VoxelmanLibrary> library) {
-	if (!_data.is_valid())
-		return;
-
 	if (has_method("_setup_library")) {
 		call("_setup_library", library);
 	}
 }
 
 void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
-	for (int i = 0; i < _data->get_voxel_surface_count(); ++i) {
-		Ref<VoxelSurface> s = _data->get_voxel_surface(i);
+	for (int i = 0; i < get_voxel_surface_count(); ++i) {
+		Ref<VoxelSurface> s = get_voxel_surface(i);
 
 		if (s.is_valid()) {
 			library->add_voxel_surface(s);
@@ -182,8 +343,8 @@ void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
 	}
 
 #ifdef PROPS_PRESENT
-	for (int i = 0; i < _data->get_prop_data_count(); ++i) {
-		Ref<WorldGeneratorPropData> s = _data->get_prop_data(i);
+	for (int i = 0; i < get_prop_data_count(); ++i) {
+		Ref<WorldGeneratorPropData> s = get_prop_data(i);
 
 		if (s.is_valid()) {
 			Ref<PackedScene> pd = s->get_prop();
@@ -232,6 +393,14 @@ void DungeonRoom::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
 DungeonRoom::DungeonRoom() {
 	_current_seed = 0;
 
+	_min_sizex = 0;
+	_min_sizey = 0;
+	_min_sizez = 0;
+
+	_max_sizex = 0;
+	_max_sizey = 0;
+	_max_sizez = 0;
+
 	_posx = 0;
 	_posy = 0;
 	_posz = 0;
@@ -241,7 +410,6 @@ DungeonRoom::DungeonRoom() {
 	_sizez = 0;
 }
 DungeonRoom::~DungeonRoom() {
-	_data.unref();
 	_prop_datas.clear();
 
 #ifdef VOXELMAN_PRESENT
@@ -251,6 +419,12 @@ DungeonRoom::~DungeonRoom() {
 
 #ifdef ESS_PRESENT
 	_entity_datas.clear();
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	_environment_datas.clear();
+	_voxel_surfaces.clear();
+	_liquid_voxel_surfaces.clear();
 #endif
 }
 
@@ -288,6 +462,32 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &DungeonRoom::set_level_range);
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
+	//Min Size
+	ClassDB::bind_method(D_METHOD("get_min_sizex"), &DungeonRoom::get_min_sizex);
+	ClassDB::bind_method(D_METHOD("set_min_sizex", "value"), &DungeonRoom::set_min_sizex);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "min_sizex"), "set_min_sizex", "get_min_sizex");
+
+	ClassDB::bind_method(D_METHOD("get_min_sizey"), &DungeonRoom::get_min_sizey);
+	ClassDB::bind_method(D_METHOD("set_min_sizey", "value"), &DungeonRoom::set_min_sizey);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "min_sizey"), "set_min_sizey", "get_min_sizey");
+
+	ClassDB::bind_method(D_METHOD("get_min_sizez"), &DungeonRoom::get_min_sizez);
+	ClassDB::bind_method(D_METHOD("set_min_sizez", "value"), &DungeonRoom::set_min_sizez);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "min_sizez"), "set_min_sizez", "get_min_sizez");
+
+	//Max Size
+	ClassDB::bind_method(D_METHOD("get_max_sizex"), &DungeonRoom::get_max_sizex);
+	ClassDB::bind_method(D_METHOD("set_max_sizex", "value"), &DungeonRoom::set_max_sizex);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_sizex"), "set_max_sizex", "get_max_sizex");
+
+	ClassDB::bind_method(D_METHOD("get_max_sizey"), &DungeonRoom::get_max_sizey);
+	ClassDB::bind_method(D_METHOD("set_max_sizey", "value"), &DungeonRoom::set_max_sizey);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_sizey"), "set_max_sizey", "get_max_sizey");
+
+	ClassDB::bind_method(D_METHOD("get_max_sizez"), &DungeonRoom::get_max_sizez);
+	ClassDB::bind_method(D_METHOD("set_max_sizez", "value"), &DungeonRoom::set_max_sizez);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_sizez"), "set_max_sizez", "get_max_sizez");
+
 	//Position
 	ClassDB::bind_method(D_METHOD("get_posx"), &DungeonRoom::get_posx);
 	ClassDB::bind_method(D_METHOD("set_posx", "value"), &DungeonRoom::set_posx);
@@ -320,10 +520,6 @@ void DungeonRoom::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 #endif
 
-	ClassDB::bind_method(D_METHOD("get_data"), &DungeonRoom::get_data);
-	ClassDB::bind_method(D_METHOD("set_data", "value"), &DungeonRoom::set_data);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "DungeonRoomData", 0), "set_data", "get_data");
-
 #ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("get_structure"), &DungeonRoom::get_structure);
 	ClassDB::bind_method(D_METHOD("set_structure", "value"), &DungeonRoom::set_structure);
@@ -337,6 +533,10 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_prop_data", "index"), &DungeonRoom::remove_prop_data);
 	ClassDB::bind_method(D_METHOD("get_prop_data_count"), &DungeonRoom::get_prop_data_count);
 
+	ClassDB::bind_method(D_METHOD("get_prop_datas"), &DungeonRoom::get_prop_datas);
+	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &DungeonRoom::set_prop_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:WorldGeneratorPropData", PROPERTY_USAGE_DEFAULT, "WorldGeneratorPropData"), "set_prop_datas", "get_prop_datas");
+
 #ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &DungeonRoom::get_entity_data);
@@ -344,5 +544,33 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &DungeonRoom::add_entity_data);
 	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &DungeonRoom::remove_entity_data);
 	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &DungeonRoom::get_entity_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_entity_datas"), &DungeonRoom::get_entity_datas);
+	ClassDB::bind_method(D_METHOD("set_entity_datas", "entity_datas"), &DungeonRoom::set_entity_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	//Environments
+	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &DungeonRoom::get_environment_data);
+	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &DungeonRoom::set_environment_data);
+	ClassDB::bind_method(D_METHOD("add_environment_data", "environment_data"), &DungeonRoom::add_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_environment_data", "index"), &DungeonRoom::remove_environment_data);
+	ClassDB::bind_method(D_METHOD("get_environment_data_count"), &DungeonRoom::get_environment_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_environment_datas"), &DungeonRoom::get_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_environment_datas", "environment_datas"), &DungeonRoom::set_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "environment_datas", PROPERTY_HINT_NONE, "17/17:EnvironmentData", PROPERTY_USAGE_DEFAULT, "EnvironmentData"), "set_environment_datas", "get_environment_datas");
+
+	//Surfaces
+	ClassDB::bind_method(D_METHOD("get_voxel_surface", "index"), &DungeonRoom::get_voxel_surface);
+	ClassDB::bind_method(D_METHOD("set_voxel_surface", "index", "data"), &DungeonRoom::set_voxel_surface);
+	ClassDB::bind_method(D_METHOD("add_voxel_surface", "voxel_surface"), &DungeonRoom::add_voxel_surface);
+	ClassDB::bind_method(D_METHOD("remove_voxel_surface", "index"), &DungeonRoom::remove_voxel_surface);
+	ClassDB::bind_method(D_METHOD("get_voxel_surface_count"), &DungeonRoom::get_voxel_surface_count);
+
+	ClassDB::bind_method(D_METHOD("get_voxel_surfaces"), &DungeonRoom::get_voxel_surfaces);
+	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &DungeonRoom::set_voxel_surfaces);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
 #endif
 }

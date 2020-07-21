@@ -27,8 +27,6 @@ sources = [
     "main/biome.cpp",
     "main/planet.cpp",
 
-    "data/dungeon_room_data.cpp",
-    "data/dungeon_corridor_data.cpp",
     "data/world_generator_prop_data.cpp",
 
     "world_generator.cpp",

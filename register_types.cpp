@@ -22,8 +22,6 @@ SOFTWARE.
 
 #include "register_types.h"
 
-#include "data/dungeon_corridor_data.h"
-#include "data/dungeon_room_data.h"
 #include "data/world_generator_prop_data.h"
 
 #include "main/biome.h"
@@ -35,8 +33,6 @@ SOFTWARE.
 #include "world_generator.h"
 
 void register_world_generator_types() {
-	ClassDB::register_class<DungeonRoomData>();
-	ClassDB::register_class<DungeonCorridorData>();
 	ClassDB::register_class<WorldGeneratorPropData>();
 
 	ClassDB::register_class<DungeonRoom>();
