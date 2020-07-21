@@ -266,8 +266,11 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> planet) {
 	}
 
 #ifdef FASTNOISE_PRESENT
-	inst->set_humidity_noise_params(_humidity_noise_params->duplicate());
-	inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
+	if (_humidity_noise_params.is_valid())
+		inst->set_humidity_noise_params(_humidity_noise_params->duplicate());
+
+	if (_temperature_noise_params.is_valid())
+		inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
 #endif
 
 	for (int i = 0; i < _environment_datas.size(); ++i) {
