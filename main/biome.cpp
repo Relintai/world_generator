@@ -281,22 +281,18 @@ void Biome::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 #endif
 
 Ref<Biome> Biome::instance(const int seed) {
-	if (has_method("_instance")) {
-		return call("_instance", seed, Ref<Biome>());
-	}
+	Ref<Biome> inst;
 
-	return Ref<Biome>();
-}
+	inst = Ref<Biome>(Object::cast_to<Biome>(ClassDB::instance(get_class_name())));
+	ERR_FAIL_COND_V(!inst.is_valid(), inst);
 
-Ref<Biome> Biome::_instance(const int seed, Ref<Biome> biome) {
-	Ref<Biome> inst = biome;
-
-	if (!inst.is_valid())
-		inst.instance();
-
-	if (inst->get_script().is_null() && !get_script().is_null())
+	if (!get_script().is_null())
 		inst->set_script(get_script());
 
+	return call("_instance", seed, inst);
+}
+
+Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
 	inst->set_current_seed(seed);
 	inst->set_level_range(_level_range);
 

@@ -321,22 +321,18 @@ void DungeonRoom::set_entity_datas(const Vector<Variant> &entity_datas) {
 #endif
 
 Ref<DungeonRoom> DungeonRoom::instance(const int seed) {
-	if (has_method("_instance")) {
-		return call("_instance", seed, Ref<DungeonRoom>());
-	}
+	Ref<DungeonRoom> inst;
 
-	return Ref<DungeonRoom>();
-}
+	inst = Ref<DungeonRoom>(Object::cast_to<DungeonRoom>(ClassDB::instance(get_class_name())));
+	ERR_FAIL_COND_V(!inst.is_valid(), inst);
 
-Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> dungeon_room) {
-	Ref<DungeonRoom> inst = dungeon_room;
-
-	if (!inst.is_valid())
-		inst.instance();
-
-	if (inst->get_script().is_null() && !get_script().is_null())
+	if (!get_script().is_null())
 		inst->set_script(get_script());
 
+	return call("_instance", seed, inst);
+}
+
+Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> inst) {
 	inst->set_current_seed(seed);
 	inst->set_level_range(_level_range);
 

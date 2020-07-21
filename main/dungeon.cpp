@@ -463,22 +463,18 @@ void Dungeon::set_environment_datas(const Vector<Variant> &environment_datas) {
 #endif
 
 Ref<Dungeon> Dungeon::instance(const int seed) {
-	if (has_method("_instance")) {
-		return call("_instance", seed, Ref<Dungeon>());
-	}
+	Ref<Dungeon> inst;
 
-	return Ref<Dungeon>();
-}
+	inst = Ref<Dungeon>(Object::cast_to<Dungeon>(ClassDB::instance(get_class_name())));
+	ERR_FAIL_COND_V(!inst.is_valid(), inst);
 
-Ref<Dungeon> Dungeon::_instance(const int seed, Ref<Dungeon> dungeon) {
-	Ref<Dungeon> inst = dungeon;
-
-	if (!inst.is_valid())
-		inst.instance();
-
-	if (inst->get_script().is_null() && !get_script().is_null())
+	if (!get_script().is_null())
 		inst->set_script(get_script());
 
+	return call("_instance", seed, inst);
+}
+
+Ref<Dungeon> Dungeon::_instance(const int seed, Ref<Dungeon> inst) {
 	inst->set_current_seed(seed);
 	inst->set_level_range(_level_range);
 

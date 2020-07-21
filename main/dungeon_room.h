@@ -156,7 +156,7 @@ public:
 #endif
 
 	Ref<DungeonRoom> instance(const int seed);
-	virtual Ref<DungeonRoom> _instance(const int seed, Ref<DungeonRoom> dungeon_room);
+	virtual Ref<DungeonRoom> _instance(const int seed, Ref<DungeonRoom> inst);
 
 	void setup();
 

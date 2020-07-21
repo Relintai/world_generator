@@ -53,17 +53,13 @@ int DungeonCorridor::get_dungeon_room_count() const {
 	return _dungeon_rooms.size();
 }
 
-Ref<DungeonRoom> DungeonCorridor::_instance(const int seed, Ref<DungeonRoom> dungeon_room) {
-	Ref<DungeonCorridor> inst = dungeon_room;
-
-	if (!inst.is_valid())
-		inst.instance();
-
+Ref<DungeonRoom> DungeonCorridor::_instance(const int seed, Ref<DungeonRoom> inst) {
 	DungeonRoom::_instance(seed, inst);
 
-	inst->set_max_connections(_max_connections);
+	Ref<DungeonCorridor> cinst = inst;
+	cinst->set_max_connections(_max_connections);
 
-	return inst;
+	return cinst;
 }
 
 DungeonCorridor::DungeonCorridor() {

@@ -109,7 +109,7 @@ public:
 #endif
 
 	Ref<Planet> instance(const int seed);
-	virtual Ref<Planet> _instance(const int seed, Ref<Planet> planet);
+	virtual Ref<Planet> _instance(const int seed, Ref<Planet> inst);
 
 	void setup();
 

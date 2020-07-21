@@ -119,7 +119,7 @@ public:
 #endif
 
 	Ref<Biome> instance(const int seed);
-	virtual Ref<Biome> _instance(const int seed, Ref<Biome> biome);
+	virtual Ref<Biome> _instance(const int seed, Ref<Biome> inst);
 
 	void setup();
 

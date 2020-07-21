@@ -226,22 +226,18 @@ void Planet::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 #endif
 
 Ref<Planet> Planet::instance(const int seed) {
-	if (has_method("_instance")) {
-		return call("_instance", seed, Ref<Planet>());
-	}
+	Ref<Planet> inst;
 
-	return Ref<Planet>();
-}
+	inst = Ref<Planet>(Object::cast_to<Planet>(ClassDB::instance(get_class_name())));
+	ERR_FAIL_COND_V(!inst.is_valid(), inst);
 
-Ref<Planet> Planet::_instance(const int seed, Ref<Planet> planet) {
-	Ref<Planet> inst = planet;
-
-	if (!inst.is_valid())
-		inst.instance();
-
-	if (inst->get_script().is_null() && !get_script().is_null())
+	if (!get_script().is_null())
 		inst->set_script(get_script());
 
+	return call("_instance", seed, inst);
+}
+
+Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 	inst->set_id(_id);
 	inst->set_current_seed(seed);
 	inst->set_level_range(_level_range);
