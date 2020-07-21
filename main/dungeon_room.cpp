@@ -334,6 +334,9 @@ Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> dungeon
 	if (!inst.is_valid())
 		inst.instance();
 
+	if (inst->get_script().is_null() && !get_script().is_null())
+		inst->set_script(get_script());
+
 	inst->set_current_seed(seed);
 	inst->set_level_range(_level_range);
 
