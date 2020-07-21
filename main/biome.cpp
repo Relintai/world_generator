@@ -280,6 +280,76 @@ void Biome::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 
 #endif
 
+Ref<Biome> Biome::instance(const int seed) {
+	if (has_method("_instance")) {
+		return call("_instance", seed);
+	}
+
+	return Ref<Biome>();
+}
+
+Ref<Biome> Biome::_instance(const int seed, Ref<Biome> biome) {
+	Ref<Biome> inst = biome;
+
+	if (!inst.is_valid())
+		inst.instance();
+
+	inst->set_current_seed(seed);
+	inst->set_level_range(_level_range);
+
+	inst->set_humidity_range(_humidity_range);
+	inst->set_temperature_range(_temperature_range);
+
+#ifdef VOXELMAN_PRESENT
+	inst->set_environment(_environment);
+#endif
+
+	for (int i = 0; i < _prop_datas.size(); ++i) {
+		Ref<WorldGeneratorPropData> p = _prop_datas[i];
+
+		inst->add_prop_data(p);
+	}
+
+	for (int i = 0; i < _dungeons.size(); ++i) {
+		Ref<Dungeon> d = _dungeons[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_dungeon(d->instance(seed));
+	}
+
+#ifdef ESS_PRESENT
+	for (int i = 0; i < _entity_datas.size(); ++i) {
+		Ref<EntityData> d = _entity_datas[i];
+
+		inst->add_entity_data(d);
+	}
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	for (int i = 0; i < _environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_environment_data(d);
+	}
+
+	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _voxel_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_voxel_surface(d);
+	}
+#endif
+
+	return inst;
+}
+
 void Biome::setup() {
 	if (has_method("_setup")) {
 		call("_setup");
@@ -384,11 +454,15 @@ Biome::~Biome() {
 #ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
-	_liquid_voxel_surfaces.clear();
 #endif
 }
 
 void Biome::_bind_methods() {
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "Biome"),
+			"_instance",
+			PropertyInfo(Variant::INT, "seed"),
+			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "Biome")));
+
 	BIND_VMETHOD(MethodInfo("_setup"));
 
 #ifdef VOXELMAN_PRESENT
@@ -399,6 +473,9 @@ void Biome::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Resource"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance", "seed"), &Biome::instance);
+	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &Biome::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Biome::setup);
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Biome::setup_library);

@@ -108,6 +108,9 @@ public:
 
 #endif
 
+	Ref<Planet> instance(const int seed);
+	virtual Ref<Planet> _instance(const int seed, Ref<Planet> planet);
+
 	void setup();
 
 #ifdef VOXELMAN_PRESENT
@@ -149,7 +152,6 @@ private:
 #ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
-	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
 #endif
 };
 

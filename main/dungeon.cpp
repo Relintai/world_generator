@@ -462,6 +462,115 @@ void Dungeon::set_environment_datas(const Vector<Variant> &environment_datas) {
 }
 #endif
 
+Ref<Dungeon> Dungeon::instance(const int seed) {
+	if (has_method("_instance")) {
+		return call("_instance", seed);
+	}
+
+	return Ref<Dungeon>();
+}
+
+Ref<Dungeon> Dungeon::_instance(const int seed, Ref<Dungeon> dungeon) {
+	Ref<Dungeon> inst = dungeon;
+
+	if (!inst.is_valid())
+		inst.instance();
+
+	inst->set_current_seed(seed);
+	inst->set_level_range(_level_range);
+
+	inst->set_posx(_posx);
+	inst->set_posy(_posy);
+	inst->set_posz(_posz);
+
+	inst->set_sizex(_sizex);
+	inst->set_sizey(_sizey);
+	inst->set_sizez(_sizez);
+
+	inst->set_room_count(_room_count);
+
+	inst->set_min_sizex(_min_sizex);
+	inst->set_min_sizey(_min_sizey);
+	inst->set_min_sizez(_min_sizez);
+
+	inst->set_max_sizex(_max_sizex);
+	inst->set_max_sizey(_max_sizey);
+	inst->set_max_sizez(_max_sizez);
+
+	inst->set_min_room_count(_min_room_count);
+	inst->set_max_room_count(_max_room_count);
+
+#ifdef VOXELMAN_PRESENT
+	inst->set_environment(_environment);
+#endif
+
+	for (int i = 0; i < _dungeon_rooms.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_rooms[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_room(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_start_rooms.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_start_rooms[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_start_room(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_end_rooms.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_end_rooms[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_end_room(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_corridors.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_corridors[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_corridor(r->instance(seed));
+	}
+
+#ifdef ESS_PRESENT
+	for (int i = 0; i < _entity_datas.size(); ++i) {
+		Ref<EntityData> d = _entity_datas[i];
+
+		inst->add_entity_data(d);
+	}
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	for (int i = 0; i < _environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_environment_data(d);
+	}
+
+	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _voxel_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_voxel_surface(d);
+	}
+#endif
+
+	return inst;
+}
+
 void Dungeon::setup() {
 	if (has_method("_setup")) {
 		call("_setup");
@@ -595,15 +704,16 @@ Dungeon::~Dungeon() {
 
 #ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
-#endif
-
-#ifdef VOXELMAN_PRESENT
 	_voxel_surfaces.clear();
-	_liquid_voxel_surfaces.clear();
 #endif
 }
 
 void Dungeon::_bind_methods() {
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon"),
+			"_instance",
+			PropertyInfo(Variant::INT, "seed"),
+			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "Dungeon")));
+
 	BIND_VMETHOD(MethodInfo("_setup"));
 
 #ifdef VOXELMAN_PRESENT
@@ -614,6 +724,9 @@ void Dungeon::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance", "seed"), &Dungeon::instance);
+	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &Dungeon::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Dungeon::setup);
 

@@ -155,6 +155,9 @@ public:
 	void set_entity_datas(const Vector<Variant> &entity_datas);
 #endif
 
+	Ref<DungeonRoom> instance(const int seed);
+	virtual Ref<DungeonRoom> _instance(const int seed, Ref<DungeonRoom> dungeon_room);
+
 	void setup();
 
 #ifdef VOXELMAN_PRESENT
@@ -209,7 +212,6 @@ private:
 #ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
-	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
 #endif
 };
 

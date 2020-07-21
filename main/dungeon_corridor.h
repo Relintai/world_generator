@@ -40,6 +40,8 @@ public:
 
 	int get_dungeon_room_count() const;
 
+	Ref<DungeonRoom> _instance(const int seed, Ref<DungeonRoom> dungeon_room);
+
 	DungeonCorridor();
 	~DungeonCorridor();
 

@@ -225,6 +225,72 @@ void Planet::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 
 #endif
 
+Ref<Planet> Planet::instance(const int seed) {
+	if (has_method("_instance")) {
+		return call("_instance", seed);
+	}
+
+	return Ref<Planet>();
+}
+
+Ref<Planet> Planet::_instance(const int seed, Ref<Planet> planet) {
+	Ref<Planet> inst = planet;
+
+	if (!inst.is_valid())
+		inst.instance();
+
+	inst->set_id(_id);
+	inst->set_current_seed(seed);
+	inst->set_level_range(_level_range);
+
+#ifdef VOXELMAN_PRESENT
+	inst->set_environment(_environment);
+#endif
+
+	for (int i = 0; i < _biomes.size(); ++i) {
+		Ref<Biome> b = _biomes[i];
+
+		if (!b.is_valid())
+			continue;
+
+		inst->add_biome(b->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeons.size(); ++i) {
+		Ref<Dungeon> d = _dungeons[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_dungeon(d->instance(seed));
+	}
+
+#ifdef FASTNOISE_PRESENT
+	inst->set_humidity_noise_params(_humidity_noise_params->duplicate());
+	inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
+#endif
+
+	for (int i = 0; i < _environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_environment_data(d);
+	}
+
+	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _voxel_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_voxel_surface(d);
+	}
+
+	return inst;
+}
+
 void Planet::setup() {
 	if (has_method("_setup")) {
 		call("_setup");
@@ -319,11 +385,15 @@ Planet::~Planet() {
 #ifdef VOXELMAN_PRESENT
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
-	_liquid_voxel_surfaces.clear();
 #endif
 }
 
 void Planet::_bind_methods() {
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "inst", PROPERTY_HINT_RESOURCE_TYPE, "Planet"),
+			"_instance",
+			PropertyInfo(Variant::INT, "seed"),
+			PropertyInfo(Variant::OBJECT, "instance", PROPERTY_HINT_RESOURCE_TYPE, "Planet")));
+
 	BIND_VMETHOD(MethodInfo("_setup"));
 
 #ifdef VOXELMAN_PRESENT
@@ -333,6 +403,9 @@ void Planet::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #endif
+
+	ClassDB::bind_method(D_METHOD("instance", "seed"), &Planet::instance);
+	ClassDB::bind_method(D_METHOD("_instance", "seed", "instance"), &Planet::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
 

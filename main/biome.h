@@ -118,6 +118,9 @@ public:
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 #endif
 
+	Ref<Biome> instance(const int seed);
+	virtual Ref<Biome> _instance(const int seed, Ref<Biome> biome);
+
 	void setup();
 
 #ifdef VOXELMAN_PRESENT
@@ -161,7 +164,6 @@ private:
 #ifdef VOXELMAN_PRESENT
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
-	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
 #endif
 };
 

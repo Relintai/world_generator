@@ -186,6 +186,9 @@ public:
 
 #endif
 
+	Ref<Dungeon> instance(const int seed);
+	virtual Ref<Dungeon> _instance(const int seed, Ref<Dungeon> dungeon);
+
 	void setup();
 
 #ifdef VOXELMAN_PRESENT
@@ -252,7 +255,6 @@ private:
 
 #ifdef VOXELMAN_PRESENT
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
-	Vector<Ref<VoxelSurface> > _liquid_voxel_surfaces;
 #endif
 };
 
