@@ -36,6 +36,20 @@ void Biome::set_level_range(Vector2 value) {
 	_level_range = value;
 }
 
+Vector2 Biome::get_humidity_range() {
+	return _humidity_range;
+}
+void Biome::set_humidity_range(Vector2 range) {
+	_humidity_range = range;
+}
+
+Vector2 Biome::get_temperature_range() {
+	return _temperature_range;
+}
+void Biome::set_temperature_range(Vector2 range) {
+	_temperature_range = range;
+}
+
 #ifdef VOXELMAN_PRESENT
 Ref<EnvironmentData> Biome::get_environment() {
 	return _environment;
@@ -44,13 +58,6 @@ void Biome::set_environment(Ref<EnvironmentData> value) {
 	_environment = value;
 }
 #endif
-
-Ref<BiomeData> Biome::get_data() {
-	return _data;
-}
-void Biome::set_data(Ref<BiomeData> value) {
-	_data = value;
-}
 
 ////    Prop Data    ////
 Ref<WorldGeneratorPropData> Biome::get_prop_data(const int index) const {
@@ -76,6 +83,26 @@ int Biome::get_prop_data_count() const {
 	return _prop_datas.size();
 }
 
+Vector<Variant> Biome::get_prop_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _prop_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_prop_datas[i].get_ref_ptr());
+#else
+		r.push_back(_prop_datas[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_prop_datas(const Vector<Variant> &prop_datas) {
+	_prop_datas.clear();
+	for (int i = 0; i < prop_datas.size(); i++) {
+		Ref<WorldGeneratorPropData> prop_data = Ref<WorldGeneratorPropData>(prop_datas[i]);
+
+		_prop_datas.push_back(prop_data);
+	}
+}
+
 #ifdef ESS_PRESENT
 //Entities
 Ref<EntityData> Biome::get_entity_data(const int index) const {
@@ -98,6 +125,26 @@ void Biome::remove_entity_data(const int index) {
 }
 int Biome::get_entity_data_count() const {
 	return _entity_datas.size();
+}
+
+Vector<Variant> Biome::get_entity_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _entity_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_entity_datas[i].get_ref_ptr());
+#else
+		r.push_back(_entity_datas[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_entity_datas(const Vector<Variant> &entity_datas) {
+	_entity_datas.clear();
+	for (int i = 0; i < entity_datas.size(); i++) {
+		Ref<EntityData> entity_data = Ref<EntityData>(entity_datas[i]);
+
+		_entity_datas.push_back(entity_data);
+	}
 }
 #endif
 
@@ -124,10 +171,116 @@ int Biome::get_dungeon_count() const {
 	return _dungeons.size();
 }
 
-void Biome::setup() {
-	if (!_data.is_valid())
-		return;
+Vector<Variant> Biome::get_dungeons() {
+	Vector<Variant> r;
+	for (int i = 0; i < _dungeons.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_dungeons[i].get_ref_ptr());
+#else
+		r.push_back(_dungeons[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_dungeons(const Vector<Variant> &dungeon_datas) {
+	_dungeons.clear();
+	for (int i = 0; i < dungeon_datas.size(); i++) {
+		Ref<DungeonData> dungeon_data = Ref<DungeonData>(dungeon_datas[i]);
 
+		_dungeons.push_back(dungeon_data);
+	}
+}
+
+#ifdef VOXELMAN_PRESENT
+//Environments
+Ref<EnvironmentData> Biome::get_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
+
+	return _environment_datas.get(index);
+}
+void Biome::set_environment_data(const int index, const Ref<EnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _environment_datas.size());
+
+	_environment_datas.set(index, environment_data);
+}
+void Biome::add_environment_data(const Ref<EnvironmentData> environment_data) {
+	_environment_datas.push_back(environment_data);
+}
+void Biome::remove_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _environment_datas.size());
+
+	_environment_datas.remove(index);
+}
+int Biome::get_environment_data_count() const {
+	return _environment_datas.size();
+}
+
+Vector<Variant> Biome::get_environment_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _environment_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_environment_datas[i].get_ref_ptr());
+#else
+		r.push_back(_environment_datas[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_environment_datas(const Vector<Variant> &environment_datas) {
+	_environment_datas.clear();
+	for (int i = 0; i < environment_datas.size(); i++) {
+		Ref<EnvironmentData> environment_data = Ref<EnvironmentData>(environment_datas[i]);
+
+		_environment_datas.push_back(environment_data);
+	}
+}
+
+////    Surfaces    ////
+Ref<VoxelSurface> Biome::get_voxel_surface(const int index) const {
+	ERR_FAIL_INDEX_V(index, _voxel_surfaces.size(), Ref<VoxelSurface>());
+
+	return _voxel_surfaces.get(index);
+}
+void Biome::set_voxel_surface(const int index, const Ref<VoxelSurface> voxel_surface) {
+	ERR_FAIL_INDEX(index, _voxel_surfaces.size());
+
+	_voxel_surfaces.set(index, voxel_surface);
+}
+void Biome::add_voxel_surface(const Ref<VoxelSurface> voxel_surface) {
+	_voxel_surfaces.push_back(voxel_surface);
+}
+void Biome::remove_voxel_surface(const int index) {
+	ERR_FAIL_INDEX(index, _voxel_surfaces.size());
+
+	_voxel_surfaces.remove(index);
+}
+int Biome::get_voxel_surface_count() const {
+	return _voxel_surfaces.size();
+}
+
+Vector<Variant> Biome::get_voxel_surfaces() {
+	Vector<Variant> r;
+	for (int i = 0; i < _voxel_surfaces.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_voxel_surfaces[i].get_ref_ptr());
+#else
+		r.push_back(_voxel_surfaces[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
+	_voxel_surfaces.clear();
+	for (int i = 0; i < voxel_surfaces.size(); i++) {
+		Ref<EnvironmentData> voxel_surface = Ref<EnvironmentData>(voxel_surfaces[i]);
+
+		_voxel_surfaces.push_back(voxel_surface);
+	}
+}
+
+#endif
+
+void Biome::setup() {
 	if (has_method("_setup")) {
 		call("_setup");
 	}
@@ -152,17 +305,14 @@ void Biome::generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs)
 void Biome::setup_library(Ref<VoxelmanLibrary> library) {
 	ERR_FAIL_COND(!library.is_valid());
 
-	if (!_data.is_valid())
-		return;
-
 	if (has_method("_setup_library")) {
 		call("_setup_library", library);
 	}
 }
 
 void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
-	for (int i = 0; i < _data->get_voxel_surface_count(); ++i) {
-		Ref<VoxelSurface> s = _data->get_voxel_surface(i);
+	for (int i = 0; i < get_voxel_surface_count(); ++i) {
+		Ref<VoxelSurface> s = get_voxel_surface(i);
 
 		if (s.is_valid()) {
 			library->add_voxel_surface(s);
@@ -178,8 +328,8 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 	}
 
 #ifdef PROPS_PRESENT
-	for (int i = 0; i < _data->get_prop_data_count(); ++i) {
-		Ref<WorldGeneratorPropData> s = _data->get_prop_data(i);
+	for (int i = 0; i < get_prop_data_count(); ++i) {
+		Ref<WorldGeneratorPropData> s = get_prop_data(i);
 
 		if (s.is_valid()) {
 			Ref<PackedScene> pd = s->get_prop();
@@ -217,7 +367,6 @@ Biome::~Biome() {
 	_environment.unref();
 #endif
 
-	_data.unref();
 	_prop_datas.clear();
 
 #ifdef ESS_PRESENT
@@ -225,6 +374,18 @@ Biome::~Biome() {
 #endif
 
 	_dungeons.clear();
+
+	_prop_datas.clear();
+
+#ifdef ESS_PRESENT
+	_entity_datas.clear();
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	_environment_datas.clear();
+	_voxel_surfaces.clear();
+	_liquid_voxel_surfaces.clear();
+#endif
 }
 
 void Biome::_bind_methods() {
@@ -259,15 +420,19 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_level_range", "value"), &Biome::set_level_range);
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "level_range"), "set_level_range", "get_level_range");
 
+	ClassDB::bind_method(D_METHOD("get_humidity_range"), &Biome::get_humidity_range);
+	ClassDB::bind_method(D_METHOD("set_humidity_range", "value"), &Biome::set_humidity_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "humidity_range"), "set_humidity_range", "get_humidity_range");
+
+	ClassDB::bind_method(D_METHOD("get_temperature_range"), &Biome::get_temperature_range);
+	ClassDB::bind_method(D_METHOD("set_temperature_range", "value"), &Biome::set_temperature_range);
+	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "temperature_range"), "set_temperature_range", "get_temperature_range");
+
 #ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("get_environment"), &Biome::get_environment);
 	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
 #endif
-
-	ClassDB::bind_method(D_METHOD("get_data"), &Biome::get_data);
-	ClassDB::bind_method(D_METHOD("set_data", "value"), &Biome::set_data);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "data", PROPERTY_HINT_RESOURCE_TYPE, "BiomeData", 0), "set_data", "get_data");
 
 	//Props
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &Biome::get_prop_data);
@@ -276,6 +441,10 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_prop_data", "index"), &Biome::remove_prop_data);
 	ClassDB::bind_method(D_METHOD("get_prop_data_count"), &Biome::get_prop_data_count);
 
+	ClassDB::bind_method(D_METHOD("get_prop_datas"), &Biome::get_prop_datas);
+	ClassDB::bind_method(D_METHOD("set_prop_datas", "prop_datas"), &Biome::set_prop_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_datas", PROPERTY_HINT_NONE, "17/17:WorldGeneratorPropData", PROPERTY_USAGE_DEFAULT, "WorldGeneratorPropData"), "set_prop_datas", "get_prop_datas");
+
 #ifdef ESS_PRESENT
 	//Entities
 	ClassDB::bind_method(D_METHOD("get_entity_data", "index"), &Biome::get_entity_data);
@@ -283,6 +452,10 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_entity_data", "entity_data"), &Biome::add_entity_data);
 	ClassDB::bind_method(D_METHOD("remove_entity_data", "index"), &Biome::remove_entity_data);
 	ClassDB::bind_method(D_METHOD("get_entity_data_count"), &Biome::get_entity_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_entity_datas"), &Biome::get_entity_datas);
+	ClassDB::bind_method(D_METHOD("set_entity_datas", "entity_datas"), &Biome::set_entity_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
 #endif
 
 	//Dungeons
@@ -291,4 +464,32 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_dungeon", "dungeon"), &Biome::add_dungeon);
 	ClassDB::bind_method(D_METHOD("remove_dungeon", "index"), &Biome::remove_dungeon);
 	ClassDB::bind_method(D_METHOD("get_dungeon_count"), &Biome::get_dungeon_count);
+
+	ClassDB::bind_method(D_METHOD("get_dungeons"), &Biome::get_dungeons);
+	ClassDB::bind_method(D_METHOD("set_dungeons", "dungeon_datas"), &Biome::set_dungeons);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeons", PROPERTY_HINT_NONE, "17/17:Dungeon", PROPERTY_USAGE_DEFAULT, "Dungeon"), "set_dungeons", "get_dungeons");
+
+#ifdef VOXELMAN_PRESENT
+	//Environments
+	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &Biome::get_environment_data);
+	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &Biome::set_environment_data);
+	ClassDB::bind_method(D_METHOD("add_environment_data", "environment_data"), &Biome::add_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_environment_data", "index"), &Biome::remove_environment_data);
+	ClassDB::bind_method(D_METHOD("get_environment_data_count"), &Biome::get_environment_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_environment_datas"), &Biome::get_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_environment_datas", "environment_datas"), &Biome::set_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "environment_datas", PROPERTY_HINT_NONE, "17/17:EnvironmentData", PROPERTY_USAGE_DEFAULT, "EnvironmentData"), "set_environment_datas", "get_environment_datas");
+
+	//Surfaces
+	ClassDB::bind_method(D_METHOD("get_voxel_surface", "index"), &Biome::get_voxel_surface);
+	ClassDB::bind_method(D_METHOD("set_voxel_surface", "index", "data"), &Biome::set_voxel_surface);
+	ClassDB::bind_method(D_METHOD("add_voxel_surface", "voxel_surface"), &Biome::add_voxel_surface);
+	ClassDB::bind_method(D_METHOD("remove_voxel_surface", "index"), &Biome::remove_voxel_surface);
+	ClassDB::bind_method(D_METHOD("get_voxel_surface_count"), &Biome::get_voxel_surface_count);
+
+	ClassDB::bind_method(D_METHOD("get_voxel_surfaces"), &Biome::get_voxel_surfaces);
+	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &Biome::set_voxel_surfaces);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
+#endif
 }

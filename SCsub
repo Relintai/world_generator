@@ -30,7 +30,6 @@ sources = [
     "data/dungeon_room_data.cpp",
     "data/dungeon_corridor_data.cpp",
     "data/dungeon_data.cpp",
-    "data/biome_data.cpp",
     "data/world_generator_prop_data.cpp",
 
     "world_generator.cpp",

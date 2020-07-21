@@ -6,12 +6,10 @@ def configure(env):
 
 def get_doc_classes():
     return [
-        "BiomeData",
         "DungeonCorridorData",
         "DungeonData",
         "DungeonRoomData",
         "WorldGeneratorPropData",
-        "BiomeData",
 
         "Planet",
         "Dungeon",
