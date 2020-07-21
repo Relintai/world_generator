@@ -322,7 +322,7 @@ void DungeonRoom::set_entity_datas(const Vector<Variant> &entity_datas) {
 
 Ref<DungeonRoom> DungeonRoom::instance(const int seed) {
 	if (has_method("_instance")) {
-		return call("_instance", seed);
+		return call("_instance", seed, Ref<DungeonRoom>());
 	}
 
 	return Ref<DungeonRoom>();

@@ -464,7 +464,7 @@ void Dungeon::set_environment_datas(const Vector<Variant> &environment_datas) {
 
 Ref<Dungeon> Dungeon::instance(const int seed) {
 	if (has_method("_instance")) {
-		return call("_instance", seed);
+		return call("_instance", seed, Ref<Dungeon>());
 	}
 
 	return Ref<Dungeon>();

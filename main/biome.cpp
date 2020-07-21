@@ -282,7 +282,7 @@ void Biome::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 
 Ref<Biome> Biome::instance(const int seed) {
 	if (has_method("_instance")) {
-		return call("_instance", seed);
+		return call("_instance", seed, Ref<Biome>());
 	}
 
 	return Ref<Biome>();
