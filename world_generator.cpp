@@ -24,17 +24,17 @@ SOFTWARE.
 
 #include "core/version.h"
 
-Ref<PlanetData> WorldGenerator::get_planet_data(const int index) const {
-	ERR_FAIL_INDEX_V(index, _planet_datas.size(), Ref<PlanetData>());
+Ref<Planet> WorldGenerator::get_planet_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _planet_datas.size(), Ref<Planet>());
 
 	return _planet_datas.get(index);
 }
-void WorldGenerator::set_planet_data(const int index, const Ref<PlanetData> planet_data) {
+void WorldGenerator::set_planet_data(const int index, const Ref<Planet> planet_data) {
 	ERR_FAIL_INDEX(index, _planet_datas.size());
 
 	_planet_datas.set(index, planet_data);
 }
-void WorldGenerator::add_planet_data(const Ref<PlanetData> planet_data) {
+void WorldGenerator::add_planet_data(const Ref<Planet> planet_data) {
 	_planet_datas.push_back(planet_data);
 }
 void WorldGenerator::remove_planet_data(const int index) {
@@ -61,7 +61,7 @@ Vector<Variant> WorldGenerator::get_planet_datas() {
 void WorldGenerator::set_planet_datas(const Vector<Variant> &planet_datas) {
 	_planet_datas.clear();
 	for (int i = 0; i < planet_datas.size(); i++) {
-		Ref<PlanetData> planet_data = Ref<PlanetData>(planet_datas[i]);
+		Ref<Planet> planet_data = Ref<Planet>(planet_datas[i]);
 
 		_planet_datas.push_back(planet_data);
 	}
@@ -95,5 +95,5 @@ void WorldGenerator::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_planet_datas"), &WorldGenerator::get_planet_datas);
 	ClassDB::bind_method(D_METHOD("set_planet_datas", "planet_datas"), &WorldGenerator::set_planet_datas);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "planet_datas", PROPERTY_HINT_NONE, "17/17:PlanetData", PROPERTY_USAGE_DEFAULT, "PlanetData"), "set_planet_datas", "get_planet_datas");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "planet_datas", PROPERTY_HINT_NONE, "17/17:Planet", PROPERTY_USAGE_DEFAULT, "Planet"), "set_planet_datas", "get_planet_datas");
 }

@@ -10,7 +10,6 @@ def get_doc_classes():
         "DungeonCorridorData",
         "DungeonData",
         "DungeonRoomData",
-        "PlanetData",
         "WorldGeneratorPropData",
         "BiomeData",
 
