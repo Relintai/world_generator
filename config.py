@@ -7,7 +7,6 @@ def configure(env):
 def get_doc_classes():
     return [
         "DungeonCorridorData",
-        "DungeonData",
         "DungeonRoomData",
         "WorldGeneratorPropData",
 

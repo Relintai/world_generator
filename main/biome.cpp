@@ -185,7 +185,7 @@ Vector<Variant> Biome::get_dungeons() {
 void Biome::set_dungeons(const Vector<Variant> &dungeon_datas) {
 	_dungeons.clear();
 	for (int i = 0; i < dungeon_datas.size(); i++) {
-		Ref<DungeonData> dungeon_data = Ref<DungeonData>(dungeon_datas[i]);
+		Ref<Dungeon> dungeon_data = Ref<Dungeon>(dungeon_datas[i]);
 
 		_dungeons.push_back(dungeon_data);
 	}
