@@ -411,9 +411,6 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 }
 #else
 void Biome::setup_library(Ref<Resource> library) {
-	if (!_data.is_valid())
-		return;
-
 	if (has_method("_setup_library")) {
 		call("_setup_library", library);
 	}

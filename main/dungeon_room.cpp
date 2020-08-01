@@ -447,9 +447,6 @@ void DungeonRoom::generate_room(Ref<VoxelStructure> structure, bool spawn_mobs) 
 #else
 
 void DungeonRoom::setup_library(Ref<Resource> library) {
-	if (!_data.is_valid())
-		return;
-
 	if (has_method("_setup_library")) {
 		call("_setup_library", library);
 	}

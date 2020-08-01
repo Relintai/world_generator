@@ -639,10 +639,8 @@ void Dungeon::generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs)
 	}
 }
 #else
-void Dungeon::setup_library(Ref<Resource> library) {
-	if (!_data.is_valid())
-		return;
 
+void Dungeon::setup_library(Ref<Resource> library) {
 	if (has_method("_setup_library")) {
 		call("_setup_library", library);
 	}

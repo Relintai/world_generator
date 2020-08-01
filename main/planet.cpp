@@ -272,6 +272,7 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 		inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
 #endif
 
+#ifdef VOXELMAN_PRESENT
 	for (int i = 0; i < _environment_datas.size(); ++i) {
 		Ref<EnvironmentData> d = _environment_datas[i];
 
@@ -289,6 +290,7 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 
 		inst->add_voxel_surface(d);
 	}
+#endif
 
 	return inst;
 }
@@ -344,9 +346,6 @@ void Planet::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 
 #else
 void Planet::setup_library(Ref<Resource> library) {
-	if (!_data.is_valid())
-		return;
-
 	if (has_method("_setup_library")) {
 		call("_setup_library", library);
 	}
