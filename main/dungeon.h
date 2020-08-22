@@ -149,6 +149,46 @@ public:
 	Vector<Variant> get_dungeon_corridors();
 	void set_dungeon_corridors(const Vector<Variant> &dungeon_corridors);
 
+	//Room Datas
+	Ref<DungeonRoom> get_dungeon_room_data(const int index) const;
+	void set_dungeon_room_data(const int index, const Ref<DungeonRoom> dungeon_room);
+	void add_dungeon_room_data(const Ref<DungeonRoom> dungeon_room);
+	void remove_dungeon_room_data(const int index);
+	int get_dungeon_room_data_count() const;
+
+	Vector<Variant> get_dungeon_room_datas();
+	void set_dungeon_room_datas(const Vector<Variant> &dungeon_rooms);
+
+	//Start Room Datas
+	Ref<DungeonRoom> get_dungeon_start_room_data(const int index) const;
+	void set_dungeon_start_room_data(const int index, const Ref<DungeonRoom> dungeon_start_room);
+	void add_dungeon_start_room_data(const Ref<DungeonRoom> dungeon_start_room);
+	void remove_dungeon_start_room_data(const int index);
+	int get_dungeon_start_room_data_count() const;
+
+	Vector<Variant> get_dungeon_start_room_datas();
+	void set_dungeon_start_room_datas(const Vector<Variant> &dungeon_start_rooms);
+
+	//End Room Datas
+	Ref<DungeonRoom> get_dungeon_end_room_data(const int index) const;
+	void set_dungeon_end_room_data(const int index, const Ref<DungeonRoom> dungeon_end_room);
+	void add_dungeon_end_room_data(const Ref<DungeonRoom> dungeon_end_room);
+	void remove_dungeon_end_room_data(const int index);
+	int get_dungeon_end_room_data_count() const;
+
+	Vector<Variant> get_dungeon_end_room_datas();
+	void set_dungeon_end_room_datas(const Vector<Variant> &dungeon_end_rooms);
+
+	//Corridor Datas
+	Ref<DungeonCorridor> get_dungeon_corridor_data(const int index) const;
+	void set_dungeon_corridor_data(const int index, const Ref<DungeonCorridor> dungeon_corridors);
+	void add_dungeon_corridor_data(const Ref<DungeonCorridor> dungeon_corridors);
+	void remove_dungeon_corridor_data(const int index);
+	int get_dungeon_corridor_data_count() const;
+
+	Vector<Variant> get_dungeon_corridor_datas();
+	void set_dungeon_corridor_datas(const Vector<Variant> &dungeon_corridors);
+
 #ifdef ESS_PRESENT
 	//Entities
 	Ref<EntityData> get_entity_data(const int index) const;
@@ -244,6 +284,11 @@ private:
 	Vector<Ref<DungeonRoom> > _dungeon_start_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_end_rooms;
 	Vector<Ref<DungeonCorridor> > _dungeon_corridors;
+
+	Vector<Ref<DungeonRoom> > _dungeon_room_datas;
+	Vector<Ref<DungeonRoom> > _dungeon_start_room_datas;
+	Vector<Ref<DungeonRoom> > _dungeon_end_room_datas;
+	Vector<Ref<DungeonCorridor> > _dungeon_corridor_datas;
 
 #ifdef ESS_PRESENT
 	Vector<Ref<EntityData> > _entity_datas;

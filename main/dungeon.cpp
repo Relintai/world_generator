@@ -329,6 +329,181 @@ void Dungeon::set_dungeon_corridors(const Vector<Variant> &dungeon_corridors) {
 	}
 }
 
+//Room Datas
+Ref<DungeonRoom> Dungeon::get_dungeon_room_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _dungeon_room_datas.size(), Ref<DungeonRoom>());
+
+	return _dungeon_room_datas.get(index);
+}
+void Dungeon::set_dungeon_room_data(const int index, const Ref<DungeonRoom> dungeon_room) {
+	ERR_FAIL_INDEX(index, _dungeon_room_datas.size());
+
+	_dungeon_room_datas.set(index, dungeon_room);
+}
+void Dungeon::add_dungeon_room_data(const Ref<DungeonRoom> dungeon_room) {
+	_dungeon_room_datas.push_back(dungeon_room);
+}
+void Dungeon::remove_dungeon_room_data(const int index) {
+	ERR_FAIL_INDEX(index, _dungeon_room_datas.size());
+
+	_dungeon_room_datas.remove(index);
+}
+
+int Dungeon::get_dungeon_room_data_count() const {
+	return _dungeon_room_datas.size();
+}
+
+Vector<Variant> Dungeon::get_dungeon_room_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _dungeon_room_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_dungeon_room_datas[i].get_ref_ptr());
+#else
+		r.push_back(_dungeon_room_datas[i]);
+#endif
+	}
+	return r;
+}
+void Dungeon::set_dungeon_room_datas(const Vector<Variant> &dungeon_room_datas) {
+	_dungeon_room_datas.clear();
+	for (int i = 0; i < dungeon_room_datas.size(); i++) {
+		Ref<DungeonRoom> dungeon_room_data = Ref<DungeonRoom>(dungeon_room_datas[i]);
+
+		_dungeon_room_datas.push_back(dungeon_room_data);
+	}
+}
+
+//Start Room Datas
+Ref<DungeonRoom> Dungeon::get_dungeon_start_room_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _dungeon_start_room_datas.size(), Ref<DungeonRoom>());
+
+	return _dungeon_start_room_datas.get(index);
+}
+void Dungeon::set_dungeon_start_room_data(const int index, const Ref<DungeonRoom> dungeon_start_room) {
+	ERR_FAIL_INDEX(index, _dungeon_start_room_datas.size());
+
+	_dungeon_start_room_datas.set(index, dungeon_start_room);
+}
+void Dungeon::add_dungeon_start_room_data(const Ref<DungeonRoom> dungeon_start_room) {
+	_dungeon_start_room_datas.push_back(dungeon_start_room);
+}
+void Dungeon::remove_dungeon_start_room_data(const int index) {
+	ERR_FAIL_INDEX(index, _dungeon_start_room_datas.size());
+
+	_dungeon_start_room_datas.remove(index);
+}
+
+int Dungeon::get_dungeon_start_room_data_count() const {
+	return _dungeon_start_room_datas.size();
+}
+
+Vector<Variant> Dungeon::get_dungeon_start_room_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _dungeon_start_room_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_dungeon_start_room_datas[i].get_ref_ptr());
+#else
+		r.push_back(_dungeon_start_room_datas[i]);
+#endif
+	}
+	return r;
+}
+void Dungeon::set_dungeon_start_room_datas(const Vector<Variant> &dungeon_start_room_datas) {
+	_dungeon_start_room_datas.clear();
+	for (int i = 0; i < dungeon_start_room_datas.size(); i++) {
+		Ref<DungeonRoom> dungeon_start_room_data = Ref<DungeonRoom>(dungeon_start_room_datas[i]);
+
+		_dungeon_start_room_datas.push_back(dungeon_start_room_data);
+	}
+}
+
+//End Room Datas
+Ref<DungeonRoom> Dungeon::get_dungeon_end_room_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _dungeon_end_room_datas.size(), Ref<DungeonRoom>());
+
+	return _dungeon_end_room_datas.get(index);
+}
+void Dungeon::set_dungeon_end_room_data(const int index, const Ref<DungeonRoom> dungeon_end_room) {
+	ERR_FAIL_INDEX(index, _dungeon_end_room_datas.size());
+
+	_dungeon_end_room_datas.set(index, dungeon_end_room);
+}
+void Dungeon::add_dungeon_end_room_data(const Ref<DungeonRoom> dungeon_end_room) {
+	_dungeon_end_room_datas.push_back(dungeon_end_room);
+}
+void Dungeon::remove_dungeon_end_room_data(const int index) {
+	ERR_FAIL_INDEX(index, _dungeon_end_room_datas.size());
+
+	_dungeon_end_room_datas.remove(index);
+}
+
+int Dungeon::get_dungeon_end_room_data_count() const {
+	return _dungeon_end_room_datas.size();
+}
+
+Vector<Variant> Dungeon::get_dungeon_end_room_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _dungeon_end_room_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_dungeon_end_room_datas[i].get_ref_ptr());
+#else
+		r.push_back(_dungeon_end_room_datas[i]);
+#endif
+	}
+	return r;
+}
+void Dungeon::set_dungeon_end_room_datas(const Vector<Variant> &dungeon_end_room_datas) {
+	_dungeon_end_room_datas.clear();
+	for (int i = 0; i < dungeon_end_room_datas.size(); i++) {
+		Ref<DungeonRoom> dungeon_end_room_data = Ref<DungeonRoom>(dungeon_end_room_datas[i]);
+
+		_dungeon_end_room_datas.push_back(dungeon_end_room_data);
+	}
+}
+
+//Corridor Datas
+Ref<DungeonCorridor> Dungeon::get_dungeon_corridor_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _dungeon_corridor_datas.size(), Ref<DungeonCorridor>());
+
+	return _dungeon_corridor_datas.get(index);
+}
+void Dungeon::set_dungeon_corridor_data(const int index, const Ref<DungeonCorridor> dungeon_corridor) {
+	ERR_FAIL_INDEX(index, _dungeon_corridor_datas.size());
+
+	_dungeon_corridor_datas.set(index, dungeon_corridor);
+}
+void Dungeon::add_dungeon_corridor_data(const Ref<DungeonCorridor> dungeon_corridor) {
+	_dungeon_corridor_datas.push_back(dungeon_corridor);
+}
+void Dungeon::remove_dungeon_corridor_data(const int index) {
+	ERR_FAIL_INDEX(index, _dungeon_corridor_datas.size());
+
+	_dungeon_corridor_datas.remove(index);
+}
+int Dungeon::get_dungeon_corridor_data_count() const {
+	return _dungeon_corridor_datas.size();
+}
+
+Vector<Variant> Dungeon::get_dungeon_corridor_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _dungeon_corridor_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_dungeon_corridor_datas[i].get_ref_ptr());
+#else
+		r.push_back(_dungeon_corridor_datas[i]);
+#endif
+	}
+	return r;
+}
+void Dungeon::set_dungeon_corridor_datas(const Vector<Variant> &dungeon_corridor_datas) {
+	_dungeon_corridor_datas.clear();
+	for (int i = 0; i < dungeon_corridor_datas.size(); i++) {
+		Ref<DungeonRoom> dungeon_corridor_data = Ref<DungeonRoom>(dungeon_corridor_datas[i]);
+
+		_dungeon_corridor_datas.push_back(dungeon_corridor_data);
+	}
+}
+
 #ifdef ESS_PRESENT
 //Entities
 Ref<EntityData> Dungeon::get_entity_data(const int index) const {
@@ -537,6 +712,42 @@ Ref<Dungeon> Dungeon::_instance(const int seed, Ref<Dungeon> inst) {
 			continue;
 
 		inst->add_dungeon_corridor(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_room_datas.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_room_datas[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_room_data(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_start_room_datas.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_start_room_datas[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_start_room_data(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_end_room_datas.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_end_room_datas[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_end_room_data(r->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeon_corridor_datas.size(); ++i) {
+		Ref<DungeonRoom> r = _dungeon_corridor_datas[i];
+
+		if (!r.is_valid())
+			continue;
+
+		inst->add_dungeon_corridor_data(r->instance(seed));
 	}
 
 #ifdef ESS_PRESENT
@@ -864,6 +1075,52 @@ void Dungeon::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_dungeon_corridors"), &Dungeon::get_dungeon_corridors);
 	ClassDB::bind_method(D_METHOD("set_dungeon_corridors", "dungeon_corridors"), &Dungeon::set_dungeon_corridors);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_corridors", PROPERTY_HINT_NONE, "17/17:DungeonCorridor", PROPERTY_USAGE_DEFAULT, "DungeonCorridor"), "set_dungeon_corridors", "get_dungeon_corridors");
+
+	//Room Datas
+	ClassDB::bind_method(D_METHOD("get_dungeon_room_data", "index"), &Dungeon::get_dungeon_room_data);
+	ClassDB::bind_method(D_METHOD("set_dungeon_room_data", "index", "data"), &Dungeon::set_dungeon_room_data);
+	ClassDB::bind_method(D_METHOD("add_dungeon_room_data", "dungeon_room_data"), &Dungeon::add_dungeon_room_data);
+	ClassDB::bind_method(D_METHOD("remove_dungeon_room_data", "index"), &Dungeon::remove_dungeon_room_data);
+
+	ClassDB::bind_method(D_METHOD("get_dungeon_room_data_count"), &Dungeon::get_dungeon_room_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_dungeon_room_datas"), &Dungeon::get_dungeon_room_datas);
+	ClassDB::bind_method(D_METHOD("set_dungeon_room_datas", "dungeon_room_datas"), &Dungeon::set_dungeon_room_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_room_datas", PROPERTY_HINT_NONE, "17/17:DungeonRoom", PROPERTY_USAGE_DEFAULT, "DungeonRoom"), "set_dungeon_room_datas", "get_dungeon_room_datas");
+
+	//Start Room Datas
+	ClassDB::bind_method(D_METHOD("get_dungeon_start_room_data", "index"), &Dungeon::get_dungeon_start_room_data);
+	ClassDB::bind_method(D_METHOD("set_dungeon_start_room_data", "index", "data"), &Dungeon::set_dungeon_start_room_data);
+	ClassDB::bind_method(D_METHOD("add_dungeon_start_room_data", "dungeon_start_room_data"), &Dungeon::add_dungeon_start_room_data);
+	ClassDB::bind_method(D_METHOD("remove_dungeon_start_room_data", "index"), &Dungeon::remove_dungeon_start_room_data);
+
+	ClassDB::bind_method(D_METHOD("get_dungeon_start_room_data_count"), &Dungeon::get_dungeon_start_room_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_dungeon_start_room_datas"), &Dungeon::get_dungeon_start_room_datas);
+	ClassDB::bind_method(D_METHOD("set_dungeon_start_room_datas", "dungeon_start_room_datas"), &Dungeon::set_dungeon_start_room_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_start_room_datas", PROPERTY_HINT_NONE, "17/17:DungeonRoom", PROPERTY_USAGE_DEFAULT, "DungeonRoom"), "set_dungeon_start_room_datas", "get_dungeon_start_room_datas");
+
+	//End Room Datas
+	ClassDB::bind_method(D_METHOD("get_dungeon_end_room_data", "index"), &Dungeon::get_dungeon_end_room_data);
+	ClassDB::bind_method(D_METHOD("set_dungeon_end_room_data", "index", "data"), &Dungeon::set_dungeon_end_room_data);
+	ClassDB::bind_method(D_METHOD("add_dungeon_end_room_data", "dungeon_end_room_data"), &Dungeon::add_dungeon_end_room_data);
+	ClassDB::bind_method(D_METHOD("remove_dungeon_end_room_data", "index"), &Dungeon::remove_dungeon_end_room_data);
+	ClassDB::bind_method(D_METHOD("get_dungeon_end_room_data_count"), &Dungeon::get_dungeon_end_room_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_dungeon_end_room_datas"), &Dungeon::get_dungeon_end_room_datas);
+	ClassDB::bind_method(D_METHOD("set_dungeon_end_room_datas", "dungeon_end_room_datas"), &Dungeon::set_dungeon_end_room_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_end_room_datas", PROPERTY_HINT_NONE, "17/17:DungeonRoom", PROPERTY_USAGE_DEFAULT, "DungeonRoom"), "set_dungeon_end_room_datas", "get_dungeon_end_room_datas");
+
+	//Corridor Datas
+	ClassDB::bind_method(D_METHOD("get_dungeon_corridor_data", "index"), &Dungeon::get_dungeon_corridor_data);
+	ClassDB::bind_method(D_METHOD("set_dungeon_corridor_data", "index", "data"), &Dungeon::set_dungeon_corridor_data);
+	ClassDB::bind_method(D_METHOD("add_dungeon_corridor_data", "dungeon_corridor_data"), &Dungeon::add_dungeon_corridor_data);
+	ClassDB::bind_method(D_METHOD("remove_dungeon_corridor_data", "index"), &Dungeon::remove_dungeon_corridor_data);
+	ClassDB::bind_method(D_METHOD("get_dungeon_corridor_data_count"), &Dungeon::get_dungeon_corridor_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_dungeon_corridor_datas"), &Dungeon::get_dungeon_corridor_datas);
+	ClassDB::bind_method(D_METHOD("set_dungeon_corridor_datas", "dungeon_corridor_datas"), &Dungeon::set_dungeon_corridor_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeon_corridor_datas", PROPERTY_HINT_NONE, "17/17:DungeonCorridor", PROPERTY_USAGE_DEFAULT, "DungeonCorridor"), "set_dungeon_corridor_datas", "get_dungeon_corridor_datas");
 
 #ifdef ESS_PRESENT
 	//Entities
