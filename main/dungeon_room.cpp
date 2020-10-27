@@ -413,7 +413,7 @@ void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<VoxelSurface> s = get_voxel_surface(i);
 
 		if (s.is_valid()) {
-			library->add_voxel_surface(s);
+			library->voxel_surface_add(s);
 		}
 	}
 
@@ -425,7 +425,7 @@ void DungeonRoom::_setup_library(Ref<VoxelmanLibrary> library) {
 			Ref<PackedScene> pd = s->get_prop();
 
 			if (pd.is_valid())
-				library->add_prop(pd);
+				library->prop_add(pd);
 		}
 	}
 #endif

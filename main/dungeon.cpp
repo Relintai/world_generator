@@ -799,7 +799,7 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<VoxelSurface> s = get_voxel_surface(i);
 
 		if (s.is_valid()) {
-			library->add_voxel_surface(s);
+			library->voxel_surface_add(s);
 		}
 	}
 
