@@ -23,9 +23,17 @@ SOFTWARE.
 #ifndef DUNGEON_ROOM_H
 #define DUNGEON_ROOM_H
 
+#include "core/version.h"
+
+#if VERSION_MAJOR > 3
+#include "core/io/resource.h"
+#include "core/object/reference.h"
+#include "core/templates/vector.h"
+#else
 #include "core/reference.h"
 #include "core/resource.h"
 #include "core/vector.h"
+#endif
 
 #include "../data/world_generator_prop_data.h"
 

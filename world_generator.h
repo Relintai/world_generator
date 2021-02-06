@@ -23,8 +23,15 @@ SOFTWARE.
 #ifndef WORLD_GENERATOR_H
 #define WORLD_GENERATOR_H
 
+#include "core/version.h"
+
+#if VERSION_MAJOR > 3
+#include "core/io/resource.h"
+#include "core/templates/vector.h"
+#else
 #include "core/resource.h"
 #include "core/vector.h"
+#endif
 
 #include "main/planet.h"
 

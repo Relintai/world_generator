@@ -23,7 +23,13 @@ SOFTWARE.
 #ifndef WORLD_GENERATOR_PROP_DATA_H
 #define WORLD_GENERATOR_PROP_DATA_H
 
+#include "core/version.h"
+
+#if VERSION_MAJOR > 3
+#include "core/io/resource.h"
+#else
 #include "core/resource.h"
+#endif
 
 class PackedScene;
 

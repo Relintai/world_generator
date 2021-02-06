@@ -23,9 +23,17 @@ SOFTWARE.
 #ifndef PLANET_H
 #define PLANET_H
 
+#include "core/version.h"
+
+#if VERSION_MAJOR > 3
+#include "core/io/image.h"
+#include "core/io/resource.h"
+#include "core/object/reference.h"
+#else
 #include "core/image.h"
 #include "core/reference.h"
 #include "core/resource.h"
+#endif
 
 #include "biome.h"
 #include "dungeon.h"

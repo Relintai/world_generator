@@ -23,8 +23,15 @@ SOFTWARE.
 #ifndef BIOME_H
 #define BIOME_H
 
+#include "core/version.h"
+
+#if VERSION_MAJOR > 3
+#include "core/io/resource.h"
+#include "core/object/reference.h"
+#else
 #include "core/reference.h"
 #include "core/resource.h"
+#endif
 
 #include "dungeon.h"
 
