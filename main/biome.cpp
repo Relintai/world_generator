@@ -201,10 +201,6 @@ Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
 	inst->set_humidity_range(_humidity_range);
 	inst->set_temperature_range(_temperature_range);
 
-#ifdef VOXELMAN_PRESENT
-	inst->set_voxel_environment(_voxel_environment);
-#endif
-
 	for (int i = 0; i < _prop_datas.size(); ++i) {
 		Ref<WorldGeneratorPropData> p = _prop_datas[i];
 
@@ -229,6 +225,8 @@ Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
 #endif
 
 #ifdef VOXELMAN_PRESENT
+	inst->set_voxel_environment(_voxel_environment);
+
 	for (int i = 0; i < _voxel_environment_datas.size(); ++i) {
 		Ref<EnvironmentData> d = _voxel_environment_datas[i];
 
@@ -345,7 +343,7 @@ Vector<Variant> Biome::get_voxel_surfaces() {
 void Biome::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 	_voxel_surfaces.clear();
 	for (int i = 0; i < voxel_surfaces.size(); i++) {
-		Ref<EnvironmentData> voxel_surface = Ref<EnvironmentData>(voxel_surfaces[i]);
+		Ref<VoxelSurface> voxel_surface = Ref<VoxelSurface>(voxel_surfaces[i]);
 
 		_voxel_surfaces.push_back(voxel_surface);
 	}
@@ -406,6 +404,155 @@ void Biome::_setup_voxel_library(Ref<VoxelmanLibrary> library) {
 }
 #endif
 
+#ifdef TERRAMAN_PRESENT
+Ref<TerraEnvironmentData> Biome::get_terra_environment() {
+	return _terra_environment;
+}
+void Biome::set_terra_environment(Ref<TerraEnvironmentData> value) {
+	_terra_environment = value;
+}
+
+//Environments
+Ref<TerraEnvironmentData> Biome::get_terra_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _terra_environment_datas.size(), Ref<TerraEnvironmentData>());
+
+	return _terra_environment_datas.get(index);
+}
+void Biome::set_terra_environment_data(const int index, const Ref<TerraEnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _terra_environment_datas.size());
+
+	_terra_environment_datas.set(index, environment_data);
+}
+void Biome::add_terra_environment_data(const Ref<TerraEnvironmentData> environment_data) {
+	_terra_environment_datas.push_back(environment_data);
+}
+void Biome::remove_terra_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _terra_environment_datas.size());
+
+	_terra_environment_datas.remove(index);
+}
+int Biome::get_terra_environment_data_count() const {
+	return _terra_environment_datas.size();
+}
+
+Vector<Variant> Biome::get_terra_environment_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _terra_environment_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_terra_environment_datas[i].get_ref_ptr());
+#else
+		r.push_back(_terra_environment_datas[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_terra_environment_datas(const Vector<Variant> &environment_datas) {
+	_terra_environment_datas.clear();
+	for (int i = 0; i < environment_datas.size(); i++) {
+		Ref<TerraEnvironmentData> environment_data = Ref<TerraEnvironmentData>(environment_datas[i]);
+
+		_terra_environment_datas.push_back(environment_data);
+	}
+}
+
+////    Surfaces    ////
+Ref<TerraSurface> Biome::get_terra_surface(const int index) const {
+	ERR_FAIL_INDEX_V(index, _terra_surfaces.size(), Ref<TerraSurface>());
+
+	return _terra_surfaces.get(index);
+}
+void Biome::set_terra_surface(const int index, const Ref<TerraSurface> terra_surface) {
+	ERR_FAIL_INDEX(index, _terra_surfaces.size());
+
+	_terra_surfaces.set(index, terra_surface);
+}
+void Biome::add_terra_surface(const Ref<TerraSurface> terra_surface) {
+	_terra_surfaces.push_back(terra_surface);
+}
+void Biome::remove_terra_surface(const int index) {
+	ERR_FAIL_INDEX(index, _terra_surfaces.size());
+
+	_terra_surfaces.remove(index);
+}
+int Biome::get_terra_surface_count() const {
+	return _terra_surfaces.size();
+}
+
+Vector<Variant> Biome::get_terra_surfaces() {
+	Vector<Variant> r;
+	for (int i = 0; i < _terra_surfaces.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_terra_surfaces[i].get_ref_ptr());
+#else
+		r.push_back(_terra_surfaces[i]);
+#endif
+	}
+	return r;
+}
+void Biome::set_terra_surfaces(const Vector<Variant> &terra_surfaces) {
+	_terra_surfaces.clear();
+	for (int i = 0; i < terra_surfaces.size(); i++) {
+		Ref<TerraSurface> terra_surface = Ref<TerraSurface>(terra_surfaces[i]);
+
+		_terra_surfaces.push_back(terra_surface);
+	}
+}
+
+void Biome::generate_terra_chunk(Ref<TerraChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
+
+	if (has_method("_generate_terra_chunk")) {
+		call("_generate_terra_chunk", chunk, spawn_mobs);
+	}
+}
+void Biome::generate_terra_stack(Ref<TerraChunk> chunk, int x, int z, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
+
+	if (has_method("_generate_terra_stack")) {
+		call("_generate_terra_stack", chunk, x, z, spawn_mobs);
+	}
+}
+
+void Biome::setup_terra_library(Ref<TerramanLibrary> library) {
+	ERR_FAIL_COND(!library.is_valid());
+
+	if (has_method("_setup_terra_library")) {
+		call("_setup_terra_library", library);
+	}
+}
+
+void Biome::_setup_terra_library(Ref<TerramanLibrary> library) {
+	for (int i = 0; i < get_terra_surface_count(); ++i) {
+		Ref<TerraSurface> s = get_terra_surface(i);
+
+		if (s.is_valid()) {
+			library->voxel_surface_add(s);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_count(); ++i) {
+		Ref<Dungeon> d = get_dungeon(i);
+
+		if (d.is_valid()) {
+			d->setup_terra_library(library);
+		}
+	}
+
+#ifdef PROPS_PRESENT
+	for (int i = 0; i < get_prop_data_count(); ++i) {
+		Ref<WorldGeneratorPropData> s = get_prop_data(i);
+
+		if (s.is_valid()) {
+			Ref<PackedScene> pd = s->get_prop();
+
+			if (pd.is_valid())
+				library->prop_add(s->get_prop());
+		}
+	}
+#endif
+}
+#endif
+
 Biome::Biome() {
 	_current_seed = 0;
 }
@@ -429,6 +576,13 @@ Biome::~Biome() {
 
 	_voxel_environment_datas.clear();
 	_voxel_surfaces.clear();
+#endif
+
+#ifdef TERRAMAN_PRESENT
+	_terra_environment.unref();
+
+	_terra_environment_datas.clear();
+	_terra_surfaces.clear();
 #endif
 }
 
@@ -532,5 +686,43 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_voxel_surfaces"), &Biome::get_voxel_surfaces);
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &Biome::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
+#endif
+
+#ifdef TERRAMAN_PRESENT
+	BIND_VMETHOD(MethodInfo("_setup_terra_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerramanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_terra_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerraChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_terra_stack", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerraChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+
+	ClassDB::bind_method(D_METHOD("setup_terra_library", "library"), &Biome::setup_terra_library);
+	ClassDB::bind_method(D_METHOD("_setup_terra_library", "library"), &Biome::_setup_terra_library);
+
+	ClassDB::bind_method(D_METHOD("generate_terra_chunk", "chunk", "spawn_mobs"), &Biome::generate_terra_chunk);
+	ClassDB::bind_method(D_METHOD("generate_terra_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_terra_stack);
+
+	ClassDB::bind_method(D_METHOD("get_terra_environment"), &Biome::get_terra_environment);
+	ClassDB::bind_method(D_METHOD("set_terra_environment", "value"), &Biome::set_terra_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "terra_environment", PROPERTY_HINT_RESOURCE_TYPE, "TerraEnvironmentData"), "set_terra_environment", "get_terra_environment");
+
+	//Environments
+	ClassDB::bind_method(D_METHOD("get_terra_environment_data", "index"), &Biome::get_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("set_terra_environment_data", "index", "data"), &Biome::set_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("add_terra_environment_data", "environment_data"), &Biome::add_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_terra_environment_data", "index"), &Biome::remove_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("get_terra_environment_data_count"), &Biome::get_terra_environment_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_terra_environment_datas"), &Biome::get_terra_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_terra_environment_datas", "environment_datas"), &Biome::set_terra_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_environment_datas", PROPERTY_HINT_NONE, "17/17:TerraEnvironmentData", PROPERTY_USAGE_DEFAULT, "TerraEnvironmentData"), "set_terra_environment_datas", "get_terra_environment_datas");
+
+	//Surfaces
+	ClassDB::bind_method(D_METHOD("get_terra_surface", "index"), &Biome::get_terra_surface);
+	ClassDB::bind_method(D_METHOD("set_terra_surface", "index", "data"), &Biome::set_terra_surface);
+	ClassDB::bind_method(D_METHOD("add_terra_surface", "terra_surface"), &Biome::add_terra_surface);
+	ClassDB::bind_method(D_METHOD("remove_terra_surface", "index"), &Biome::remove_terra_surface);
+	ClassDB::bind_method(D_METHOD("get_terra_surface_count"), &Biome::get_terra_surface_count);
+
+	ClassDB::bind_method(D_METHOD("get_terra_surfaces"), &Biome::get_terra_surfaces);
+	ClassDB::bind_method(D_METHOD("set_terra_surfaces", "terra_surfaces"), &Biome::set_terra_surfaces);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_surfaces", PROPERTY_HINT_NONE, "17/17:TerraSurface", PROPERTY_USAGE_DEFAULT, "TerraSurface"), "set_terra_surfaces", "get_terra_surfaces");
 #endif
 }
