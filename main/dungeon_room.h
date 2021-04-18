@@ -102,18 +102,6 @@ public:
 	int get_sizez();
 	void set_sizez(int value);
 
-#ifdef VOXELMAN_PRESENT
-	//Environment
-	Ref<EnvironmentData> get_environment();
-	void set_environment(Ref<EnvironmentData> value);
-#endif
-
-#ifdef VOXELMAN_PRESENT
-	//Structure
-	Ref<VoxelStructure> get_structure();
-	void set_structure(Ref<VoxelStructure> structure);
-#endif
-
 	//Props
 	Ref<WorldGeneratorPropData> get_prop_data(const int index) const;
 	void set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data);
@@ -124,8 +112,32 @@ public:
 	Vector<Variant> get_prop_datas();
 	void set_prop_datas(const Vector<Variant> &prop_datas);
 
+
+#ifdef ESS_PRESENT
+	//Entities
+	Ref<EntityData> get_entity_data(const int index) const;
+	void set_entity_data(const int index, const Ref<EntityData> entity_data);
+	void add_entity_data(const Ref<EntityData> entity_data);
+	void remove_entity_data(const int index);
+	int get_entity_data_count() const;
+
+	Vector<Variant> get_entity_datas();
+	void set_entity_datas(const Vector<Variant> &entity_datas);
+#endif
+
+	Ref<DungeonRoom> instance(const int seed);
+	virtual Ref<DungeonRoom> _instance(const int seed, Ref<DungeonRoom> inst);
+
+	void setup();
+
 #ifdef VOXELMAN_PRESENT
-	//TOO: Environments are useful for every game, this should be decoupled from voxelman.
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
+	//Structure
+	Ref<VoxelStructure> get_structure();
+	void set_structure(Ref<VoxelStructure> structure);
 
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
@@ -147,28 +159,6 @@ public:
 	Vector<Variant> get_voxel_surfaces();
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 
-#else
-//TODO Create generic binds
-#endif
-
-#ifdef ESS_PRESENT
-	//Entities
-	Ref<EntityData> get_entity_data(const int index) const;
-	void set_entity_data(const int index, const Ref<EntityData> entity_data);
-	void add_entity_data(const Ref<EntityData> entity_data);
-	void remove_entity_data(const int index);
-	int get_entity_data_count() const;
-
-	Vector<Variant> get_entity_datas();
-	void set_entity_datas(const Vector<Variant> &entity_datas);
-#endif
-
-	Ref<DungeonRoom> instance(const int seed);
-	virtual Ref<DungeonRoom> _instance(const int seed, Ref<DungeonRoom> inst);
-
-	void setup();
-
-#ifdef VOXELMAN_PRESENT
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
