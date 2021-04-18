@@ -16,6 +16,8 @@ if os.path.isdir('../fastnoise'):
 if os.path.isdir('../props'):
     module_env.Append(CPPDEFINES=['PROPS_PRESENT'])
 
+if os.path.isdir('../terraman'):
+    module_env.Append(CPPDEFINES=['TERRAMAN_PRESENT'])
 
 sources = [
 

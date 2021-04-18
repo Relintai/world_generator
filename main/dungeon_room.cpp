@@ -245,12 +245,6 @@ Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> inst) {
 	inst->set_max_sizey(_max_sizey);
 	inst->set_max_sizez(_max_sizez);
 
-#ifdef VOXELMAN_PRESENT
-	inst->set_voxel_environment(_voxel_environment);
-	//don't
-	//inst->set_structure(_structure);
-#endif
-
 	for (int i = 0; i < _prop_datas.size(); ++i) {
 		Ref<WorldGeneratorPropData> p = _prop_datas[i];
 
@@ -266,6 +260,10 @@ Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> inst) {
 #endif
 
 #ifdef VOXELMAN_PRESENT
+	inst->set_voxel_environment(_voxel_environment);
+	//don't
+	//inst->set_structure(_structure);
+
 	for (int i = 0; i < _voxel_environment_datas.size(); ++i) {
 		Ref<EnvironmentData> d = _voxel_environment_datas[i];
 
@@ -282,6 +280,31 @@ Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> inst) {
 			continue;
 
 		inst->add_voxel_surface(d);
+	}
+#endif
+
+
+#ifdef TERRAMAN_PRESENT
+	inst->set_terra_environment(_terra_environment);
+	//don't
+	//inst->set_structure(_structure);
+
+	for (int i = 0; i < _terra_environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _terra_environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_terra_environment_data(d);
+	}
+
+	for (int i = 0; i < _terra_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _terra_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_terra_surface(d);
 	}
 #endif
 
@@ -390,7 +413,7 @@ Vector<Variant> DungeonRoom::get_voxel_surfaces() {
 void DungeonRoom::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 	_voxel_surfaces.clear();
 	for (int i = 0; i < voxel_surfaces.size(); i++) {
-		Ref<EnvironmentData> voxel_surface = Ref<EnvironmentData>(voxel_surfaces[i]);
+		Ref<TerraSurface> voxel_surface = Ref<TerraSurface>(voxel_surfaces[i]);
 
 		_voxel_surfaces.push_back(voxel_surface);
 	}
@@ -440,6 +463,152 @@ void DungeonRoom::generate_voxel_room(Ref<VoxelStructure> structure, bool spawn_
 }
 #endif
 
+#ifdef TERRAMAN_PRESENT
+
+Ref<TerraEnvironmentData> DungeonRoom::get_terra_environment() {
+	return _terra_environment;
+}
+void DungeonRoom::set_terra_environment(Ref<TerraEnvironmentData> value) {
+	_terra_environment = value;
+}
+
+Ref<TerraStructure> DungeonRoom::get_terra_structure() {
+	return _terra_structure;
+}
+void DungeonRoom::set_terra_structure(Ref<TerraStructure> structure) {
+	_terra_structure = structure;
+}
+
+//Environments
+Ref<TerraEnvironmentData> DungeonRoom::get_terra_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _terra_environment_datas.size(), Ref<TerraEnvironmentData>());
+
+	return _terra_environment_datas.get(index);
+}
+void DungeonRoom::set_terra_environment_data(const int index, const Ref<TerraEnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _terra_environment_datas.size());
+
+	_terra_environment_datas.set(index, environment_data);
+}
+void DungeonRoom::add_terra_environment_data(const Ref<TerraEnvironmentData> environment_data) {
+	_terra_environment_datas.push_back(environment_data);
+}
+void DungeonRoom::remove_terra_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _terra_environment_datas.size());
+
+	_terra_environment_datas.remove(index);
+}
+int DungeonRoom::get_terra_environment_data_count() const {
+	return _terra_environment_datas.size();
+}
+
+Vector<Variant> DungeonRoom::get_terra_environment_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _terra_environment_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_terra_environment_datas[i].get_ref_ptr());
+#else
+		r.push_back(_terra_environment_datas[i]);
+#endif
+	}
+	return r;
+}
+void DungeonRoom::set_terra_environment_datas(const Vector<Variant> &environment_datas) {
+	_terra_environment_datas.clear();
+	for (int i = 0; i < environment_datas.size(); i++) {
+		Ref<TerraEnvironmentData> environment_data = Ref<TerraEnvironmentData>(environment_datas[i]);
+
+		_terra_environment_datas.push_back(environment_data);
+	}
+}
+
+////    Surfaces    ////
+Ref<TerraSurface> DungeonRoom::get_terra_surface(const int index) const {
+	ERR_FAIL_INDEX_V(index, _terra_surfaces.size(), Ref<TerraSurface>());
+
+	return _terra_surfaces.get(index);
+}
+void DungeonRoom::set_terra_surface(const int index, const Ref<TerraSurface> terra_surface) {
+	ERR_FAIL_INDEX(index, _terra_surfaces.size());
+
+	_terra_surfaces.set(index, terra_surface);
+}
+void DungeonRoom::add_terra_surface(const Ref<TerraSurface> terra_surface) {
+	_terra_surfaces.push_back(terra_surface);
+}
+void DungeonRoom::remove_terra_surface(const int index) {
+	ERR_FAIL_INDEX(index, _terra_surfaces.size());
+
+	_terra_surfaces.remove(index);
+}
+int DungeonRoom::get_terra_surface_count() const {
+	return _terra_surfaces.size();
+}
+
+Vector<Variant> DungeonRoom::get_terra_surfaces() {
+	Vector<Variant> r;
+	for (int i = 0; i < _terra_surfaces.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_terra_surfaces[i].get_ref_ptr());
+#else
+		r.push_back(_terra_surfaces[i]);
+#endif
+	}
+	return r;
+}
+void DungeonRoom::set_terra_surfaces(const Vector<Variant> &terra_surfaces) {
+	_terra_surfaces.clear();
+	for (int i = 0; i < terra_surfaces.size(); i++) {
+		Ref<TerraSurface> terra_surface = Ref<TerraSurface>(terra_surfaces[i]);
+
+		_terra_surfaces.push_back(terra_surface);
+	}
+}
+
+void DungeonRoom::setup_terra_library(Ref<TerramanLibrary> library) {
+	if (has_method("_setup_terra_library")) {
+		call("_setup_terra_library", library);
+	}
+}
+
+void DungeonRoom::_setup_terra_library(Ref<TerramanLibrary> library) {
+	for (int i = 0; i < get_terra_surface_count(); ++i) {
+		Ref<TerraSurface> s = get_terra_surface(i);
+
+		if (s.is_valid()) {
+			library->voxel_surface_add(s);
+		}
+	}
+
+#ifdef PROPS_PRESENT
+	for (int i = 0; i < get_prop_data_count(); ++i) {
+		Ref<WorldGeneratorPropData> s = get_prop_data(i);
+
+		if (s.is_valid()) {
+			Ref<PackedScene> pd = s->get_prop();
+
+			if (pd.is_valid())
+				library->prop_add(pd);
+		}
+	}
+#endif
+}
+
+void DungeonRoom::generate_terra_chunk(Ref<TerraChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
+
+	if (has_method("_generate_terra_chunk")) {
+		call("_generate_terra_chunk", chunk, spawn_mobs);
+	}
+}
+
+void DungeonRoom::generate_terra_room(Ref<TerraStructure> structure, bool spawn_mobs) {
+	if (has_method("_generate_terra_room")) {
+		call("_generate_terra_room", structure, spawn_mobs);
+	}
+}
+#endif
+
 DungeonRoom::DungeonRoom() {
 	_current_seed = 0;
 
@@ -472,6 +641,14 @@ DungeonRoom::~DungeonRoom() {
 
 	_voxel_environment_datas.clear();
 	_voxel_surfaces.clear();
+#endif
+
+#ifdef TERRAMAN_PRESENT
+	_terra_environment.unref();
+	_terra_structure.unref();
+
+	_terra_environment_datas.clear();
+	_terra_surfaces.clear();
 #endif
 }
 
@@ -614,5 +791,46 @@ void DungeonRoom::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("generate_voxel_room", "structure", "spawn_mobs"), &DungeonRoom::generate_voxel_room);
 #endif
 
+#ifdef TERRAMAN_PRESENT
+	ClassDB::bind_method(D_METHOD("get_terra_environment"), &DungeonRoom::get_terra_environment);
+	ClassDB::bind_method(D_METHOD("set_terra_environment", "value"), &DungeonRoom::set_terra_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "terra_environment", PROPERTY_HINT_RESOURCE_TYPE, "TerraEnvironmentData"), "set_terra_environment", "get_terra_environment");
+
+	ClassDB::bind_method(D_METHOD("get_terra_structure"), &DungeonRoom::get_terra_structure);
+	ClassDB::bind_method(D_METHOD("set_terra_structure", "value"), &DungeonRoom::set_terra_structure);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "terra_structure", PROPERTY_HINT_RESOURCE_TYPE, "TerraStructure"), "set_terra_structure", "get_terra_structure");
+
+	//Environments
+	ClassDB::bind_method(D_METHOD("get_terra_environment_data", "index"), &DungeonRoom::get_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("set_terra_environment_data", "index", "data"), &DungeonRoom::set_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("add_terra_environment_data", "environment_data"), &DungeonRoom::add_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_terra_environment_data", "index"), &DungeonRoom::remove_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("get_terra_environment_data_count"), &DungeonRoom::get_terra_environment_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_terra_environment_datas"), &DungeonRoom::get_terra_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_terra_environment_datas", "terra_environment_datas"), &DungeonRoom::set_terra_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_environment_datas", PROPERTY_HINT_NONE, "17/17:TerraEnvironmentData", PROPERTY_USAGE_DEFAULT, "TerraEnvironmentData"), "set_terra_environment_datas", "get_terra_environment_datas");
+
+	//Surfaces
+	ClassDB::bind_method(D_METHOD("get_terra_surface", "index"), &DungeonRoom::get_terra_surface);
+	ClassDB::bind_method(D_METHOD("set_terra_surface", "index", "data"), &DungeonRoom::set_terra_surface);
+	ClassDB::bind_method(D_METHOD("add_terra_surface", "terra_surface"), &DungeonRoom::add_terra_surface);
+	ClassDB::bind_method(D_METHOD("remove_terra_surface", "index"), &DungeonRoom::remove_terra_surface);
+	ClassDB::bind_method(D_METHOD("get_terra_surface_count"), &DungeonRoom::get_terra_surface_count);
+
+	ClassDB::bind_method(D_METHOD("get_terra_surfaces"), &DungeonRoom::get_terra_surfaces);
+	ClassDB::bind_method(D_METHOD("set_terra_surfaces", "terra_surfaces"), &DungeonRoom::set_terra_surfaces);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_surfaces", PROPERTY_HINT_NONE, "17/17:TerraSurface", PROPERTY_USAGE_DEFAULT, "TerraSurface"), "set_terra_surfaces", "get_terra_surfaces");
+
+	BIND_VMETHOD(MethodInfo("_setup_terra_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerramanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_terra_room", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "TerraStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_terra_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerraChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+
+	ClassDB::bind_method(D_METHOD("setup_terra_library", "library"), &DungeonRoom::setup_terra_library);
+	ClassDB::bind_method(D_METHOD("_setup_terra_library", "library"), &DungeonRoom::_setup_terra_library);
+
+	ClassDB::bind_method(D_METHOD("generate_terra_chunk", "chunk", "spawn_mobs"), &DungeonRoom::generate_terra_chunk);
+	ClassDB::bind_method(D_METHOD("generate_terra_room", "structure", "spawn_mobs"), &DungeonRoom::generate_terra_room);
+#endif
 
 }
