@@ -592,8 +592,8 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("generate_map"), &Planet::generate_map);
 
 #ifdef VOXELMAN_PRESENT
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_setup_voxel_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_voxel_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
 	ClassDB::bind_method(D_METHOD("generate_voxel_chunk", "chunk"), &Planet::generate_voxel_chunk);
 	ClassDB::bind_method(D_METHOD("_setup_voxel_library", "library"), &Planet::_setup_voxel_library);
@@ -627,8 +627,8 @@ void Planet::_bind_methods() {
 #endif
 
 #ifdef TERRAMAN_PRESENT
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerramanLibrary")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerraChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_setup_terra_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerramanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_terra_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerraChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
 	ClassDB::bind_method(D_METHOD("generate_terra_chunk", "chunk"), &Planet::generate_terra_chunk);
 	ClassDB::bind_method(D_METHOD("_setup_terra_library", "library"), &Planet::_setup_terra_library);
