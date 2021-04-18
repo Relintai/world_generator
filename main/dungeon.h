@@ -110,12 +110,6 @@ public:
 	int get_room_count();
 	void set_room_count(int value);
 
-#ifdef VOXELMAN_PRESENT
-	//Environment
-	Ref<EnvironmentData> get_environment();
-	void set_environment(Ref<EnvironmentData> value);
-#endif
-
 	//Rooms
 	Ref<DungeonRoom> get_dungeon_room(const int index) const;
 	void set_dungeon_room(const int index, const Ref<DungeonRoom> dungeon_room);
@@ -208,7 +202,16 @@ public:
 	void set_entity_datas(const Vector<Variant> &entity_datas);
 #endif
 
+	Ref<Dungeon> instance(const int seed);
+	virtual Ref<Dungeon> _instance(const int seed, Ref<Dungeon> inst);
+
+	void setup();
+
 #ifdef VOXELMAN_PRESENT
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -218,9 +221,7 @@ public:
 
 	Vector<Variant> get_environment_datas();
 	void set_environment_datas(const Vector<Variant> &environment_datas);
-#endif
 
-#ifdef VOXELMAN_PRESENT
 	//Surfaces
 	Ref<VoxelSurface> get_voxel_surface(const int index) const;
 	void set_voxel_surface(const int index, const Ref<VoxelSurface> voxel_surface);
@@ -231,14 +232,6 @@ public:
 	Vector<Variant> get_voxel_surfaces();
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 
-#endif
-
-	Ref<Dungeon> instance(const int seed);
-	virtual Ref<Dungeon> _instance(const int seed, Ref<Dungeon> inst);
-
-	void setup();
-
-#ifdef VOXELMAN_PRESENT
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
@@ -280,9 +273,6 @@ private:
 	int _min_room_count;
 	int _max_room_count;
 
-#ifdef VOXELMAN_PRESENT
-	Ref<EnvironmentData> _environment;
-#endif
 
 	Vector<Ref<DungeonRoom> > _dungeon_rooms;
 	Vector<Ref<DungeonRoom> > _dungeon_start_rooms;
@@ -299,10 +289,9 @@ private:
 #endif
 
 #ifdef VOXELMAN_PRESENT
-	Vector<Ref<EnvironmentData> > _environment_datas;
-#endif
+	Ref<EnvironmentData> _environment;
 
-#ifdef VOXELMAN_PRESENT
+	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 #endif
 };
