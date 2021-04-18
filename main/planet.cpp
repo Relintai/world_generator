@@ -318,7 +318,7 @@ Vector<Variant> Planet::get_voxel_surfaces() {
 void Planet::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 	_voxel_surfaces.clear();
 	for (int i = 0; i < voxel_surfaces.size(); i++) {
-		Ref<EnvironmentData> voxel_surface = Ref<EnvironmentData>(voxel_surfaces[i]);
+		Ref<VoxelSurface> voxel_surface = Ref<VoxelSurface>(voxel_surfaces[i]);
 
 		_voxel_surfaces.push_back(voxel_surface);
 	}
@@ -456,7 +456,7 @@ Vector<Variant> Planet::get_terra_surfaces() {
 void Planet::set_terra_surfaces(const Vector<Variant> &terra_surfaces) {
 	_terra_surfaces.clear();
 	for (int i = 0; i < terra_surfaces.size(); i++) {
-		Ref<EnvironmentData> terra_surface = Ref<EnvironmentData>(terra_surfaces[i]);
+		Ref<TerraSurface> terra_surface = Ref<TerraSurface>(terra_surfaces[i]);
 
 		_terra_surfaces.push_back(terra_surface);
 	}
@@ -483,7 +483,7 @@ void Planet::_setup_terra_library(Ref<TerramanLibrary> library) {
 		Ref<Biome> s = get_biome(i);
 
 		if (s.is_valid()) {
-		//	s->setup_terra_library(library);
+			s->setup_terra_library(library);
 		}
 	}
 

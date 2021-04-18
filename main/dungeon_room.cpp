@@ -413,7 +413,7 @@ Vector<Variant> DungeonRoom::get_voxel_surfaces() {
 void DungeonRoom::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 	_voxel_surfaces.clear();
 	for (int i = 0; i < voxel_surfaces.size(); i++) {
-		Ref<TerraSurface> voxel_surface = Ref<TerraSurface>(voxel_surfaces[i]);
+		Ref<VoxelSurface> voxel_surface = Ref<VoxelSurface>(voxel_surfaces[i]);
 
 		_voxel_surfaces.push_back(voxel_surface);
 	}
