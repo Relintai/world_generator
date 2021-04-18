@@ -70,12 +70,6 @@ public:
 	void set_temperature_noise_params(Ref<FastnoiseNoiseParams> value);
 #endif
 
-#ifdef VOXELMAN_PRESENT
-	//Environment
-	Ref<EnvironmentData> get_environment();
-	void set_environment(Ref<EnvironmentData> value);
-#endif
-
 	//Biomes
 	Ref<Biome> get_biome(const int index) const;
 	void set_biome(const int index, const Ref<Biome> biome);
@@ -93,7 +87,18 @@ public:
 	void remove_dungeon(const int index);
 	int get_dungeon_count() const;
 
+	Ref<Planet> instance(const int seed);
+	virtual Ref<Planet> _instance(const int seed, Ref<Planet> inst);
+
+	void setup();
+
+	Ref<Image> generate_map();
+
 #ifdef VOXELMAN_PRESENT
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -114,21 +119,11 @@ public:
 	Vector<Variant> get_voxel_surfaces();
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 
-#endif
-
-	Ref<Planet> instance(const int seed);
-	virtual Ref<Planet> _instance(const int seed, Ref<Planet> inst);
-
-	void setup();
-
-#ifdef VOXELMAN_PRESENT
 	void setup_library(Ref<VoxelmanLibrary> library);
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
 	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
 #endif
-
-	Ref<Image> generate_map();
 
 	Planet();
 	~Planet();
@@ -142,10 +137,6 @@ private:
 	int _current_seed;
 	Vector2 _level_range;
 
-#ifdef VOXELMAN_PRESENT
-	Ref<EnvironmentData> _environment;
-#endif
-
 	Vector<Ref<Biome> > _biomes;
 	Vector<Ref<Dungeon> > _dungeons;
 
@@ -155,6 +146,8 @@ private:
 #endif
 
 #ifdef VOXELMAN_PRESENT
+	Ref<EnvironmentData> _environment;
+
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 #endif

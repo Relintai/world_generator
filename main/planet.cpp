@@ -61,15 +61,6 @@ void Planet::set_temperature_noise_params(Ref<FastnoiseNoiseParams> value) {
 }
 #endif
 
-#ifdef VOXELMAN_PRESENT
-Ref<EnvironmentData> Planet::get_environment() {
-	return _environment;
-}
-void Planet::set_environment(Ref<EnvironmentData> value) {
-	_environment = value;
-}
-#endif
-
 Ref<Biome> Planet::get_biome(const int index) const {
 	ERR_FAIL_INDEX_V(index, _biomes.size(), Ref<Biome>());
 
@@ -136,7 +127,96 @@ int Planet::get_dungeon_count() const {
 	return _dungeons.size();
 }
 
+Ref<Planet> Planet::instance(const int seed) {
+	Ref<Planet> inst;
+
+	inst = Ref<Planet>(Object::cast_to<Planet>(ClassDB::instance(get_class_name())));
+	ERR_FAIL_COND_V(!inst.is_valid(), inst);
+
+	if (!get_script().is_null())
+		inst->set_script(get_script());
+
+	return call("_instance", seed, inst);
+}
+
+Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
+	inst->set_id(_id);
+	inst->set_current_seed(seed);
+	inst->set_level_range(_level_range);
+
 #ifdef VOXELMAN_PRESENT
+	inst->set_environment(_environment);
+#endif
+
+	for (int i = 0; i < _biomes.size(); ++i) {
+		Ref<Biome> b = _biomes[i];
+
+		if (!b.is_valid())
+			continue;
+
+		inst->add_biome(b->instance(seed));
+	}
+
+	for (int i = 0; i < _dungeons.size(); ++i) {
+		Ref<Dungeon> d = _dungeons[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_dungeon(d->instance(seed));
+	}
+
+#ifdef FASTNOISE_PRESENT
+	if (_humidity_noise_params.is_valid())
+		inst->set_humidity_noise_params(_humidity_noise_params->duplicate());
+
+	if (_temperature_noise_params.is_valid())
+		inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	for (int i = 0; i < _environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_environment_data(d);
+	}
+
+	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _voxel_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_voxel_surface(d);
+	}
+#endif
+
+	return inst;
+}
+
+void Planet::setup() {
+	if (has_method("_setup")) {
+		call("_setup");
+	}
+}
+
+Ref<Image> Planet::generate_map() {
+	ERR_FAIL_COND_V(!has_method("_generate_map"), Ref<Image>());
+
+	return call("_generate_map");
+}
+
+#ifdef VOXELMAN_PRESENT
+Ref<EnvironmentData> Planet::get_environment() {
+	return _environment;
+}
+void Planet::set_environment(Ref<EnvironmentData> value) {
+	_environment = value;
+}
+
 //Environments
 Ref<EnvironmentData> Planet::get_environment_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
@@ -223,85 +303,6 @@ void Planet::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 	}
 }
 
-#endif
-
-Ref<Planet> Planet::instance(const int seed) {
-	Ref<Planet> inst;
-
-	inst = Ref<Planet>(Object::cast_to<Planet>(ClassDB::instance(get_class_name())));
-	ERR_FAIL_COND_V(!inst.is_valid(), inst);
-
-	if (!get_script().is_null())
-		inst->set_script(get_script());
-
-	return call("_instance", seed, inst);
-}
-
-Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
-	inst->set_id(_id);
-	inst->set_current_seed(seed);
-	inst->set_level_range(_level_range);
-
-#ifdef VOXELMAN_PRESENT
-	inst->set_environment(_environment);
-#endif
-
-	for (int i = 0; i < _biomes.size(); ++i) {
-		Ref<Biome> b = _biomes[i];
-
-		if (!b.is_valid())
-			continue;
-
-		inst->add_biome(b->instance(seed));
-	}
-
-	for (int i = 0; i < _dungeons.size(); ++i) {
-		Ref<Dungeon> d = _dungeons[i];
-
-		if (!d.is_valid())
-			continue;
-
-		inst->add_dungeon(d->instance(seed));
-	}
-
-#ifdef FASTNOISE_PRESENT
-	if (_humidity_noise_params.is_valid())
-		inst->set_humidity_noise_params(_humidity_noise_params->duplicate());
-
-	if (_temperature_noise_params.is_valid())
-		inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
-#endif
-
-#ifdef VOXELMAN_PRESENT
-	for (int i = 0; i < _environment_datas.size(); ++i) {
-		Ref<EnvironmentData> d = _environment_datas[i];
-
-		if (!d.is_valid())
-			continue;
-
-		inst->add_environment_data(d);
-	}
-
-	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
-		Ref<VoxelSurface> d = _voxel_surfaces[i];
-
-		if (!d.is_valid())
-			continue;
-
-		inst->add_voxel_surface(d);
-	}
-#endif
-
-	return inst;
-}
-
-void Planet::setup() {
-	if (has_method("_setup")) {
-		call("_setup");
-	}
-}
-
-#ifdef VOXELMAN_PRESENT
 void Planet::setup_library(Ref<VoxelmanLibrary> library) {
 	ERR_FAIL_COND(!library.is_valid());
 
@@ -346,21 +347,11 @@ void Planet::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 
 #endif
 
-Ref<Image> Planet::generate_map() {
-	ERR_FAIL_COND_V(!has_method("_generate_map"), Ref<Image>());
-
-	return call("_generate_map");
-}
-
 Planet::Planet() {
 	_id = 0;
 	_current_seed = 0;
 }
 Planet::~Planet() {
-#ifdef VOXELMAN_PRESENT
-	_environment.unref();
-#endif
-
 	_biomes.clear();
 	_dungeons.clear();
 
@@ -370,6 +361,8 @@ Planet::~Planet() {
 #endif
 
 #ifdef VOXELMAN_PRESENT
+	_environment.unref();
+
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
 #endif
@@ -383,20 +376,10 @@ void Planet::_bind_methods() {
 
 	BIND_VMETHOD(MethodInfo("_setup"));
 
-#ifdef VOXELMAN_PRESENT
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-#endif
-
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Planet::instance);
 	ClassDB::bind_method(D_METHOD("_instance", "p_seed", "p_instance"), &Planet::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Planet::setup);
-
-#ifdef VOXELMAN_PRESENT
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
-	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Planet::_setup_library);
-#endif
 
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Planet::setup_library);
 
@@ -422,12 +405,6 @@ void Planet::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "temperature_noise_params", PROPERTY_HINT_RESOURCE_TYPE, "FastnoiseNoiseParams"), "set_temperature_noise_params", "get_temperature_noise_params");
 #endif
 
-#ifdef VOXELMAN_PRESENT
-	ClassDB::bind_method(D_METHOD("get_environment"), &Planet::get_environment);
-	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Planet::set_environment);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
-#endif
-
 	//biomes
 	ClassDB::bind_method(D_METHOD("get_biome", "index"), &Planet::get_biome);
 	ClassDB::bind_method(D_METHOD("set_biome", "index", "data"), &Planet::set_biome);
@@ -446,7 +423,21 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_dungeon", "index"), &Planet::remove_dungeon);
 	ClassDB::bind_method(D_METHOD("get_dungeon_count"), &Planet::get_dungeon_count);
 
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
+
+	ClassDB::bind_method(D_METHOD("generate_map"), &Planet::generate_map);
+
 #ifdef VOXELMAN_PRESENT
+	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
+	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Planet::_setup_library);
+
+	ClassDB::bind_method(D_METHOD("get_environment"), &Planet::get_environment);
+	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Planet::set_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
+
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &Planet::get_environment_data);
 	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &Planet::set_environment_data);
@@ -469,8 +460,4 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &Planet::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
 #endif
-
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
-
-	ClassDB::bind_method(D_METHOD("generate_map"), &Planet::generate_map);
 }
