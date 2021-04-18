@@ -578,7 +578,7 @@ Ref<Dungeon> Dungeon::_instance(const int seed, Ref<Dungeon> inst) {
 	inst->set_max_room_count(_max_room_count);
 
 #ifdef VOXELMAN_PRESENT
-	inst->set_environment(_environment);
+	inst->set_voxel_environment(_voxel_environment);
 #endif
 
 	for (int i = 0; i < _dungeon_rooms.size(); ++i) {
@@ -662,13 +662,13 @@ Ref<Dungeon> Dungeon::_instance(const int seed, Ref<Dungeon> inst) {
 #endif
 
 #ifdef VOXELMAN_PRESENT
-	for (int i = 0; i < _environment_datas.size(); ++i) {
-		Ref<EnvironmentData> d = _environment_datas[i];
+	for (int i = 0; i < _voxel_environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _voxel_environment_datas[i];
 
 		if (!d.is_valid())
 			continue;
 
-		inst->add_environment_data(d);
+		inst->add_voxel_environment_data(d);
 	}
 
 	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
@@ -692,11 +692,11 @@ void Dungeon::setup() {
 
 
 #ifdef VOXELMAN_PRESENT
-Ref<EnvironmentData> Dungeon::get_environment() {
-	return _environment;
+Ref<EnvironmentData> Dungeon::get_voxel_environment() {
+	return _voxel_environment;
 }
-void Dungeon::set_environment(Ref<EnvironmentData> value) {
-	_environment = value;
+void Dungeon::set_voxel_environment(Ref<EnvironmentData> value) {
+	_voxel_environment = value;
 }
 
 ////    Surfaces    ////
@@ -743,55 +743,55 @@ void Dungeon::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 }
 
 //Environments
-Ref<EnvironmentData> Dungeon::get_environment_data(const int index) const {
-	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
+Ref<EnvironmentData> Dungeon::get_voxel_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _voxel_environment_datas.size(), Ref<EnvironmentData>());
 
-	return _environment_datas.get(index);
+	return _voxel_environment_datas.get(index);
 }
-void Dungeon::set_environment_data(const int index, const Ref<EnvironmentData> environment_data) {
-	ERR_FAIL_INDEX(index, _environment_datas.size());
+void Dungeon::set_voxel_environment_data(const int index, const Ref<EnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _voxel_environment_datas.size());
 
-	_environment_datas.set(index, environment_data);
+	_voxel_environment_datas.set(index, environment_data);
 }
-void Dungeon::add_environment_data(const Ref<EnvironmentData> environment_data) {
-	_environment_datas.push_back(environment_data);
+void Dungeon::add_voxel_environment_data(const Ref<EnvironmentData> environment_data) {
+	_voxel_environment_datas.push_back(environment_data);
 }
-void Dungeon::remove_environment_data(const int index) {
-	ERR_FAIL_INDEX(index, _environment_datas.size());
+void Dungeon::remove_voxel_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _voxel_environment_datas.size());
 
-	_environment_datas.remove(index);
+	_voxel_environment_datas.remove(index);
 }
-int Dungeon::get_environment_data_count() const {
-	return _environment_datas.size();
+int Dungeon::get_voxel_environment_data_count() const {
+	return _voxel_environment_datas.size();
 }
 
-Vector<Variant> Dungeon::get_environment_datas() {
+Vector<Variant> Dungeon::get_voxel_environment_datas() {
 	Vector<Variant> r;
-	for (int i = 0; i < _environment_datas.size(); i++) {
+	for (int i = 0; i < _voxel_environment_datas.size(); i++) {
 #if VERSION_MAJOR < 4
-		r.push_back(_environment_datas[i].get_ref_ptr());
+		r.push_back(_voxel_environment_datas[i].get_ref_ptr());
 #else
-		r.push_back(_environment_datas[i]);
+		r.push_back(_voxel_environment_datas[i]);
 #endif
 	}
 	return r;
 }
-void Dungeon::set_environment_datas(const Vector<Variant> &environment_datas) {
-	_environment_datas.clear();
+void Dungeon::set_voxel_environment_datas(const Vector<Variant> &environment_datas) {
+	_voxel_environment_datas.clear();
 	for (int i = 0; i < environment_datas.size(); i++) {
 		Ref<EnvironmentData> environment_data = Ref<EnvironmentData>(environment_datas[i]);
 
-		_environment_datas.push_back(environment_data);
+		_voxel_environment_datas.push_back(environment_data);
 	}
 }
 
-void Dungeon::setup_library(Ref<VoxelmanLibrary> library) {
-	if (has_method("_setup_library")) {
-		call("_setup_library", library);
+void Dungeon::setup_voxel_library(Ref<VoxelmanLibrary> library) {
+	if (has_method("_setup_voxel_library")) {
+		call("_setup_voxel_library", library);
 	}
 }
 
-void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
+void Dungeon::_setup_voxel_library(Ref<VoxelmanLibrary> library) {
 	for (int i = 0; i < get_voxel_surface_count(); ++i) {
 		Ref<VoxelSurface> s = get_voxel_surface(i);
 
@@ -804,7 +804,7 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<DungeonCorridor> d = get_dungeon_corridor(i);
 
 		if (d.is_valid()) {
-			d->setup_library(library);
+			d->setup_voxel_library(library);
 		}
 	}
 
@@ -812,7 +812,7 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<DungeonRoom> d = get_dungeon_end_room(i);
 
 		if (d.is_valid()) {
-			d->setup_library(library);
+			d->setup_voxel_library(library);
 		}
 	}
 
@@ -820,7 +820,7 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<DungeonRoom> d = get_dungeon_room(i);
 
 		if (d.is_valid()) {
-			d->setup_library(library);
+			d->setup_voxel_library(library);
 		}
 	}
 
@@ -828,22 +828,22 @@ void Dungeon::_setup_library(Ref<VoxelmanLibrary> library) {
 		Ref<DungeonRoom> d = get_dungeon_start_room(i);
 
 		if (d.is_valid()) {
-			d->setup_library(library);
+			d->setup_voxel_library(library);
 		}
 	}
 }
 
-void Dungeon::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
+void Dungeon::generate_voxel_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
-	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk, spawn_mobs);
+	if (has_method("_generate_voxel_chunk")) {
+		call("_generate_voxel_chunk", chunk, spawn_mobs);
 	}
 }
 
-void Dungeon::generate_structure(Ref<VoxelStructure> structure, bool spawn_mobs) {
-	if (has_method("_generate_structure")) {
-		call("_generate_structure", structure, spawn_mobs);
+void Dungeon::generate_voxel_structure(Ref<VoxelStructure> structure, bool spawn_mobs) {
+	if (has_method("_generate_voxel_structure")) {
+		call("_generate_voxel_structure", structure, spawn_mobs);
 	}
 }
 #endif
@@ -889,9 +889,9 @@ Dungeon::~Dungeon() {
 #endif
 
 #ifdef VOXELMAN_PRESENT
-	_environment.unref();
+	_voxel_environment.unref();
 
-	_environment_datas.clear();
+	_voxel_environment_datas.clear();
 	_voxel_surfaces.clear();
 #endif
 }
@@ -1090,31 +1090,31 @@ void Dungeon::_bind_methods() {
 #endif
 
 #ifdef VOXELMAN_PRESENT
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
-	BIND_VMETHOD(MethodInfo("_generate_structure", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_setup_voxel_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_voxel_structure", PropertyInfo(Variant::OBJECT, "structure", PROPERTY_HINT_RESOURCE_TYPE, "VoxelStructure"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_voxel_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 
-	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Dungeon::setup_library);
-	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Dungeon::_setup_library);
+	ClassDB::bind_method(D_METHOD("setup_voxel_library", "library"), &Dungeon::setup_voxel_library);
+	ClassDB::bind_method(D_METHOD("_setup_voxel_library", "library"), &Dungeon::_setup_voxel_library);
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_chunk);
-	ClassDB::bind_method(D_METHOD("generate_structure", "structure", "spawn_mobs"), &Dungeon::generate_structure);
+	ClassDB::bind_method(D_METHOD("generate_voxel_chunk", "chunk", "spawn_mobs"), &Dungeon::generate_voxel_chunk);
+	ClassDB::bind_method(D_METHOD("generate_voxel_structure", "structure", "spawn_mobs"), &Dungeon::generate_voxel_structure);
 
 	//Environment
-	ClassDB::bind_method(D_METHOD("get_environment"), &Dungeon::get_environment);
-	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Dungeon::set_environment);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
+	ClassDB::bind_method(D_METHOD("get_voxel_environment"), &Dungeon::get_voxel_environment);
+	ClassDB::bind_method(D_METHOD("set_voxel_environment", "value"), &Dungeon::set_voxel_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "voxel_environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_voxel_environment", "get_voxel_environment");
 
 	//Environments
-	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &Dungeon::get_environment_data);
-	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &Dungeon::set_environment_data);
-	ClassDB::bind_method(D_METHOD("add_environment_data", "environment_data"), &Dungeon::add_environment_data);
-	ClassDB::bind_method(D_METHOD("remove_environment_data", "index"), &Dungeon::remove_environment_data);
-	ClassDB::bind_method(D_METHOD("get_environment_data_count"), &Dungeon::get_environment_data_count);
+	ClassDB::bind_method(D_METHOD("get_voxel_environment_data", "index"), &Dungeon::get_voxel_environment_data);
+	ClassDB::bind_method(D_METHOD("set_voxel_environment_data", "index", "data"), &Dungeon::set_voxel_environment_data);
+	ClassDB::bind_method(D_METHOD("add_voxel_environment_data", "environment_data"), &Dungeon::add_voxel_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_voxel_environment_data", "index"), &Dungeon::remove_voxel_environment_data);
+	ClassDB::bind_method(D_METHOD("get_voxel_environment_data_count"), &Dungeon::get_voxel_environment_data_count);
 
-	ClassDB::bind_method(D_METHOD("get_environment_datas"), &Dungeon::get_environment_datas);
-	ClassDB::bind_method(D_METHOD("set_environment_datas", "environment_datas"), &Dungeon::set_environment_datas);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "environment_datas", PROPERTY_HINT_NONE, "17/17:EnvironmentData", PROPERTY_USAGE_DEFAULT, "EnvironmentData"), "set_environment_datas", "get_environment_datas");
+	ClassDB::bind_method(D_METHOD("get_voxel_environment_datas"), &Dungeon::get_voxel_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_voxel_environment_datas", "environment_datas"), &Dungeon::set_voxel_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_environment_datas", PROPERTY_HINT_NONE, "17/17:EnvironmentData", PROPERTY_USAGE_DEFAULT, "EnvironmentData"), "set_voxel_environment_datas", "get_voxel_environment_datas");
 
 	//Surfaces
 	ClassDB::bind_method(D_METHOD("get_voxel_surface", "index"), &Dungeon::get_voxel_surface);

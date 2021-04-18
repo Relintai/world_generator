@@ -132,22 +132,22 @@ public:
 
 #ifdef VOXELMAN_PRESENT
 	//Environment
-	Ref<EnvironmentData> get_environment();
-	void set_environment(Ref<EnvironmentData> value);
+	Ref<EnvironmentData> get_voxel_environment();
+	void set_voxel_environment(Ref<EnvironmentData> value);
 
 	//Structure
-	Ref<VoxelStructure> get_structure();
-	void set_structure(Ref<VoxelStructure> structure);
+	Ref<VoxelStructure> get_voxel_structure();
+	void set_voxel_structure(Ref<VoxelStructure> structure);
 
 	//Environments
-	Ref<EnvironmentData> get_environment_data(const int index) const;
-	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
-	void add_environment_data(const Ref<EnvironmentData> environment_data);
-	void remove_environment_data(const int index);
-	int get_environment_data_count() const;
+	Ref<EnvironmentData> get_voxel_environment_data(const int index) const;
+	void set_voxel_environment_data(const int index, const Ref<EnvironmentData> environment_data);
+	void add_voxel_environment_data(const Ref<EnvironmentData> environment_data);
+	void remove_voxel_environment_data(const int index);
+	int get_voxel_environment_data_count() const;
 
-	Vector<Variant> get_environment_datas();
-	void set_environment_datas(const Vector<Variant> &environment_datas);
+	Vector<Variant> get_voxel_environment_datas();
+	void set_voxel_environment_datas(const Vector<Variant> &environment_datas);
 
 	//Surfaces
 	Ref<VoxelSurface> get_voxel_surface(const int index) const;
@@ -159,11 +159,11 @@ public:
 	Vector<Variant> get_voxel_surfaces();
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
 
-	void setup_library(Ref<VoxelmanLibrary> library);
-	void _setup_library(Ref<VoxelmanLibrary> library);
+	void setup_voxel_library(Ref<VoxelmanLibrary> library);
+	void _setup_voxel_library(Ref<VoxelmanLibrary> library);
 
-	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
-	void generate_room(Ref<VoxelStructure> structure, bool spawn_mobs);
+	void generate_voxel_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
+	void generate_voxel_room(Ref<VoxelStructure> structure, bool spawn_mobs);
 #endif
 
 	DungeonRoom();
@@ -200,10 +200,10 @@ private:
 #endif
 
 #ifdef VOXELMAN_PRESENT
-	Ref<EnvironmentData> _environment;
-	Ref<VoxelStructure> _structure;
+	Ref<EnvironmentData> _voxel_environment;
+	Ref<VoxelStructure> _voxel_structure;
 
-	Vector<Ref<EnvironmentData> > _environment_datas;
+	Vector<Ref<EnvironmentData> > _voxel_environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 #endif
 };
