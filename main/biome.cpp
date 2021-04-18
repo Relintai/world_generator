@@ -50,15 +50,6 @@ void Biome::set_temperature_range(Vector2 range) {
 	_temperature_range = range;
 }
 
-#ifdef VOXELMAN_PRESENT
-Ref<EnvironmentData> Biome::get_environment() {
-	return _environment;
-}
-void Biome::set_environment(Ref<EnvironmentData> value) {
-	_environment = value;
-}
-#endif
-
 ////    Prop Data    ////
 Ref<WorldGeneratorPropData> Biome::get_prop_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _prop_datas.size(), Ref<WorldGeneratorPropData>());
@@ -191,7 +182,89 @@ void Biome::set_dungeons(const Vector<Variant> &dungeon_datas) {
 	}
 }
 
+Ref<Biome> Biome::instance(const int seed) {
+	Ref<Biome> inst;
+
+	inst = Ref<Biome>(Object::cast_to<Biome>(ClassDB::instance(get_class_name())));
+	ERR_FAIL_COND_V(!inst.is_valid(), inst);
+
+	if (!get_script().is_null())
+		inst->set_script(get_script());
+
+	return call("_instance", seed, inst);
+}
+
+Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
+	inst->set_current_seed(seed);
+	inst->set_level_range(_level_range);
+
+	inst->set_humidity_range(_humidity_range);
+	inst->set_temperature_range(_temperature_range);
+
 #ifdef VOXELMAN_PRESENT
+	inst->set_environment(_environment);
+#endif
+
+	for (int i = 0; i < _prop_datas.size(); ++i) {
+		Ref<WorldGeneratorPropData> p = _prop_datas[i];
+
+		inst->add_prop_data(p);
+	}
+
+	for (int i = 0; i < _dungeons.size(); ++i) {
+		Ref<Dungeon> d = _dungeons[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_dungeon(d->instance(seed));
+	}
+
+#ifdef ESS_PRESENT
+	for (int i = 0; i < _entity_datas.size(); ++i) {
+		Ref<EntityData> d = _entity_datas[i];
+
+		inst->add_entity_data(d);
+	}
+#endif
+
+#ifdef VOXELMAN_PRESENT
+	for (int i = 0; i < _environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_environment_data(d);
+	}
+
+	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _voxel_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_voxel_surface(d);
+	}
+#endif
+
+	return inst;
+}
+
+void Biome::setup() {
+	if (has_method("_setup")) {
+		call("_setup");
+	}
+}
+
+#ifdef VOXELMAN_PRESENT
+Ref<EnvironmentData> Biome::get_environment() {
+	return _environment;
+}
+void Biome::set_environment(Ref<EnvironmentData> value) {
+	_environment = value;
+}
+
 //Environments
 Ref<EnvironmentData> Biome::get_environment_data(const int index) const {
 	ERR_FAIL_INDEX_V(index, _environment_datas.size(), Ref<EnvironmentData>());
@@ -278,84 +351,6 @@ void Biome::set_voxel_surfaces(const Vector<Variant> &voxel_surfaces) {
 	}
 }
 
-#endif
-
-Ref<Biome> Biome::instance(const int seed) {
-	Ref<Biome> inst;
-
-	inst = Ref<Biome>(Object::cast_to<Biome>(ClassDB::instance(get_class_name())));
-	ERR_FAIL_COND_V(!inst.is_valid(), inst);
-
-	if (!get_script().is_null())
-		inst->set_script(get_script());
-
-	return call("_instance", seed, inst);
-}
-
-Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
-	inst->set_current_seed(seed);
-	inst->set_level_range(_level_range);
-
-	inst->set_humidity_range(_humidity_range);
-	inst->set_temperature_range(_temperature_range);
-
-#ifdef VOXELMAN_PRESENT
-	inst->set_environment(_environment);
-#endif
-
-	for (int i = 0; i < _prop_datas.size(); ++i) {
-		Ref<WorldGeneratorPropData> p = _prop_datas[i];
-
-		inst->add_prop_data(p);
-	}
-
-	for (int i = 0; i < _dungeons.size(); ++i) {
-		Ref<Dungeon> d = _dungeons[i];
-
-		if (!d.is_valid())
-			continue;
-
-		inst->add_dungeon(d->instance(seed));
-	}
-
-#ifdef ESS_PRESENT
-	for (int i = 0; i < _entity_datas.size(); ++i) {
-		Ref<EntityData> d = _entity_datas[i];
-
-		inst->add_entity_data(d);
-	}
-#endif
-
-#ifdef VOXELMAN_PRESENT
-	for (int i = 0; i < _environment_datas.size(); ++i) {
-		Ref<EnvironmentData> d = _environment_datas[i];
-
-		if (!d.is_valid())
-			continue;
-
-		inst->add_environment_data(d);
-	}
-
-	for (int i = 0; i < _voxel_surfaces.size(); ++i) {
-		Ref<VoxelSurface> d = _voxel_surfaces[i];
-
-		if (!d.is_valid())
-			continue;
-
-		inst->add_voxel_surface(d);
-	}
-#endif
-
-	return inst;
-}
-
-void Biome::setup() {
-	if (has_method("_setup")) {
-		call("_setup");
-	}
-}
-
-#ifdef VOXELMAN_PRESENT
 void Biome::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
@@ -415,10 +410,6 @@ Biome::Biome() {
 	_current_seed = 0;
 }
 Biome::~Biome() {
-#ifdef VOXELMAN_PRESENT
-	_environment.unref();
-#endif
-
 	_prop_datas.clear();
 
 #ifdef ESS_PRESENT
@@ -434,6 +425,8 @@ Biome::~Biome() {
 #endif
 
 #ifdef VOXELMAN_PRESENT
+	_environment.unref();
+
 	_environment_datas.clear();
 	_voxel_surfaces.clear();
 #endif
@@ -447,24 +440,11 @@ void Biome::_bind_methods() {
 
 	BIND_VMETHOD(MethodInfo("_setup"));
 
-#ifdef VOXELMAN_PRESENT
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-#endif
-
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Biome::instance);
 	ClassDB::bind_method(D_METHOD("_instance", "p_seed", "p_instance"), &Biome::_instance);
 
 	ClassDB::bind_method(D_METHOD("setup"), &Biome::setup);
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Biome::setup_library);
-
-#ifdef VOXELMAN_PRESENT
-	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Biome::_setup_library);
-
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
-	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
-#endif
 
 	ClassDB::bind_method(D_METHOD("get_current_seed"), &Biome::get_current_seed);
 	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &Biome::set_current_seed);
@@ -481,12 +461,6 @@ void Biome::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_temperature_range"), &Biome::get_temperature_range);
 	ClassDB::bind_method(D_METHOD("set_temperature_range", "value"), &Biome::set_temperature_range);
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "temperature_range"), "set_temperature_range", "get_temperature_range");
-
-#ifdef VOXELMAN_PRESENT
-	ClassDB::bind_method(D_METHOD("get_environment"), &Biome::get_environment);
-	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
-#endif
 
 	//Props
 	ClassDB::bind_method(D_METHOD("get_prop_data", "index"), &Biome::get_prop_data);
@@ -524,6 +498,19 @@ void Biome::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeons", PROPERTY_HINT_NONE, "17/17:Dungeon", PROPERTY_USAGE_DEFAULT, "Dungeon"), "set_dungeons", "get_dungeons");
 
 #ifdef VOXELMAN_PRESENT
+	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+
+	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Biome::_setup_library);
+
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
+
+	ClassDB::bind_method(D_METHOD("get_environment"), &Biome::get_environment);
+	ClassDB::bind_method(D_METHOD("set_environment", "value"), &Biome::set_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "environment", PROPERTY_HINT_RESOURCE_TYPE, "EnvironmentData"), "set_environment", "get_environment");
+
 	//Environments
 	ClassDB::bind_method(D_METHOD("get_environment_data", "index"), &Biome::get_environment_data);
 	ClassDB::bind_method(D_METHOD("set_environment_data", "index", "data"), &Biome::set_environment_data);

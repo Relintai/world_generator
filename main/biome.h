@@ -64,12 +64,6 @@ public:
 	Vector2 get_temperature_range();
 	void set_temperature_range(Vector2 range);
 
-#ifdef VOXELMAN_PRESENT
-	//Environment
-	Ref<EnvironmentData> get_environment();
-	void set_environment(Ref<EnvironmentData> value);
-#endif
-
 	//WorldGeneratorPropData
 	Ref<WorldGeneratorPropData> get_prop_data(const int index) const;
 	void set_prop_data(const int index, const Ref<WorldGeneratorPropData> prop_data);
@@ -103,7 +97,16 @@ public:
 	Vector<Variant> get_dungeons();
 	void set_dungeons(const Vector<Variant> &dungeon_datas);
 
+	Ref<Biome> instance(const int seed);
+	virtual Ref<Biome> _instance(const int seed, Ref<Biome> inst);
+
+	void setup();
+
 #ifdef VOXELMAN_PRESENT
+	//Environment
+	Ref<EnvironmentData> get_environment();
+	void set_environment(Ref<EnvironmentData> value);
+
 	//Environments
 	Ref<EnvironmentData> get_environment_data(const int index) const;
 	void set_environment_data(const int index, const Ref<EnvironmentData> environment_data);
@@ -123,14 +126,7 @@ public:
 
 	Vector<Variant> get_voxel_surfaces();
 	void set_voxel_surfaces(const Vector<Variant> &voxel_surfaces);
-#endif
 
-	Ref<Biome> instance(const int seed);
-	virtual Ref<Biome> _instance(const int seed, Ref<Biome> inst);
-
-	void setup();
-
-#ifdef VOXELMAN_PRESENT
 	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
 	void generate_stack(Ref<VoxelChunk> chunk, int x, int z, bool spawn_mobs);
 
@@ -152,10 +148,6 @@ private:
 	Vector2 _humidity_range;
 	Vector2 _temperature_range;
 
-#ifdef VOXELMAN_PRESENT
-	Ref<EnvironmentData> _environment;
-#endif
-
 	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 
 #ifdef ESS_PRESENT
@@ -165,6 +157,8 @@ private:
 	Vector<Ref<Dungeon> > _dungeons;
 
 #ifdef VOXELMAN_PRESENT
+	Ref<EnvironmentData> _environment;
+
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 #endif
