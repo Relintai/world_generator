@@ -444,22 +444,6 @@ void DungeonRoom::generate_room(Ref<VoxelStructure> structure, bool spawn_mobs) 
 		call("_generate_room", structure, spawn_mobs);
 	}
 }
-#else
-
-void DungeonRoom::setup_library(Ref<Resource> library) {
-	if (has_method("_setup_library")) {
-		call("_setup_library", library);
-	}
-}
-
-void DungeonRoom::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!chunk.is_valid());
-
-	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk, spawn_mobs);
-	}
-}
-
 #endif
 
 DungeonRoom::DungeonRoom() {

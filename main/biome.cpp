@@ -409,20 +409,6 @@ void Biome::_setup_library(Ref<VoxelmanLibrary> library) {
 	}
 #endif
 }
-#else
-void Biome::setup_library(Ref<Resource> library) {
-	if (has_method("_setup_library")) {
-		call("_setup_library", library);
-	}
-}
-
-void Biome::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!chunk.is_valid());
-
-	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk, spawn_mobs);
-	}
-}
 #endif
 
 Biome::Biome() {
@@ -465,9 +451,6 @@ void Biome::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 	BIND_VMETHOD(MethodInfo("_generate_stack", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-#else
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Resource"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #endif
 
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Biome::instance);
@@ -481,8 +464,6 @@ void Biome::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
 	ClassDB::bind_method(D_METHOD("generate_stack", "chunk", "x", "z", "spawn_mobs"), &Biome::generate_stack);
-#else
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk", "spawn_mobs"), &Biome::generate_chunk);
 #endif
 
 	ClassDB::bind_method(D_METHOD("get_current_seed"), &Biome::get_current_seed);

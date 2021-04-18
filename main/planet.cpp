@@ -344,20 +344,6 @@ void Planet::generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 	}
 }
 
-#else
-void Planet::setup_library(Ref<Resource> library) {
-	if (has_method("_setup_library")) {
-		call("_setup_library", library);
-	}
-}
-
-void Planet::generate_chunk(Ref<Resource> chunk, bool spawn_mobs) {
-	ERR_FAIL_COND(!chunk.is_valid());
-
-	if (has_method("_generate_chunk")) {
-		call("_generate_chunk", chunk, spawn_mobs);
-	}
-}
 #endif
 
 Ref<Image> Planet::generate_map() {
@@ -400,9 +386,6 @@ void Planet::_bind_methods() {
 #ifdef VOXELMAN_PRESENT
 	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
 	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "VoxelChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
-#else
-	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Resource")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Node"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
 #endif
 
 	ClassDB::bind_method(D_METHOD("instance", "seed"), &Planet::instance);
@@ -413,8 +396,6 @@ void Planet::_bind_methods() {
 #ifdef VOXELMAN_PRESENT
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
 	ClassDB::bind_method(D_METHOD("_setup_library", "library"), &Planet::_setup_library);
-#else
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Planet::generate_chunk);
 #endif
 
 	ClassDB::bind_method(D_METHOD("setup_library", "library"), &Planet::setup_library);

@@ -126,9 +126,6 @@ public:
 	void _setup_library(Ref<VoxelmanLibrary> library);
 
 	void generate_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
-#else
-	void generate_chunk(Ref<Resource> chunk, bool spawn_mobs);
-	void setup_library(Ref<Resource> library);
 #endif
 
 	Ref<Image> generate_map();
