@@ -193,11 +193,6 @@ private:
 	int _sizey;
 	int _sizez;
 
-#ifdef VOXELMAN_PRESENT
-	Ref<EnvironmentData> _environment;
-	Ref<VoxelStructure> _structure;
-#endif
-
 	Vector<Ref<WorldGeneratorPropData> > _prop_datas;
 
 #ifdef ESS_PRESENT
@@ -205,6 +200,9 @@ private:
 #endif
 
 #ifdef VOXELMAN_PRESENT
+	Ref<EnvironmentData> _environment;
+	Ref<VoxelStructure> _structure;
+
 	Vector<Ref<EnvironmentData> > _environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
 #endif
