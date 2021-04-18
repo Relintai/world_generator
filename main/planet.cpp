@@ -144,10 +144,6 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 	inst->set_current_seed(seed);
 	inst->set_level_range(_level_range);
 
-#ifdef VOXELMAN_PRESENT
-	inst->set_voxel_environment(_voxel_environment);
-#endif
-
 	for (int i = 0; i < _biomes.size(); ++i) {
 		Ref<Biome> b = _biomes[i];
 
@@ -174,7 +170,10 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 		inst->set_temperature_noise_params(_temperature_noise_params->duplicate());
 #endif
 
+
 #ifdef VOXELMAN_PRESENT
+	inst->set_voxel_environment(_voxel_environment);
+
 	for (int i = 0; i < _voxel_environment_datas.size(); ++i) {
 		Ref<EnvironmentData> d = _voxel_environment_datas[i];
 
@@ -191,6 +190,28 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 			continue;
 
 		inst->add_voxel_surface(d);
+	}
+#endif
+
+#ifdef TERRAMAN_PRESENT
+	inst->set_terra_environment(_terra_environment);
+
+	for (int i = 0; i < _terra_environment_datas.size(); ++i) {
+		Ref<EnvironmentData> d = _terra_environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_terra_environment_data(d);
+	}
+
+	for (int i = 0; i < _terra_surfaces.size(); ++i) {
+		Ref<VoxelSurface> d = _terra_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_terra_surface(d);
 	}
 #endif
 
@@ -347,6 +368,144 @@ void Planet::generate_voxel_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs) {
 
 #endif
 
+#ifdef TERRAMAN_PRESENT
+Ref<TerraEnvironmentData> Planet::get_terra_environment() {
+	return _terra_environment;
+}
+void Planet::set_terra_environment(Ref<TerraEnvironmentData> value) {
+	_terra_environment = value;
+}
+
+//Environments
+Ref<TerraEnvironmentData> Planet::get_terra_environment_data(const int index) const {
+	ERR_FAIL_INDEX_V(index, _terra_environment_datas.size(), Ref<TerraEnvironmentData>());
+
+	return _terra_environment_datas.get(index);
+}
+void Planet::set_terra_environment_data(const int index, const Ref<TerraEnvironmentData> environment_data) {
+	ERR_FAIL_INDEX(index, _terra_environment_datas.size());
+
+	_terra_environment_datas.set(index, environment_data);
+}
+void Planet::add_terra_environment_data(const Ref<TerraEnvironmentData> environment_data) {
+	_terra_environment_datas.push_back(environment_data);
+}
+void Planet::remove_terra_environment_data(const int index) {
+	ERR_FAIL_INDEX(index, _terra_environment_datas.size());
+
+	_terra_environment_datas.remove(index);
+}
+int Planet::get_terra_environment_data_count() const {
+	return _terra_environment_datas.size();
+}
+
+Vector<Variant> Planet::get_terra_environment_datas() {
+	Vector<Variant> r;
+	for (int i = 0; i < _terra_environment_datas.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_terra_environment_datas[i].get_ref_ptr());
+#else
+		r.push_back(_terra_environment_datas[i]);
+#endif
+	}
+	return r;
+}
+void Planet::set_terra_environment_datas(const Vector<Variant> &environment_datas) {
+	_terra_environment_datas.clear();
+	for (int i = 0; i < environment_datas.size(); i++) {
+		Ref<TerraEnvironmentData> environment_data = Ref<TerraEnvironmentData>(environment_datas[i]);
+
+		_terra_environment_datas.push_back(environment_data);
+	}
+}
+
+////    Surfaces    ////
+Ref<TerraSurface> Planet::get_terra_surface(const int index) const {
+	ERR_FAIL_INDEX_V(index, _terra_surfaces.size(), Ref<TerraSurface>());
+
+	return _terra_surfaces.get(index);
+}
+void Planet::set_terra_surface(const int index, const Ref<TerraSurface> terra_surface) {
+	ERR_FAIL_INDEX(index, _terra_surfaces.size());
+
+	_terra_surfaces.set(index, terra_surface);
+}
+void Planet::add_terra_surface(const Ref<TerraSurface> terra_surface) {
+	_terra_surfaces.push_back(terra_surface);
+}
+void Planet::remove_terra_surface(const int index) {
+	ERR_FAIL_INDEX(index, _terra_surfaces.size());
+
+	_terra_surfaces.remove(index);
+}
+int Planet::get_terra_surface_count() const {
+	return _terra_surfaces.size();
+}
+
+Vector<Variant> Planet::get_terra_surfaces() {
+	Vector<Variant> r;
+	for (int i = 0; i < _terra_surfaces.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_terra_surfaces[i].get_ref_ptr());
+#else
+		r.push_back(_terra_surfaces[i]);
+#endif
+	}
+	return r;
+}
+void Planet::set_terra_surfaces(const Vector<Variant> &terra_surfaces) {
+	_terra_surfaces.clear();
+	for (int i = 0; i < terra_surfaces.size(); i++) {
+		Ref<EnvironmentData> terra_surface = Ref<EnvironmentData>(terra_surfaces[i]);
+
+		_terra_surfaces.push_back(terra_surface);
+	}
+}
+
+void Planet::setup_terra_library(Ref<TerramanLibrary> library) {
+	ERR_FAIL_COND(!library.is_valid());
+
+	if (has_method("_setup_terra_library")) {
+		call("_setup_terra_library", library);
+	}
+}
+
+void Planet::_setup_terra_library(Ref<TerramanLibrary> library) {
+	for (int i = 0; i < get_terra_surface_count(); ++i) {
+		Ref<TerraSurface> s = get_terra_surface(i);
+
+		if (s.is_valid()) {
+			library->voxel_surface_add(s);
+		}
+	}
+
+	for (int i = 0; i < get_biome_count(); ++i) {
+		Ref<Biome> s = get_biome(i);
+
+		if (s.is_valid()) {
+		//	s->setup_terra_library(library);
+		}
+	}
+
+	for (int i = 0; i < get_dungeon_count(); ++i) {
+		Ref<Dungeon> d = get_dungeon(i);
+
+		if (d.is_valid()) {
+			d->setup_terra_library(library);
+		}
+	}
+}
+
+void Planet::generate_terra_chunk(Ref<TerraChunk> chunk, bool spawn_mobs) {
+	ERR_FAIL_COND(!chunk.is_valid());
+
+	if (has_method("_generate_terra_chunk")) {
+		call("_generate_terra_chunk", chunk, spawn_mobs);
+	}
+}
+
+#endif
+
 Planet::Planet() {
 	_id = 0;
 	_current_seed = 0;
@@ -365,6 +524,13 @@ Planet::~Planet() {
 
 	_voxel_environment_datas.clear();
 	_voxel_surfaces.clear();
+#endif
+
+#ifdef TERRAMAN_PRESENT
+	_terra_environment.unref();
+
+	_terra_environment_datas.clear();
+	_terra_surfaces.clear();
 #endif
 }
 
@@ -458,5 +624,40 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_voxel_surfaces"), &Planet::get_voxel_surfaces);
 	ClassDB::bind_method(D_METHOD("set_voxel_surfaces", "voxel_surfaces"), &Planet::set_voxel_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_surfaces", PROPERTY_HINT_NONE, "17/17:VoxelSurface", PROPERTY_USAGE_DEFAULT, "VoxelSurface"), "set_voxel_surfaces", "get_voxel_surfaces");
+#endif
+
+#ifdef TERRAMAN_PRESENT
+	BIND_VMETHOD(MethodInfo("_setup_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerramanLibrary")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerraChunk"), PropertyInfo(Variant::BOOL, "spawn_mobs")));
+
+	ClassDB::bind_method(D_METHOD("generate_terra_chunk", "chunk"), &Planet::generate_terra_chunk);
+	ClassDB::bind_method(D_METHOD("_setup_terra_library", "library"), &Planet::_setup_terra_library);
+	ClassDB::bind_method(D_METHOD("setup_terra_library", "library"), &Planet::setup_terra_library);
+
+	ClassDB::bind_method(D_METHOD("get_terra_environment"), &Planet::get_terra_environment);
+	ClassDB::bind_method(D_METHOD("set_terra_environment", "value"), &Planet::set_terra_environment);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "terra_environment", PROPERTY_HINT_RESOURCE_TYPE, "TerraEnvironmentData"), "set_terra_environment", "get_terra_environment");
+
+	//Environments
+	ClassDB::bind_method(D_METHOD("get_terra_environment_data", "index"), &Planet::get_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("set_terra_environment_data", "index", "data"), &Planet::set_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("add_terra_environment_data", "environment_data"), &Planet::add_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("remove_terra_environment_data", "index"), &Planet::remove_terra_environment_data);
+	ClassDB::bind_method(D_METHOD("get_terra_environment_data_count"), &Planet::get_terra_environment_data_count);
+
+	ClassDB::bind_method(D_METHOD("get_terra_environment_datas"), &Planet::get_terra_environment_datas);
+	ClassDB::bind_method(D_METHOD("set_terra_environment_datas", "environment_datas"), &Planet::set_terra_environment_datas);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_environment_datas", PROPERTY_HINT_NONE, "17/17:TerraEnvironmentData", PROPERTY_USAGE_DEFAULT, "TerraEnvironmentData"), "set_terra_environment_datas", "get_terra_environment_datas");
+
+	//Surfaces
+	ClassDB::bind_method(D_METHOD("get_terra_surface", "index"), &Planet::get_terra_surface);
+	ClassDB::bind_method(D_METHOD("set_terra_surface", "index", "data"), &Planet::set_terra_surface);
+	ClassDB::bind_method(D_METHOD("add_terra_surface", "terra_surface"), &Planet::add_terra_surface);
+	ClassDB::bind_method(D_METHOD("remove_terra_surface", "index"), &Planet::remove_terra_surface);
+	ClassDB::bind_method(D_METHOD("get_terra_surface_count"), &Planet::get_terra_surface_count);
+
+	ClassDB::bind_method(D_METHOD("get_terra_surfaces"), &Planet::get_terra_surfaces);
+	ClassDB::bind_method(D_METHOD("set_terra_surfaces", "terra_surfaces"), &Planet::set_terra_surfaces);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_surfaces", PROPERTY_HINT_NONE, "17/17:TerraSurface", PROPERTY_USAGE_DEFAULT, "TerraSurface"), "set_terra_surfaces", "get_terra_surfaces");
 #endif
 }

@@ -49,6 +49,13 @@ SOFTWARE.
 #include "../../voxelman/world/voxel_chunk.h"
 #endif
 
+#ifdef TERRAMAN_PRESENT
+#include "../../terraman/library/terra_surface.h"
+#include "../../terraman/library/terraman_library.h"
+#include "../../terraman/world/terra_environment_data.h"
+#include "../../terraman/world/terra_chunk.h"
+#endif
+
 class Planet : public Resource {
 	GDCLASS(Planet, Resource);
 
@@ -125,6 +132,37 @@ public:
 	void generate_voxel_chunk(Ref<VoxelChunk> chunk, bool spawn_mobs);
 #endif
 
+#ifdef TERRAMAN_PRESENT
+	//Environment
+	Ref<TerraEnvironmentData> get_terra_environment();
+	void set_terra_environment(Ref<TerraEnvironmentData> value);
+
+	//Environments
+	Ref<TerraEnvironmentData> get_terra_environment_data(const int index) const;
+	void set_terra_environment_data(const int index, const Ref<TerraEnvironmentData> environment_data);
+	void add_terra_environment_data(const Ref<TerraEnvironmentData> environment_data);
+	void remove_terra_environment_data(const int index);
+	int get_terra_environment_data_count() const;
+
+	Vector<Variant> get_terra_environment_datas();
+	void set_terra_environment_datas(const Vector<Variant> &environment_datas);
+
+	//Surfaces
+	Ref<TerraSurface> get_terra_surface(const int index) const;
+	void set_terra_surface(const int index, const Ref<TerraSurface> terra_surface);
+	void add_terra_surface(const Ref<TerraSurface> terra_surface);
+	void remove_terra_surface(const int index);
+	int get_terra_surface_count() const;
+
+	Vector<Variant> get_terra_surfaces();
+	void set_terra_surfaces(const Vector<Variant> &terra_surfaces);
+
+	void setup_terra_library(Ref<TerramanLibrary> library);
+	void _setup_terra_library(Ref<TerramanLibrary> library);
+
+	void generate_terra_chunk(Ref<TerraChunk> chunk, bool spawn_mobs);
+#endif
+
 	Planet();
 	~Planet();
 
@@ -150,6 +188,14 @@ private:
 
 	Vector<Ref<EnvironmentData> > _voxel_environment_datas;
 	Vector<Ref<VoxelSurface> > _voxel_surfaces;
+#endif
+
+
+#ifdef TERRAMAN_PRESENT
+	Ref<TerraEnvironmentData> _terra_environment;
+
+	Vector<Ref<TerraEnvironmentData> > _terra_environment_datas;
+	Vector<Ref<TerraSurface> > _terra_surfaces;
 #endif
 };
 
