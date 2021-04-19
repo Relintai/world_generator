@@ -290,7 +290,7 @@ Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> inst) {
 	//inst->set_structure(_structure);
 
 	for (int i = 0; i < _terra_environment_datas.size(); ++i) {
-		Ref<EnvironmentData> d = _terra_environment_datas[i];
+		Ref<TerraEnvironmentData> d = _terra_environment_datas[i];
 
 		if (!d.is_valid())
 			continue;
@@ -299,7 +299,7 @@ Ref<DungeonRoom> DungeonRoom::_instance(const int seed, Ref<DungeonRoom> inst) {
 	}
 
 	for (int i = 0; i < _terra_surfaces.size(); ++i) {
-		Ref<VoxelSurface> d = _terra_surfaces[i];
+		Ref<TerraSurface> d = _terra_surfaces[i];
 
 		if (!d.is_valid())
 			continue;
