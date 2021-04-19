@@ -246,6 +246,28 @@ Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
 	}
 #endif
 
+#ifdef TERRAMAN_PRESENT
+	inst->set_terra_environment(_terra_environment);
+
+	for (int i = 0; i < _terra_environment_datas.size(); ++i) {
+		Ref<TerraEnvironmentData> d = _terra_environment_datas[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_terra_environment_data(d);
+	}
+
+	for (int i = 0; i < _terra_surfaces.size(); ++i) {
+		Ref<TerraSurface> d = _terra_surfaces[i];
+
+		if (!d.is_valid())
+			continue;
+
+		inst->add_terra_surface(d);
+	}
+#endif
+
 	return inst;
 }
 
