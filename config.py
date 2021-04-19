@@ -9,9 +9,7 @@ def get_doc_classes():
         "WorldGeneratorPropData",
 
         "Planet",
-        "Dungeon",
-        "DungeonRoom",
-        "DungeonCorridor",
+        "Building",
         "Biome",
 
         "WorldGenerator",

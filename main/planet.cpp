@@ -104,27 +104,47 @@ void Planet::set_biomes(const Vector<Variant> &biomes) {
 	}
 }
 
-////    Dungeons    ////
-Ref<Dungeon> Planet::get_dungeon(const int index) const {
-	ERR_FAIL_INDEX_V(index, _dungeons.size(), Ref<Dungeon>());
+////    Buildings    ////
+Ref<Building> Planet::get_building(const int index) const {
+	ERR_FAIL_INDEX_V(index, _buildings.size(), Ref<Building>());
 
-	return _dungeons.get(index);
+	return _buildings.get(index);
 }
-void Planet::set_dungeon(const int index, const Ref<Dungeon> dungeon) {
-	ERR_FAIL_INDEX(index, _dungeons.size());
+void Planet::set_building(const int index, const Ref<Building> building) {
+	ERR_FAIL_INDEX(index, _buildings.size());
 
-	_dungeons.set(index, dungeon);
+	_buildings.set(index, building);
 }
-void Planet::add_dungeon(const Ref<Dungeon> dungeon) {
-	_dungeons.push_back(dungeon);
+void Planet::add_building(const Ref<Building> building) {
+	_buildings.push_back(building);
 }
-void Planet::remove_dungeon(const int index) {
-	ERR_FAIL_INDEX(index, _dungeons.size());
+void Planet::remove_building(const int index) {
+	ERR_FAIL_INDEX(index, _buildings.size());
 
-	_dungeons.remove(index);
+	_buildings.remove(index);
 }
-int Planet::get_dungeon_count() const {
-	return _dungeons.size();
+int Planet::get_building_count() const {
+	return _buildings.size();
+}
+
+Vector<Variant> Planet::get_buildings() {
+	Vector<Variant> r;
+	for (int i = 0; i < _buildings.size(); i++) {
+#if VERSION_MAJOR < 4
+		r.push_back(_buildings[i].get_ref_ptr());
+#else
+		r.push_back(_buildings[i]);
+#endif
+	}
+	return r;
+}
+void Planet::set_buildings(const Vector<Variant> &buildings) {
+	_buildings.clear();
+	for (int i = 0; i < buildings.size(); i++) {
+		Ref<Building> building = Ref<Building>(buildings[i]);
+
+		_buildings.push_back(building);
+	}
 }
 
 Ref<Planet> Planet::instance(const int seed) {
@@ -153,13 +173,13 @@ Ref<Planet> Planet::_instance(const int seed, Ref<Planet> inst) {
 		inst->add_biome(b->instance(seed));
 	}
 
-	for (int i = 0; i < _dungeons.size(); ++i) {
-		Ref<Dungeon> d = _dungeons[i];
+	for (int i = 0; i < _buildings.size(); ++i) {
+		Ref<Building> d = _buildings[i];
 
 		if (!d.is_valid())
 			continue;
 
-		inst->add_dungeon(d->instance(seed));
+		inst->add_building(d->instance(seed));
 	}
 
 #ifdef FASTNOISE_PRESENT
@@ -349,8 +369,8 @@ void Planet::_setup_voxel_library(Ref<VoxelmanLibrary> library) {
 		}
 	}
 
-	for (int i = 0; i < get_dungeon_count(); ++i) {
-		Ref<Dungeon> d = get_dungeon(i);
+	for (int i = 0; i < get_building_count(); ++i) {
+		Ref<Building> d = get_building(i);
 
 		if (d.is_valid()) {
 			d->setup_voxel_library(library);
@@ -486,14 +506,6 @@ void Planet::_setup_terra_library(Ref<TerramanLibrary> library) {
 			s->setup_terra_library(library);
 		}
 	}
-
-	for (int i = 0; i < get_dungeon_count(); ++i) {
-		Ref<Dungeon> d = get_dungeon(i);
-
-		if (d.is_valid()) {
-			d->setup_terra_library(library);
-		}
-	}
 }
 
 void Planet::generate_terra_chunk(Ref<TerraChunk> chunk, bool spawn_mobs) {
@@ -512,7 +524,7 @@ Planet::Planet() {
 }
 Planet::~Planet() {
 	_biomes.clear();
-	_dungeons.clear();
+	_buildings.clear();
 
 #ifdef FASTNOISE_PRESENT
 	_humidity_noise_params.unref();
@@ -580,12 +592,16 @@ void Planet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_biomes", "biomes"), &Planet::set_biomes);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "biomes", PROPERTY_HINT_NONE, "17/17:Biome", PROPERTY_USAGE_DEFAULT, "Biome"), "set_biomes", "get_biomes");
 
-	//Dungeons
-	ClassDB::bind_method(D_METHOD("get_dungeon", "index"), &Planet::get_dungeon);
-	ClassDB::bind_method(D_METHOD("set_dungeon", "index", "data"), &Planet::set_dungeon);
-	ClassDB::bind_method(D_METHOD("add_dungeon", "dungeon"), &Planet::add_dungeon);
-	ClassDB::bind_method(D_METHOD("remove_dungeon", "index"), &Planet::remove_dungeon);
-	ClassDB::bind_method(D_METHOD("get_dungeon_count"), &Planet::get_dungeon_count);
+	//Buildings
+	ClassDB::bind_method(D_METHOD("get_building", "index"), &Planet::get_building);
+	ClassDB::bind_method(D_METHOD("set_building", "index", "data"), &Planet::set_building);
+	ClassDB::bind_method(D_METHOD("add_building", "dungeon"), &Planet::add_building);
+	ClassDB::bind_method(D_METHOD("remove_building", "index"), &Planet::remove_building);
+	ClassDB::bind_method(D_METHOD("get_building_count"), &Planet::get_building_count);
+
+	ClassDB::bind_method(D_METHOD("get_buildings"), &Planet::get_buildings);
+	ClassDB::bind_method(D_METHOD("set_buildings", "buildings"), &Planet::set_buildings);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "buildings", PROPERTY_HINT_NONE, "17/17:Building", PROPERTY_USAGE_DEFAULT, "Building"), "set_buildings", "get_buildings");
 
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "image", PROPERTY_HINT_RESOURCE_TYPE, "Image"), "_generate_map"));
 

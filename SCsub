@@ -23,9 +23,7 @@ sources = [
 
     "register_types.cpp",
 
-    "main/dungeon_room.cpp",
-    "main/dungeon_corridor.cpp",
-    "main/dungeon.cpp",
+    "main/building.cpp",
     "main/biome.cpp",
     "main/planet.cpp",
 

@@ -33,7 +33,7 @@ SOFTWARE.
 #include "core/resource.h"
 #endif
 
-#include "dungeon.h"
+#include "building.h"
 
 #include "../data/world_generator_prop_data.h"
 #include "scene/resources/packed_scene.h"
@@ -93,15 +93,15 @@ public:
 	void set_entity_datas(const Vector<Variant> &entity_datas);
 #endif
 
-	//Dungeons
-	Ref<Dungeon> get_dungeon(const int index) const;
-	void set_dungeon(const int index, const Ref<Dungeon> dungeon);
-	void add_dungeon(const Ref<Dungeon> dungeon);
-	void remove_dungeon(const int index);
-	int get_dungeon_count() const;
+	//Buildings
+	Ref<Building> get_building(const int index) const;
+	void set_building(const int index, const Ref<Building> building);
+	void add_building(const Ref<Building> building);
+	void remove_building(const int index);
+	int get_building_count() const;
 
-	Vector<Variant> get_dungeons();
-	void set_dungeons(const Vector<Variant> &dungeon_datas);
+	Vector<Variant> get_buildings();
+	void set_buildings(const Vector<Variant> &buildings);
 
 	Ref<Biome> instance(const int seed);
 	virtual Ref<Biome> _instance(const int seed, Ref<Biome> inst);
@@ -192,7 +192,7 @@ private:
 	Vector<Ref<EntityData> > _entity_datas;
 #endif
 
-	Vector<Ref<Dungeon> > _dungeons;
+	Vector<Ref<Building> > _buildings;
 
 #ifdef VOXELMAN_PRESENT
 	Ref<EnvironmentData> _voxel_environment;

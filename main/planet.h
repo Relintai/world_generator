@@ -36,7 +36,7 @@ SOFTWARE.
 #endif
 
 #include "biome.h"
-#include "dungeon.h"
+#include "building.h"
 
 #ifdef FASTNOISE_PRESENT
 #include "../../fastnoise/fastnoise_noise_params.h"
@@ -87,12 +87,15 @@ public:
 	Vector<Variant> get_biomes();
 	void set_biomes(const Vector<Variant> &biome_datas);
 
-	//Dungeons
-	Ref<Dungeon> get_dungeon(const int index) const;
-	void set_dungeon(const int index, const Ref<Dungeon> dungeon);
-	void add_dungeon(const Ref<Dungeon> dungeon);
-	void remove_dungeon(const int index);
-	int get_dungeon_count() const;
+	//Building
+	Ref<Building> get_building(const int index) const;
+	void set_building(const int index, const Ref<Building> building);
+	void add_building(const Ref<Building> building);
+	void remove_building(const int index);
+	int get_building_count() const;
+
+	Vector<Variant> get_buildings();
+	void set_buildings(const Vector<Variant> &buildings);
 
 	Ref<Planet> instance(const int seed);
 	virtual Ref<Planet> _instance(const int seed, Ref<Planet> inst);
@@ -176,7 +179,7 @@ private:
 	Vector2 _level_range;
 
 	Vector<Ref<Biome> > _biomes;
-	Vector<Ref<Dungeon> > _dungeons;
+	Vector<Ref<Building> > _buildings;
 
 #ifdef FASTNOISE_PRESENT
 	Ref<FastnoiseNoiseParams> _humidity_noise_params;

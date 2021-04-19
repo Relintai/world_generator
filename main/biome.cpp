@@ -139,46 +139,46 @@ void Biome::set_entity_datas(const Vector<Variant> &entity_datas) {
 }
 #endif
 
-////    Dungeons    ////
-Ref<Dungeon> Biome::get_dungeon(const int index) const {
-	ERR_FAIL_INDEX_V(index, _dungeons.size(), Ref<Dungeon>());
+////    Buildings    ////
+Ref<Building> Biome::get_building(const int index) const {
+	ERR_FAIL_INDEX_V(index, _buildings.size(), Ref<Building>());
 
-	return _dungeons.get(index);
+	return _buildings.get(index);
 }
-void Biome::set_dungeon(const int index, const Ref<Dungeon> dungeon) {
-	ERR_FAIL_INDEX(index, _dungeons.size());
+void Biome::set_building(const int index, const Ref<Building> building) {
+	ERR_FAIL_INDEX(index, _buildings.size());
 
-	_dungeons.set(index, dungeon);
+	_buildings.set(index, building);
 }
-void Biome::add_dungeon(const Ref<Dungeon> dungeon) {
-	_dungeons.push_back(dungeon);
+void Biome::add_building(const Ref<Building> building) {
+	_buildings.push_back(building);
 }
-void Biome::remove_dungeon(const int index) {
-	ERR_FAIL_INDEX(index, _dungeons.size());
+void Biome::remove_building(const int index) {
+	ERR_FAIL_INDEX(index, _buildings.size());
 
-	_dungeons.remove(index);
+	_buildings.remove(index);
 }
-int Biome::get_dungeon_count() const {
-	return _dungeons.size();
+int Biome::get_building_count() const {
+	return _buildings.size();
 }
 
-Vector<Variant> Biome::get_dungeons() {
+Vector<Variant> Biome::get_buildings() {
 	Vector<Variant> r;
-	for (int i = 0; i < _dungeons.size(); i++) {
+	for (int i = 0; i < _buildings.size(); i++) {
 #if VERSION_MAJOR < 4
-		r.push_back(_dungeons[i].get_ref_ptr());
+		r.push_back(_buildings[i].get_ref_ptr());
 #else
-		r.push_back(_dungeons[i]);
+		r.push_back(_buildings[i]);
 #endif
 	}
 	return r;
 }
-void Biome::set_dungeons(const Vector<Variant> &dungeon_datas) {
-	_dungeons.clear();
-	for (int i = 0; i < dungeon_datas.size(); i++) {
-		Ref<Dungeon> dungeon_data = Ref<Dungeon>(dungeon_datas[i]);
+void Biome::set_buildings(const Vector<Variant> &buildings) {
+	_buildings.clear();
+	for (int i = 0; i < buildings.size(); i++) {
+		Ref<Building> building = Ref<Building>(buildings[i]);
 
-		_dungeons.push_back(dungeon_data);
+		_buildings.push_back(building);
 	}
 }
 
@@ -207,13 +207,13 @@ Ref<Biome> Biome::_instance(const int seed, Ref<Biome> inst) {
 		inst->add_prop_data(p);
 	}
 
-	for (int i = 0; i < _dungeons.size(); ++i) {
-		Ref<Dungeon> d = _dungeons[i];
+	for (int i = 0; i < _buildings.size(); ++i) {
+		Ref<Building> d = _buildings[i];
 
 		if (!d.is_valid())
 			continue;
 
-		inst->add_dungeon(d->instance(seed));
+		inst->add_building(d->instance(seed));
 	}
 
 #ifdef ESS_PRESENT
@@ -403,8 +403,8 @@ void Biome::_setup_voxel_library(Ref<VoxelmanLibrary> library) {
 		}
 	}
 
-	for (int i = 0; i < get_dungeon_count(); ++i) {
-		Ref<Dungeon> d = get_dungeon(i);
+	for (int i = 0; i < get_building_count(); ++i) {
+		Ref<Building> d = get_building(i);
 
 		if (d.is_valid()) {
 			d->setup_voxel_library(library);
@@ -552,14 +552,6 @@ void Biome::_setup_terra_library(Ref<TerramanLibrary> library) {
 		}
 	}
 
-	for (int i = 0; i < get_dungeon_count(); ++i) {
-		Ref<Dungeon> d = get_dungeon(i);
-
-		if (d.is_valid()) {
-			d->setup_terra_library(library);
-		}
-	}
-
 #ifdef PROPS_PRESENT
 	for (int i = 0; i < get_prop_data_count(); ++i) {
 		Ref<WorldGeneratorPropData> s = get_prop_data(i);
@@ -585,7 +577,7 @@ Biome::~Biome() {
 	_entity_datas.clear();
 #endif
 
-	_dungeons.clear();
+	_buildings.clear();
 
 	_prop_datas.clear();
 
@@ -661,16 +653,16 @@ void Biome::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "entity_datas", PROPERTY_HINT_NONE, "17/17:EntityData", PROPERTY_USAGE_DEFAULT, "EntityData"), "set_entity_datas", "get_entity_datas");
 #endif
 
-	//Dungeons
-	ClassDB::bind_method(D_METHOD("get_dungeon", "index"), &Biome::get_dungeon);
-	ClassDB::bind_method(D_METHOD("set_dungeon", "index", "data"), &Biome::set_dungeon);
-	ClassDB::bind_method(D_METHOD("add_dungeon", "dungeon"), &Biome::add_dungeon);
-	ClassDB::bind_method(D_METHOD("remove_dungeon", "index"), &Biome::remove_dungeon);
-	ClassDB::bind_method(D_METHOD("get_dungeon_count"), &Biome::get_dungeon_count);
+	//Buildings
+	ClassDB::bind_method(D_METHOD("get_building", "index"), &Biome::get_building);
+	ClassDB::bind_method(D_METHOD("set_building", "index", "data"), &Biome::set_building);
+	ClassDB::bind_method(D_METHOD("add_building", "dungeon"), &Biome::add_building);
+	ClassDB::bind_method(D_METHOD("remove_building", "index"), &Biome::remove_building);
+	ClassDB::bind_method(D_METHOD("get_building_count"), &Biome::get_building_count);
 
-	ClassDB::bind_method(D_METHOD("get_dungeons"), &Biome::get_dungeons);
-	ClassDB::bind_method(D_METHOD("set_dungeons", "dungeon_datas"), &Biome::set_dungeons);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "dungeons", PROPERTY_HINT_NONE, "17/17:Dungeon", PROPERTY_USAGE_DEFAULT, "Dungeon"), "set_dungeons", "get_dungeons");
+	ClassDB::bind_method(D_METHOD("get_buildings"), &Biome::get_buildings);
+	ClassDB::bind_method(D_METHOD("set_buildings", "dungeon_datas"), &Biome::set_buildings);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "buildings", PROPERTY_HINT_NONE, "17/17:Building", PROPERTY_USAGE_DEFAULT, "Building"), "set_buildings", "get_buildings");
 
 #ifdef VOXELMAN_PRESENT
 	BIND_VMETHOD(MethodInfo("_setup_voxel_library", PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "VoxelmanLibrary")));
