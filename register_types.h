@@ -20,5 +20,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-void register_world_generator_types();
-void unregister_world_generator_types();
+#ifndef WORLD_GENERATOR_REGISTER_TYPES_H
+#define WORLD_GENERATOR_REGISTER_TYPES_H
+
+#include "modules/register_module_types.h"
+
+void initialize_world_generator_module(ModuleInitializationLevel p_level);
+void uninitialize_world_generator_module(ModuleInitializationLevel p_level);
+
+#endif

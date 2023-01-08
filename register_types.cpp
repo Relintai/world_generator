@@ -22,6 +22,8 @@ SOFTWARE.
 
 #include "register_types.h"
 
+#include "core/object/class_db.h"
+
 #include "data/world_generator_prop_data.h"
 
 #include "main/building.h"
@@ -30,15 +32,17 @@ SOFTWARE.
 
 #include "world_generator.h"
 
-void register_world_generator_types() {
-	ClassDB::register_class<WorldGeneratorPropData>();
+void initialize_world_generator_module(ModuleInitializationLevel p_level) {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
+		GDREGISTER_CLASS(WorldGeneratorPropData);
 
-	ClassDB::register_class<Building>();
-	ClassDB::register_class<Biome>();
-	ClassDB::register_class<Planet>();
+		GDREGISTER_CLASS(Building);
+		GDREGISTER_CLASS(Biome);
+		GDREGISTER_CLASS(Planet);
 
-	ClassDB::register_class<WorldGenerator>();
+		GDREGISTER_CLASS(WorldGenerator);
+	}
 }
 
-void unregister_world_generator_types() {
+void uninitialize_world_generator_module(ModuleInitializationLevel p_level) {
 }
