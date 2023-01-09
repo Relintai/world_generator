@@ -28,7 +28,7 @@ SOFTWARE.
 #if VERSION_MAJOR > 3
 #include "core/io/image.h"
 #include "core/io/resource.h"
-#include "core/object/reference.h"
+#include "core/object/ref_counted.h"
 #else
 #include "core/image.h"
 #include "core/reference.h"
