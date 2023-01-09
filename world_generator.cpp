@@ -82,7 +82,7 @@ WorldGenerator::~WorldGenerator() {
 }
 
 void WorldGenerator::_bind_methods() {
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "planet", PROPERTY_HINT_RESOURCE_TYPE, "Planet"), "_setup_planet", PropertyInfo(Variant::INT, "seed")));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "planet", PROPERTY_HINT_RESOURCE_TYPE, "Planet"), "_setup_planet", PropertyInfo(Variant::INT, "seed")));
 
 	ClassDB::bind_method(D_METHOD("setup_planet", "seed"), &WorldGenerator::setup_planet);
 

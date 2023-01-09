@@ -54,9 +54,9 @@ WorldGeneratorPropData::~WorldGeneratorPropData() {
 }
 
 void WorldGeneratorPropData::_bind_methods() {
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::BOOL, "can"), "_can_spawn", PropertyInfo(Variant::INT, "seed")));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::BOOL, "can"), "_can_spawn", PropertyInfo(Variant::INT, "seed")));
 
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "PackedScene"), "_get_prop_seeded", PropertyInfo(Variant::INT, "seed")));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "prop", PROPERTY_HINT_RESOURCE_TYPE, "PackedScene"), "_get_prop_seeded", PropertyInfo(Variant::INT, "seed")));
 
 	ClassDB::bind_method(D_METHOD("get_prop"), &WorldGeneratorPropData::get_prop);
 	ClassDB::bind_method(D_METHOD("set_prop"), &WorldGeneratorPropData::set_prop);
